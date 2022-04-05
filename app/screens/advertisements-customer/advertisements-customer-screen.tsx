@@ -1,10 +1,11 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Text, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Text, TextStyle, TouchableHighlight, TouchableOpacity, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Button, GradientBackground, Header, Screen } from "../../components"
+import { Button, GradientBackground, Header, Icon, Screen } from "../../components"
 import { color, spacing, typography } from "../../theme"
+import { SwipeListView } from "react-native-swipe-list-view"
 
 
 const CONTAINER: ViewStyle = {
@@ -29,12 +30,58 @@ const HEADER_TITLE: TextStyle = {
   textAlign: "center",
   letterSpacing: 1.5,
 }
-const CONTAINER_VIEW: ViewStyle = {flexDirection:"row", alignItems:"flex-end", justifyContent:"flex-end", marginTop:spacing[8]}
+const CONTAINER_VIEW: ViewStyle = {flexDirection:"row", alignItems:"flex-end", justifyContent:"flex-end", marginTop:spacing[1]}
 const CREATE_ADVERTISEMENT_BTN_TEXT: TextStyle = {
   marginTop: 0,
   fontWeight: "bold",
   fontSize:30
 }
+const CONTAINER1: ViewStyle = {
+  backgroundColor: color.palette.white,
+  flex: 1,
+}
+const BACKTEXTWHITE: TextStyle = {
+  color: '#FFF',
+}
+const ROWFRONT: ViewStyle = {
+  alignItems: 'flex-start',
+  padding:10,
+  backgroundColor: color.palette.white,
+  borderBottomColor: 'black',
+  borderBottomWidth: 1,
+  flex:1,
+  justifyContent: 'center',
+  height:102
+}
+const ROWBACK: ViewStyle = {
+  alignItems: 'center',
+  backgroundColor: color.palette.white,
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'center',
+  paddingLeft: 15,
+}
+const BACKRIGHTBTN: ViewStyle = {
+  alignItems: 'center',
+  bottom: 0,
+  justifyContent: 'center',
+  position: 'absolute',
+  top: 0,
+  width: 100,
+  height:50,
+}
+
+const BACKRIGHTBTNRIGHT: ViewStyle = {
+  backgroundColor: color.palette.specialBlue,
+  top:25,
+  right: 0,
+}
+
+const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
+const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
+
 
 
 export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamList, "advertisements">> = observer(
@@ -43,54 +90,78 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
     const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
 
 
+    const [listData, setListData] = useState(
+      Array(8)
+        .fill('')
+        .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
+    );
+
+    const closeRow = (rowMap, rowKey) => {
+      if (rowMap[rowKey]) {
+        rowMap[rowKey].closeRow();
+      }
+    };
+
+    const onRowDidOpen = rowKey => {
+      console.log('This row opened', rowKey);
+    };
+
+    const renderItem = data => (
+      <TouchableHighlight
+        onPress={() => console.log('You touched me')}
+        style={ROWFRONT}
+        underlayColor={color.palette.white}
+      >
+        <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
+          <Icon style={ICON_STYLE} icon={"circle"}></Icon>
+          <View style={{flexDirection:"column", padding:10, flex:1}}>
+            <Text style={INNER_TEXT1}>İLANIM {data.item.text}</Text>
+            <Text style={INNER_TEXT2}>Eşya: Kağıt</Text>
+            <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
+            <Text style={INNER_TEXT3}>Ücret: 23 TL</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
+
+    const renderHiddenItem = (data, rowMap) => (
+      <View style={ROWBACK}>
+        <TouchableOpacity
+          style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
+          onPress={() => closeRow(rowMap, data.item.key)}
+        >
+          <Text style={BACKTEXTWHITE}>Düzenle</Text>
+        </TouchableOpacity>
+      </View>
+    );
+
+
     return (
 
       <View testID="AdvertisementCustomerScreen" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
-        <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+        <Screen style={CONTAINER} backgroundColor={color.transparent}>
           <Header headerTx="advertisementsCustomerScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
-          <View>
-            <View>
-              <Text>İlanım1</Text>
+            <View style={CONTAINER1}>
+              <SwipeListView
+                data={listData}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                leftOpenValue={0}
+                rightOpenValue={-100}
+                previewRowKey={'0'}
+                previewOpenValue={-40}
+                previewOpenDelay={3000}
+                onRowDidOpen={onRowDidOpen}
+              />
             </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View>
-            <View>
-              <Text>İlanım2</Text>
-            </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View><View>
-            <Text>İlanım3</Text>
+          <View style={CONTAINER_VIEW}>
+            <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}}>
+              <Text style={CREATE_ADVERTISEMENT_BTN_TEXT} onPress={createAdvertisementScreen}>+</Text>
+            </Button>
           </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View><View>
-            <Text>İlanım4</Text>
-          </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View><View>
-            <Text>İlanım5</Text>
-          </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View><View>
-            <Text>İlanım6</Text>
-          </View>
-            <View>
-              <Text>__________________________________________________________</Text>
-            </View>
-          </View>
-
-
         </Screen>
-        <View style={CONTAINER_VIEW}>
-          <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}}>
-            <Text style={CREATE_ADVERTISEMENT_BTN_TEXT} onPress={createAdvertisementScreen}>+</Text>
-          </Button>
-        </View>
+
       </View>
     )
   })

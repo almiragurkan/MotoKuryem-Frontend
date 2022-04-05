@@ -10,6 +10,7 @@ export const icons = {
   comment: require("./comment.png"),
   support: require("./support.png"),
   location: require("./location.png"),
+  circle: require("./circle.png")
 }
 
 export type IconTypes = keyof typeof icons
