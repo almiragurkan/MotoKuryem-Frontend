@@ -40,7 +40,7 @@ export type NavigatorParamList = {
   demo: undefined
   demoList: undefined
   advertisement: undefined
-  advertisements: undefined
+  advertisementsCustomerScreen: undefined
   createAdvertisement: undefined
   home: undefined
   location: undefined
@@ -64,7 +64,7 @@ const HomeStack = () => {
       initialRouteName="home"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisements" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />
@@ -84,10 +84,10 @@ const AdvetisementStack = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="advertisements"
+      initialRouteName="advertisementsCustomerScreen"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisements" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />
@@ -108,7 +108,7 @@ const ProfileStack = () => {
       initialRouteName="profileCustomer"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisements" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />

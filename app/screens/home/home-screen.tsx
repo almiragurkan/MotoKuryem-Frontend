@@ -82,7 +82,7 @@ const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
   ({ navigation }) => {
 
-    const [listData, setListData] = useState(
+    const [listData,] = useState(
       Array(20)
         .fill('')
         .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
