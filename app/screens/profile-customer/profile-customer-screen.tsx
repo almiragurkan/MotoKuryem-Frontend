@@ -79,16 +79,17 @@ const INNER_TEXT1: TextStyle = { color:color.palette.black, ...BOLD, fontSize: 2
 const INNER_TEXT2: TextStyle = { color:color.palette.black, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, marginLeft: 15, fontSize: 20 }
 
-export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamList, "profileCustomer">> = observer(function ProfileCustomerScreen() {
+export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamList, "profileCustomer">> = observer(({ navigation }) => {
+
   return (
-    <View testID="ProfileCourierScreen" style={FULL}>
+    <View testID="ProfileCustomerScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
         <Header headerTx="profileScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
         <View style={PROFILE_VIEW_STYLE}>
           <Icon style={PROFILE_ICON_STYLE} icon={"profile"}></Icon>
           <Text style={INNER_TEXT1}>İsim Soyisim</Text>
-          <Text style={INNER_TEXT2}>Kurye</Text>
+          <Text style={INNER_TEXT2}>Müşteri</Text>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"gmail"}></Icon>
             <Text style={INNER_TEXT3}>isimsoyisim@gmail.com</Text>
@@ -98,26 +99,26 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamList, "pro
             <Text style={INNER_TEXT3}>+90(533)333 33 33</Text>
           </View>
         </View>
-        <View style={INNER_VIEW_STYLE}>
-          <Icon style={ICON_STYLE1} icon={"comment"}></Icon>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("commentsAndRate")}>
+          <Icon style={ICON_STYLE1} icon={"comment"}/>
           <Text style={INNER_TEXT2}>Yorumlar ve Puanlar</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
-          <Icon style={ICON_STYLE1} icon={"location"}></Icon>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("addresses")}>
+          <Icon style={ICON_STYLE1} icon={"location"}/>
           <Text style={INNER_TEXT2}>Adreslerim</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
-          <Icon style={ICON_STYLE1} icon={"wallet"}></Icon>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("wallet")}>
+          <Icon style={ICON_STYLE1} icon={"wallet"}/>
           <Text style={INNER_TEXT2}>Cüzdanım</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
-          <Icon style={ICON_STYLE1} icon={"lock"}></Icon>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("changePassword")}>
+          <Icon style={ICON_STYLE1} icon={"lock"}/>
           <Text style={INNER_TEXT2}>Şifreyi Değiştir</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
-          <Icon style={ICON_STYLE1} icon={"support"}></Icon>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("support")}>
+          <Icon style={ICON_STYLE1} icon={"support"}/>
           <Text style={INNER_TEXT2}>Destek</Text>
-        </View>
+        </TouchableOpacity>
         <View style={BUTTON_VIEW}>
           <TouchableOpacity style={BUTTON_STYLE}>
             <Text style={BUTTON_TEXT}>ÇIKIŞ YAP</Text>

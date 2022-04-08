@@ -17,7 +17,7 @@ import {
   HomeScreen,
   ProfileCourierScreen,
   RegistrationScreen,
-  ProfileCustomerScreen,
+  ProfileCustomerScreen, CommentsAndRateScreen, AddressesScreen, WalletScreen, ChangePasswordScreen, SupportScreen,
 } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -48,6 +48,11 @@ export type NavigatorParamList = {
   profileCourier: undefined
   profileCustomer: undefined
   registration: undefined
+  commentsAndRate: undefined
+  addresses: undefined
+  wallet: undefined
+  changePassword: undefined
+  support: undefined
   // 🔥 Your screens go here
 }
 
@@ -72,6 +77,11 @@ const HomeStack = () => {
       <Stack.Screen name="profileCourier" component={ProfileCourierScreen} />
       <Stack.Screen name="profileCustomer" component={ProfileCustomerScreen} />
       <Stack.Screen name="registration" component={RegistrationScreen} />
+      <Stack.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
+      <Stack.Screen name="addresses" component={AddressesScreen} />
+      <Stack.Screen name="wallet" component={WalletScreen} />
+      <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
+      <Stack.Screen name="support" component={SupportScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
@@ -95,6 +105,11 @@ const AdvetisementStack = () => {
       <Stack.Screen name="profileCourier" component={ProfileCourierScreen} />
       <Stack.Screen name="profileCustomer" component={ProfileCustomerScreen} />
       <Stack.Screen name="registration" component={RegistrationScreen} />
+      <Stack.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
+      <Stack.Screen name="addresses" component={AddressesScreen} />
+      <Stack.Screen name="wallet" component={WalletScreen} />
+      <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
+      <Stack.Screen name="support" component={SupportScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
@@ -116,6 +131,11 @@ const ProfileStack = () => {
       <Stack.Screen name="profileCourier" component={ProfileCourierScreen} />
       <Stack.Screen name="profileCustomer" component={ProfileCustomerScreen} />
       <Stack.Screen name="registration" component={RegistrationScreen} />
+      <Stack.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
+      <Stack.Screen name="addresses" component={AddressesScreen} />
+      <Stack.Screen name="wallet" component={WalletScreen} />
+      <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
+      <Stack.Screen name="support" component={SupportScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )

@@ -57,7 +57,7 @@ const BACKRIGHTBTN: ViewStyle = {
 }
 const BACKRIGHTBTNRIGHT: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  top:25,
+  top:23,
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}

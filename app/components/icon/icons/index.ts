@@ -12,6 +12,8 @@ export const icons = {
   location: require("./location.png"),
   circle: require("./circle.png"),
   menu: require("./menu.png"),
+  star: require("./star.png"),
+  starBorder: require("./star_border.png")
 }
 
 export type IconTypes = keyof typeof icons
