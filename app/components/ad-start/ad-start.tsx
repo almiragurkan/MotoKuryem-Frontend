@@ -77,9 +77,11 @@ export interface AdStartProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
+  onPressPlus?: any
 }
 
 export const AdStart = observer(function AdStart(props: AdStartProps) {
+
 
   const [listData] = useState(
     Array(6)
@@ -143,7 +145,7 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
         />
       </View>
       <View style={CONTAINER_VIEW}>
-        <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}}>
+        <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}} onPress={props.onPressPlus}>
           <Text style={CREATE_ADVERTISEMENT_BTN_TEXT}>+</Text>
         </Button>
       </View>

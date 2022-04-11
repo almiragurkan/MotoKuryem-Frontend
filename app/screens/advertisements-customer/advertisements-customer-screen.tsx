@@ -38,7 +38,7 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 
-export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCustomerScreen">> = observer(
+export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCustomer">> = observer(
   ({ navigation }) => {
 
     // const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
@@ -76,7 +76,7 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
                   rightIcon={"menu"} onRightPress={showMenu} />
           {
             visible ?
-              <View style={{ alignItems: "flex-end", justifyContent: "flex-end" }}>
+              <View style={{ position: 'absolute', right: 0, top: 0 }}>
                 <Menu
                   visible={visible}
                   anchor={<Text onPress={showMenu}></Text>}
@@ -95,7 +95,7 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
           }
           {
             state === "ad-Start" ?
-              <AdStart />
+              <AdStart/>
               :
               state === "ad-Pending-request" ?
                 <AdPendingRequest />

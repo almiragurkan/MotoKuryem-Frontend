@@ -117,7 +117,7 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamList, "com
     return stars
   }
   return (
-    <View testID="ProfileCourierScreen" style={FULL}>
+    <View testID="CommentsAndRateScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
       <Screen style={CONTAINER} backgroundColor={color.transparent}>
         <Header headerTx="commentsAndRateScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"}

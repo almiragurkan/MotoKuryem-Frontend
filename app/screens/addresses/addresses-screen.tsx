@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TouchableOpacity, FlatList } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { goBack, NavigatorParamList } from "../../navigators"
 import { GradientBackground, Header, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -70,30 +70,34 @@ export const AddressesScreen: FC<StackScreenProps<NavigatorParamList, "addresses
     {
       id: "1",
       name: "ev",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt"
+      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+      checked: false
     },
     {
       id: "2",
       name: "ev1",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt"
+      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+      checked: false
     },
     {
       id: "3",
       name: "iş",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt"
+      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+      checked: false
     },
     {
       id: "4",
       name: "iş yeri",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt"
+      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+      checked: false
     },
   ]
 
   return (
-    <View testID="ProfileCustomerScreen" style={FULL}>
+    <View testID="AddressesScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
       <Screen style={CONTAINER} backgroundColor={color.transparent}>
-        <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
+        <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"} onLeftPress={goBack} />
         <Text style={TITLE_TEXT}>Adresinizi Seçin</Text>
         <View style={{flex:1}}>
           <View style={{borderRadius:2, borderWidth:2, borderColor:color.palette.lighterGrey, padding:10, marginHorizontal:25, marginBottom:25}}>

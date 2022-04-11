@@ -45,6 +45,9 @@
   "advertisementsCustomerScreen": {
     "title": "İLANLARIM"
   },
+  "advertisementsCourierScreen": {
+    "title": "İLANLARIM"
+  },
   "createAdvertisementScreen": {
     "title": "İLAN OLUŞTUR"
   },
@@ -65,6 +68,12 @@
   },
   "changePasswordScreen": {
     "title": "ŞİFRE DEĞİŞTİR"
+  },
+  "ratingCustomerScreen": {
+    "title": "KURYEYİ PUANLA"
+  },
+  "ratingCourierScreen": {
+    "title": "MÜŞTERİYİ PUANLA"
   },
   "errorScreen": {
     "title": "Something went wrong!",

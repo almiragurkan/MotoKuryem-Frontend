@@ -17,7 +17,13 @@ import {
   HomeScreen,
   ProfileCourierScreen,
   RegistrationScreen,
-  ProfileCustomerScreen, CommentsAndRateScreen, AddressesScreen, WalletScreen, ChangePasswordScreen, SupportScreen,
+  ProfileCustomerScreen,
+  CommentsAndRateScreen,
+  AddressesScreen,
+  WalletScreen,
+  ChangePasswordScreen,
+  SupportScreen,
+  RatingCustomerScreen, RatingCourierScreen,
 } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -40,7 +46,8 @@ export type NavigatorParamList = {
   demo: undefined
   demoList: undefined
   advertisement: undefined
-  advertisementsCustomerScreen: undefined
+  advertisementsCustomer: undefined
+  advertisementsCourier: undefined
   createAdvertisement: undefined
   home: undefined
   location: undefined
@@ -53,6 +60,8 @@ export type NavigatorParamList = {
   wallet: undefined
   changePassword: undefined
   support: undefined
+  ratingCustomer: undefined
+  ratingCourier: undefined
   // 🔥 Your screens go here
 }
 
@@ -69,7 +78,8 @@ const HomeStack = () => {
       initialRouteName="home"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCourier" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />
@@ -82,6 +92,8 @@ const HomeStack = () => {
       <Stack.Screen name="wallet" component={WalletScreen} />
       <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="support" component={SupportScreen} />
+      <Stack.Screen name="ratingCustomer" component={RatingCustomerScreen} />
+      <Stack.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
@@ -94,10 +106,11 @@ const AdvetisementStack = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="advertisementsCustomerScreen"
+      initialRouteName="advertisementsCustomer"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCourier" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />
@@ -110,6 +123,8 @@ const AdvetisementStack = () => {
       <Stack.Screen name="wallet" component={WalletScreen} />
       <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="support" component={SupportScreen} />
+      <Stack.Screen name="ratingCustomer" component={RatingCustomerScreen} />
+      <Stack.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
@@ -123,7 +138,8 @@ const ProfileStack = () => {
       initialRouteName="profileCustomer"
     >
       <Stack.Screen name="advertisement" component={AdvertisementScreen} />
-      <Stack.Screen name="advertisementsCustomerScreen" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
+      <Stack.Screen name="advertisementsCourier" component={AdvertisementsCustomerScreen} />
       <Stack.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="location" component={LocationScreen} />
@@ -136,6 +152,8 @@ const ProfileStack = () => {
       <Stack.Screen name="wallet" component={WalletScreen} />
       <Stack.Screen name="changePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="support" component={SupportScreen} />
+      <Stack.Screen name="ratingCustomer" component={RatingCustomerScreen} />
+      <Stack.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </Stack.Navigator>
   )
