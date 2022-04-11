@@ -4,10 +4,9 @@ import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import {
-  AdFinish,
-  AdPendingRequest,
-  AdStart,
-  AdTransfering,
+  AdFinishCourier,
+  AdSentRequestCourier,
+  AdTransferingCourier,
   GradientBackground,
   Header,
   Screen,
@@ -38,52 +37,44 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 
-export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCustomer">> = observer(
+export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCourier">> = observer(
   ({ navigation }) => {
 
-    // const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
-
-    const [state, setState] = useState("ad-Start")
+    const [state, setState] = useState("ad-sent-request")
     const [visible, setVisible] = useState(false)
     const hideMenu = () => {
       setVisible(false)
     }
     const showMenu = () => setVisible(true)
 
-    const adStart = () => {
-      setState("ad-Start")
-      setVisible(false)
-    }
-    const adPendingRequest = () => {
-      setState("ad-Pending-request")
+    const adSentRequest = () => {
+      setState("ad-sent-request")
       setVisible(false)
     }
     const adTransfering = () => {
-      setState("ad-Transfering")
+      setState("ad-transfering")
       setVisible(false)
     }
     const adFinish = () => {
-      setState("ad-Finish")
+      setState("ad-finish")
       setVisible(false)
     }
 
     return (
 
-      <View testID="AdvertisementsCustomerScreen" style={FULL}>
+      <View testID="AdvertisementsCourierScreen" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
-          <Header headerTx="advertisementsCustomerScreen.title" style={HEADER} titleStyle={HEADER_TITLE}
+          <Header headerTx="advertisementsCourierScreen.title" style={HEADER} titleStyle={HEADER_TITLE}
                   rightIcon={"menu"} onRightPress={showMenu} />
           {
-              <View style={{alignItems: 'flex-end', justifyContent: 'center' }}>
+              <View style={{ alignItems: "flex-end", justifyContent: "center" }}>
                 <Menu
                   visible={visible}
                   anchor={<Text onPress={showMenu}></Text>}
                   onRequestClose={hideMenu}
                 >
-                  <MenuItem onPress={adStart}>Başlangıç Aşamasındaki İlanlarım</MenuItem>
-                  <MenuDivider />
-                  <MenuItem onPress={adPendingRequest}>Kurye İsteği Bekleyen İlanlarım</MenuItem>
+                  <MenuItem onPress={adSentRequest}>İstek Gönderilen İlanlarım</MenuItem>
                   <MenuDivider />
                   <MenuItem onPress={adTransfering}>Taşıma Aşamasındaki İlanlarım</MenuItem>
                   <MenuDivider />
@@ -92,16 +83,13 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
               </View>
           }
           {
-            state === "ad-Start" ?
-              <AdStart/>
+            state === "ad-sent-request" ?
+              <AdSentRequestCourier />
               :
-              state === "ad-Pending-request" ?
-                <AdPendingRequest />
+              state === "ad-transfering" ?
+                <AdTransferingCourier />
                 :
-                state === "ad-Transfering" ?
-                  <AdTransfering />
-                  :
-                  <AdFinish />
+                <AdFinishCourier />
 
           }
         </Screen>
