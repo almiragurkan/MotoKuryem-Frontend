@@ -23,7 +23,15 @@ import {
   WalletScreen,
   ChangePasswordScreen,
   SupportScreen,
-  RatingCustomerScreen, RatingCourierScreen, AdvertisementsCourierScreen, CouriersSentRequestToAdScreen,
+  RatingCustomerScreen,
+  RatingCourierScreen,
+  AdvertisementsCourierScreen,
+  CouriersSentRequestToAdScreen,
+  AdvertisementCourierScreen,
+  HomeCourierScreen,
+  LocationCourierScreen,
+  CommentsAndRateCourierScreen,
+  WalletCourierScreen, ChangePasswordCourierScreen, SupportCourierScreen,
 } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -59,15 +67,15 @@ export type NavigatorParamListCustomer = {
   // 🔥 Your screens go here
 }
 export type NavigatorParamListCourier = {
-  advertisement: undefined
+  advertisementCourier: undefined
   advertisementsCourier: undefined
-  home: undefined
-  location: undefined
+  homeCourier: undefined
+  locationCourier: undefined
   profileCourier: undefined
-  commentsAndRate: undefined
-  changePassword: undefined
-  wallet: undefined
-  support: undefined
+  commentsAndRateCourier: undefined
+  changePasswordCourier: undefined
+  walletCourier: undefined
+  supportCourier: undefined
   ratingCourier: undefined
   // 🔥 Your screens go here
 }
@@ -183,17 +191,17 @@ const HomeStackCourier = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="home"
+      initialRouteName="homeCourier"
     >
-      <StackCourier.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCourier.Screen name="advertisementCourier" component={AdvertisementCourierScreen} />
       <StackCourier.Screen name="advertisementsCourier" component={AdvertisementsCourierScreen} />
-      <StackCourier.Screen name="home" component={HomeScreen} />
-      <StackCourier.Screen name="location" component={LocationScreen} />
+      <StackCourier.Screen name="homeCourier" component={HomeCourierScreen} />
+      <StackCourier.Screen name="locationCourier" component={LocationCourierScreen} />
       <StackCourier.Screen name="profileCourier" component={ProfileCourierScreen} />
-      <StackCourier.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
-      <StackCourier.Screen name="wallet" component={WalletScreen} />
-      <StackCourier.Screen name="changePassword" component={ChangePasswordScreen} />
-      <StackCourier.Screen name="support" component={SupportScreen} />
+      <StackCourier.Screen name="commentsAndRateCourier" component={CommentsAndRateCourierScreen} />
+      <StackCourier.Screen name="walletCourier" component={WalletCourierScreen} />
+      <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
+      <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
@@ -209,15 +217,15 @@ const AdvetisementStackCourier = () => {
       }}
       initialRouteName="advertisementsCourier"
     >
-      <StackCourier.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCourier.Screen name="advertisementCourier" component={AdvertisementCourierScreen} />
       <StackCourier.Screen name="advertisementsCourier" component={AdvertisementsCourierScreen} />
-      <StackCourier.Screen name="home" component={HomeScreen} />
-      <StackCourier.Screen name="location" component={LocationScreen} />
+      <StackCourier.Screen name="homeCourier" component={HomeCourierScreen} />
+      <StackCourier.Screen name="locationCourier" component={LocationCourierScreen} />
       <StackCourier.Screen name="profileCourier" component={ProfileCourierScreen} />
-      <StackCourier.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
-      <StackCourier.Screen name="wallet" component={WalletScreen} />
-      <StackCourier.Screen name="changePassword" component={ChangePasswordScreen} />
-      <StackCourier.Screen name="support" component={SupportScreen} />
+      <StackCourier.Screen name="commentsAndRateCourier" component={CommentsAndRateCourierScreen} />
+      <StackCourier.Screen name="walletCourier" component={WalletCourierScreen} />
+      <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
+      <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
@@ -231,15 +239,15 @@ const ProfileStackCourier = () => {
       }}
       initialRouteName="profileCourier"
     >
-      <StackCourier.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCourier.Screen name="advertisementCourier" component={AdvertisementCourierScreen} />
       <StackCourier.Screen name="advertisementsCourier" component={AdvertisementsCourierScreen} />
-      <StackCourier.Screen name="home" component={HomeScreen} />
-      <StackCourier.Screen name="location" component={LocationScreen} />
+      <StackCourier.Screen name="homeCourier" component={HomeCourierScreen} />
+      <StackCourier.Screen name="locationCourier" component={LocationCourierScreen} />
       <StackCourier.Screen name="profileCourier" component={ProfileCourierScreen} />
-      <StackCourier.Screen name="commentsAndRate" component={CommentsAndRateScreen} />
-      <StackCourier.Screen name="wallet" component={WalletScreen} />
-      <StackCourier.Screen name="changePassword" component={ChangePasswordScreen} />
-      <StackCourier.Screen name="support" component={SupportScreen} />
+      <StackCourier.Screen name="commentsAndRateCourier" component={CommentsAndRateCourierScreen} />
+      <StackCourier.Screen name="walletCourier" component={WalletCourierScreen} />
+      <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
+      <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>

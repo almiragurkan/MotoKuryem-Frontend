@@ -141,6 +141,11 @@ export function goBack() {
     navigationRef.goBack()
   }
 }
+export function goToProfile() {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate({ key:"profileCustomer" });
+  }
+}
 
 export function resetRoot(params = { index: 0, routes: [] }) {
   if (navigationRef.isReady()) {
