@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import { Button, GradientBackground, Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 
@@ -70,7 +70,7 @@ const BUTTON_STYLE: ViewStyle = {
   height: 40,
   borderRadius: 15,
 }
-export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamList, "changePassword">> = observer(
+export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustomer, "changePassword">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
 

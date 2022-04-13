@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 
@@ -65,7 +65,7 @@ const INNER_VIEW_STYLE: ViewStyle = {
   borderColor: color.palette.lighterGrey,
 }
 
-export const SupportScreen: FC<StackScreenProps<NavigatorParamList, "support">> = observer(
+export const SupportScreen: FC<StackScreenProps<NavigatorParamListCustomer, "support">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
 

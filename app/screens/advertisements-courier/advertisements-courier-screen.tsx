@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCourier } from "../../navigators"
 import {
   AdFinishCourier,
   AdSentRequestCourier,
@@ -37,8 +37,10 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 
-export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCourier">> = observer(
+export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "advertisementsCourier">> = observer(
   ({ navigation }) => {
+
+    const ratingCourierScreen = () => navigation.navigate("ratingCourier")
 
     const [state, setState] = useState("ad-sent-request")
     const [visible, setVisible] = useState(false)
@@ -87,9 +89,9 @@ export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamList
               <AdSentRequestCourier />
               :
               state === "ad-transfering" ?
-                <AdTransferingCourier />
+                <AdTransferingCourier onPressConfirmPayment={()=>ratingCourierScreen()}/>
                 :
-                <AdFinishCourier />
+                <AdFinishCourier onPressRatingCourier={()=>ratingCourierScreen()}/>
 
           }
         </Screen>

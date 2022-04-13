@@ -71,21 +71,25 @@ export interface AdFinishCourierProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
+  onPressRatingCourier?: any
 }
 
 /**
  * Describe your component here
  */
 export const AdFinishCourier = observer(function AdFinishCourier(props: AdFinishCourierProps) {
+
+  const {onPressRatingCourier} = props
+
   const [listData] = useState(
     Array(3)
       .fill('')
       .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
   );
 
-  const closeRow = (rowMap, rowKey) => {
+  const ratingCourier = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
+      onPressRatingCourier();
     }
   };
 
@@ -115,7 +119,7 @@ export const AdFinishCourier = observer(function AdFinishCourier(props: AdFinish
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => ratingCourier(rowMap, data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>MÜŞTERİYİ PUANLA</Text>
       </TouchableOpacity>

@@ -71,6 +71,7 @@ export interface AdPendingRequestProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
+  onPressPendingRequest?: any
 }
 
 /**
@@ -78,15 +79,18 @@ export interface AdPendingRequestProps {
  */
 export const AdPendingRequest = observer(function AdPendingRequest(props: AdPendingRequestProps) {
 
+  const { onPressPendingRequest } = props
+
+
   const [listData] = useState(
     Array(2)
       .fill('')
       .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
   );
 
-  const closeRow = (rowMap, rowKey) => {
+  const pendingRequest = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
+      onPressPendingRequest();
     }
   };
 
@@ -116,7 +120,7 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => pendingRequest(rowMap, data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>KURYE İSTEĞİNİZ VAR!</Text>
       </TouchableOpacity>

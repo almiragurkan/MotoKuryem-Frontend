@@ -76,12 +76,16 @@ export interface AdTransferingProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
+  onPressConfirmPayment?: any
 }
 
 /**
  * Describe your component here
  */
 export const AdTransfering = observer(function AdTransfering(props: AdTransferingProps) {
+
+  const {onPressConfirmPayment} = props
+
   const [listData] = useState(
     Array(3)
       .fill('')
@@ -93,6 +97,13 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
       rowMap[rowKey].closeRow();
     }
   };
+
+  const ratingCustomer = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      onPressConfirmPayment();
+    }
+  };
+
 
   const onRowDidOpen = rowKey => {
     console.log('This row opened', rowKey);
@@ -126,7 +137,7 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
       </TouchableOpacity>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        // onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => ratingCustomer(rowMap, data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>ÖDEMEYİ ONAYLA</Text>
       </TouchableOpacity>

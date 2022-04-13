@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TextInput, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamList } from "../../navigators"
+import { goBack, NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Icon, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -116,7 +116,7 @@ const BUTTON_STYLE: ViewStyle = {
 const BUTTON_TEXT: TextStyle = {
   color: color.palette.white,
 }
-export const RatingCustomerScreen: FC<StackScreenProps<NavigatorParamList, "ratingCustomer">> = observer(function RatingCustomerScreen() {
+export const RatingCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "ratingCustomer">> = observer(function RatingCustomerScreen() {
   return (
     <View testID="RatingCustomerScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />

@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TouchableOpacity, FlatList } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamList } from "../../navigators"
+import { goBack, NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -65,7 +65,7 @@ const TITLE_TEXT: TextStyle = {
   paddingBottom:10
 }
 
-export const AddressesScreen: FC<StackScreenProps<NavigatorParamList, "addresses">> = observer(function AddressesScreen() {
+export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "addresses">> = observer(function AddressesScreen() {
   const DATA = [
     {
       id: "1",

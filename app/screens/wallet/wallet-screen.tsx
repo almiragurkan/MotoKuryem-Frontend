@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamList } from "../../navigators"
+import { goBack, NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Icon, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -48,7 +48,7 @@ const INNER_TEXT: TextStyle = {
   paddingHorizontal:80
 }
 
-export const WalletScreen: FC<StackScreenProps<NavigatorParamList, "wallet">> = observer(function WalletScreen() {
+export const WalletScreen: FC<StackScreenProps<NavigatorParamListCustomer, "wallet">> = observer(function WalletScreen() {
   return (
     <View testID="WalletScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />

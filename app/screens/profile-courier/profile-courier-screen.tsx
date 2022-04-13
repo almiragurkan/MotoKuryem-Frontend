@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCourier } from "../../navigators"
 import { GradientBackground, Header, Icon, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -79,7 +79,7 @@ const INNER_TEXT1: TextStyle = { color:color.palette.black, ...BOLD, fontSize: 2
 const INNER_TEXT2: TextStyle = { color:color.palette.black, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, marginLeft: 15, fontSize: 20 }
 
-export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamList, "profileCourier">> = observer(function ProfileCourierScreen() {
+export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "profileCourier">> = observer(({ navigation }) => {
 
   return (
     <View testID="ProfileCourierScreen" style={FULL}>
@@ -99,22 +99,22 @@ export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamList, "prof
             <Text style={INNER_TEXT3}>+90(533)333 33 33</Text>
           </View>
         </View>
-        <View style={INNER_VIEW_STYLE}>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("commentsAndRate")}>
           <Icon style={ICON_STYLE1} icon={"comment"}></Icon>
           <Text style={INNER_TEXT2}>Yorumlar ve Puanlar</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("wallet")}>
           <Icon style={ICON_STYLE1} icon={"wallet"}></Icon>
           <Text style={INNER_TEXT2}>Cüzdanım</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("changePassword")}>
           <Icon style={ICON_STYLE1} icon={"lock"}></Icon>
           <Text style={INNER_TEXT2}>Şifreyi Değiştir</Text>
-        </View>
-        <View style={INNER_VIEW_STYLE}>
+        </TouchableOpacity>
+        <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("support")}>
           <Icon style={ICON_STYLE1} icon={"support"}></Icon>
           <Text style={INNER_TEXT2}>Destek</Text>
-        </View>
+        </TouchableOpacity>
         <View style={BUTTON_VIEW}>
           <TouchableOpacity style={BUTTON_STYLE}>
             <Text style={BUTTON_TEXT}>ÇIKIŞ YAP</Text>

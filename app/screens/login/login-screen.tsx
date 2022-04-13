@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListAuth } from "../../navigators"
 import { AutoImage as Image, Button, GradientBackground, Header, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -104,7 +104,7 @@ const REGISTER_BTN_TEXT: TextStyle = {
 }
 
 
-export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = observer(
+export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> = observer(
   ({ navigation }) => {
     const homeScreen = () => navigation.navigate("home")
     const registrationScreen = () => navigation.navigate("registration")

@@ -77,11 +77,12 @@ export interface AdStartProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressPlus?: any
+  onPressCreateAd?: any
+  onPressEdit?: any
 }
 
 export const AdStart = observer(function AdStart(props: AdStartProps) {
-
+  const { onPressCreateAd, onPressEdit } = props
 
   const [listData] = useState(
     Array(6)
@@ -89,9 +90,15 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
       .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
   );
 
-  const closeRow = (rowMap, rowKey) => {
+/*   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
+    }
+  }; */
+
+  const editAd = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      onPressEdit();
     }
   };
 
@@ -121,7 +128,7 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => editAd(rowMap, data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>Düzenle</Text>
       </TouchableOpacity>
@@ -145,8 +152,8 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
         />
       </View>
       <View style={CONTAINER_VIEW}>
-        <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}} onPress={props.onPressPlus}>
-          <Text style={CREATE_ADVERTISEMENT_BTN_TEXT}>+</Text>
+        <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}}>
+          <Text style={CREATE_ADVERTISEMENT_BTN_TEXT} onPress={onPressCreateAd}>+</Text>
         </Button>
       </View>
     </View>

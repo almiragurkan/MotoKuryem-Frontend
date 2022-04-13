@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import { Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -22,7 +22,7 @@ const ROOT: ViewStyle = {
 
 // REMOVE ME! ⬇️ This TS ignore will not be necessary after you've added the correct navigator param type
 // @ts-ignore
-export const AdvertisementScreen: FC<StackScreenProps<NavigatorParamList, "advertisement">> = observer(function AdvertisementScreen() {
+export const AdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer, "advertisement">> = observer(function AdvertisementScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
 

@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, ImageStyle, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListAuth } from "../../navigators"
 import { AutoImage as Image, Button, GradientBackground, Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 
@@ -88,7 +88,7 @@ const BUTTON_STYLE: ViewStyle = {
   borderRadius: 15,
 }
 
-export const RegistrationScreen: FC<StackScreenProps<NavigatorParamList, "registration">> = observer(
+export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "registration">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
     const homeScreen = () => navigation.navigate("home")

@@ -2,7 +2,7 @@ import React, { FC, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Screen } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import { TagSelect } from "react-native-tag-select"
@@ -91,7 +91,7 @@ const BUTTON_TEXT: TextStyle = {
 }
 
 
-export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamList, "createAdvertisement">> = observer(({ navigation }) => {
+export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer, "createAdvertisement">> = observer(({ navigation }) => {
 
   const goBack = () => navigation.goBack()
 

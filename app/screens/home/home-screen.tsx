@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle, TouchableHighlight, TouchableOpacity, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Icon, Screen } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -79,7 +79,7 @@ const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
 
-export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
+export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">> = observer(
   ({ navigation }) => {
 
     const [listData,] = useState(

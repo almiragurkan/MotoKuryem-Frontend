@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, FlatList } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamList } from "../../navigators"
+import { goBack, NavigatorParamListCustomer } from "../../navigators"
 import { GradientBackground, Header, Icon, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -62,7 +62,7 @@ const INNER_TEXT1: TextStyle = { color: color.palette.black, ...BOLD, fontSize: 
 const INNER_TEXT2: TextStyle = { color: color.palette.black, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { marginTop: 10, color: color.palette.black, fontSize: 20 }
 
-export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamList, "commentsAndRate">> = observer(function CommentsAndRateScreen() {
+export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustomer, "commentsAndRate">> = observer(function CommentsAndRateScreen() {
   const DATA = [
     {
       id: "1",

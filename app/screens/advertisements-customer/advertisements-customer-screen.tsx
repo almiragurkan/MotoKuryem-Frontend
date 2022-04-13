@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
+import { NavigatorParamListCustomer } from "../../navigators"
 import {
   AdFinish,
   AdPendingRequest,
@@ -38,10 +38,12 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 
-export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamList, "advertisementsCustomer">> = observer(
+export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "advertisementsCustomer">> = observer(
   ({ navigation }) => {
 
-    // const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
+    const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
+    const couriersSentRequestToAdScreen = () => navigation.navigate("couriersSentRequestToAd")
+    const ratingCustomerScreen = () => navigation.navigate("ratingCustomer")
 
     const [state, setState] = useState("ad-Start")
     const [visible, setVisible] = useState(false)
@@ -93,15 +95,15 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
           }
           {
             state === "ad-Start" ?
-              <AdStart/>
+              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>createAdvertisementScreen()}/>
               :
               state === "ad-Pending-request" ?
-                <AdPendingRequest />
+                <AdPendingRequest onPressPendingRequest={()=>couriersSentRequestToAdScreen()}/>
                 :
                 state === "ad-Transfering" ?
-                  <AdTransfering />
+                  <AdTransfering onPressConfirmPayment={()=>ratingCustomerScreen()}/>
                   :
-                  <AdFinish />
+                  <AdFinish onPressRatingCustomer={()=>ratingCustomerScreen()}/>
 
           }
         </Screen>

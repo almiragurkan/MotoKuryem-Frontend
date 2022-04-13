@@ -52,7 +52,7 @@ const BACKRIGHTBTN: ViewStyle = {
   justifyContent: 'center',
   position: 'absolute',
   top: 0,
-  width: 100,
+  width: 110,
   height:50,
 }
 const BACKRIGHTBTNLEFT: ViewStyle = {
@@ -76,12 +76,16 @@ export interface AdTransferingCourierProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
+  onPressConfirmPayment?: any
 }
 
 /**
  * Describe your component here
  */
 export const AdTransferingCourier = observer(function AdTransferingCourier(props: AdTransferingCourierProps) {
+
+  const {onPressConfirmPayment} = props
+
   const [listData] = useState(
     Array(3)
       .fill('')
@@ -91,6 +95,12 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
+    }
+  };
+
+  const ratingCourier = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      onPressConfirmPayment();
     }
   };
 
@@ -126,7 +136,7 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
       </TouchableOpacity>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        // onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => ratingCourier(rowMap, data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>TAŞIMA TAMAMLANDI</Text>
       </TouchableOpacity>
@@ -142,7 +152,7 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
-          rightOpenValue={-100}
+          rightOpenValue={-110}
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
