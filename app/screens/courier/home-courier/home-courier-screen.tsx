@@ -30,7 +30,7 @@ const ROWFRONT: ViewStyle = {
 }
 const ROWBACK: ViewStyle = {
   alignItems: 'center',
-  backgroundColor: color.palette.angry,
+  backgroundColor: color.palette.white,
   flex: 1,
   flexDirection: 'column',
   justifyContent: 'space-between',

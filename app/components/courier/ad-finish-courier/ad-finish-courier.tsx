@@ -106,7 +106,7 @@ export const AdFinishCourier = observer(function AdFinishCourier(props: AdFinish
       <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
         <Icon style={ICON_STYLE} icon={"circle"}></Icon>
         <View style={{flexDirection:"column", padding:10, flex:1}}>
-          <Text style={INNER_TEXT1}>İLANIM {data.item.text}</Text>
+          <Text style={INNER_TEXT1}>İLAN {data.item.text}</Text>
           <Text style={INNER_TEXT2}>Eşya: Kağıt</Text>
           <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
           <Text style={INNER_TEXT3}>Ücret: 23 TL</Text>
