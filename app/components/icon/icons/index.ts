@@ -13,7 +13,10 @@ export const icons = {
   circle: require("./circle.png"),
   menu: require("./menu.png"),
   star: require("./star.png"),
-  starBorder: require("./star_border.png")
+  starBorder: require("./star_border.png"),
+  homeTabBar:require("./home-tab-bar.png"),
+  advertisementTabBar:require("./advetisement-tab-bar.png"),
+  profileTabBar:require("./profile-tab-bar.png"),
 }
 
 export type IconTypes = keyof typeof icons

@@ -37,6 +37,7 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { color } from "../theme"
+import { Icon } from "../components"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -267,10 +268,10 @@ const CustomerNavigator = () => {
         component={HomeStackCustomer}
         options={{
           tabBarLabel: "Anasayfa",
-          tabBarStyle:{height:70},
-          tabBarLabelStyle:{fontSize:17, marginBottom:10},
+          tabBarStyle:{height:57},
+          tabBarLabelStyle:{fontSize:15, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
           ),
         }}
       />
@@ -279,10 +280,10 @@ const CustomerNavigator = () => {
         component={AdvetisementStackCustomer}
         options={{
           tabBarLabel: "İlanlarım",
-          tabBarStyle:{height:70},
-          tabBarLabelStyle:{fontSize:17, marginBottom:10},
+          tabBarStyle:{height:57},
+          tabBarLabelStyle:{fontSize:15, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="newspaper-variant-multiple" color={color} size={size} />
+            <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
           ),
         }}
       />
@@ -291,10 +292,10 @@ const CustomerNavigator = () => {
         component={ProfileStackCustomer}
         options={{
           tabBarLabel: "Profil",
-          tabBarStyle:{height:70},
-          tabBarLabelStyle:{fontSize:17, marginBottom:10},
+          tabBarStyle:{height:57},
+          tabBarLabelStyle:{fontSize:15, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+            <Icon icon="profileTabBar" style={{width:25,height:25, marginTop:5}}/>
           ),
         }}
       />
@@ -315,10 +316,10 @@ const CourierNavigator = () => {
           component={HomeStackCourier}
           options={{
             tabBarLabel: "Anasayfa",
-            tabBarStyle:{height:70},
-            tabBarLabelStyle:{fontSize:17, marginBottom:10},
+            tabBarStyle:{height:57},
+            tabBarLabelStyle:{fontSize:15, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="human" color={color} size={size} />
+              <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
             ),
           }}
         />
@@ -327,10 +328,10 @@ const CourierNavigator = () => {
           component={AdvetisementStackCourier}
           options={{
             tabBarLabel: "İlanlarım",
-            tabBarStyle:{height:70},
-            tabBarLabelStyle:{fontSize:17, marginBottom:10},
+            tabBarStyle:{height:57},
+            tabBarLabelStyle:{fontSize:15, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="newspaper-variant-multiple" color={color} size={size} />
+              <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
             ),
           }}
         />
@@ -339,10 +340,10 @@ const CourierNavigator = () => {
           component={ProfileStackCourier}
           options={{
             tabBarLabel: "Profil",
-            tabBarStyle:{height:70},
-            tabBarLabelStyle:{fontSize:17, marginBottom:10},
+            tabBarStyle:{height:57},
+            tabBarLabelStyle:{fontSize:15, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+              <Icon icon="profileTabBar" style={{width:25,height:25, marginTop:5}}/>
             ),
           }}
         />
