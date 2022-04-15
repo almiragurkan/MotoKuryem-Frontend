@@ -267,8 +267,10 @@ const CustomerNavigator = () => {
         component={HomeStackCustomer}
         options={{
           tabBarLabel: "Anasayfa",
+          tabBarStyle:{height:70},
+          tabBarLabelStyle:{fontSize:17, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="square" color={color} size={size} />
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
@@ -277,8 +279,10 @@ const CustomerNavigator = () => {
         component={AdvetisementStackCustomer}
         options={{
           tabBarLabel: "İlanlarım",
+          tabBarStyle:{height:70},
+          tabBarLabelStyle:{fontSize:17, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="square" color={color} size={size} />
+            <MaterialCommunityIcons name="newspaper-variant-multiple" color={color} size={size} />
           ),
         }}
       />
@@ -287,8 +291,10 @@ const CustomerNavigator = () => {
         component={ProfileStackCustomer}
         options={{
           tabBarLabel: "Profil",
+          tabBarStyle:{height:70},
+          tabBarLabelStyle:{fontSize:17, marginBottom:10},
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="square" color={color} size={size} />
+            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
           ),
         }}
       />
@@ -309,8 +315,10 @@ const CourierNavigator = () => {
           component={HomeStackCourier}
           options={{
             tabBarLabel: "Anasayfa",
+            tabBarStyle:{height:70},
+            tabBarLabelStyle:{fontSize:17, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="square" color={color} size={size} />
+              <MaterialCommunityIcons name="human" color={color} size={size} />
             ),
           }}
         />
@@ -319,8 +327,10 @@ const CourierNavigator = () => {
           component={AdvetisementStackCourier}
           options={{
             tabBarLabel: "İlanlarım",
+            tabBarStyle:{height:70},
+            tabBarLabelStyle:{fontSize:17, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="square" color={color} size={size} />
+              <MaterialCommunityIcons name="newspaper-variant-multiple" color={color} size={size} />
             ),
           }}
         />
@@ -329,8 +339,10 @@ const CourierNavigator = () => {
           component={ProfileStackCourier}
           options={{
             tabBarLabel: "Profil",
+            tabBarStyle:{height:70},
+            tabBarLabelStyle:{fontSize:17, marginBottom:10},
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="square" color={color} size={size} />
+              <MaterialCommunityIcons name="account-circle" color={color} size={size} />
             ),
           }}
         />
@@ -344,7 +356,7 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
   const [isAuthenticated, setIsAuthenticated] = useState(true)
-  const [isCourier, setIsCourier] = useState(true)
+  const [isCourier, setIsCourier] = useState(false)
 
   useBackButtonHandler(canExit)
   return (

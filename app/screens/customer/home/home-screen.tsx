@@ -90,7 +90,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
 
     const renderItem = data => (
       <TouchableHighlight
-        onPress={() => console.log('You touched me')}
+        onPress={() => navigation.navigate("advertisement")}
         style={ROWFRONT}
         underlayColor={color.palette.white}
       >
@@ -121,7 +121,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
 
 
     return (
-
       <View testID="HomeScreen" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
