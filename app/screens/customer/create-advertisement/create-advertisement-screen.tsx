@@ -64,9 +64,20 @@ const INPUTS: ViewStyle = {
   padding: spacing[1],
   marginTop: spacing[1],
   marginHorizontal: spacing[3],
-  paddingHorizontal: spacing[1],
+  paddingHorizontal: spacing[2],
   borderColor: color.palette.lightGrey,
   borderWidth: 1,
+}
+const INPUTS_DATE: ViewStyle = {
+  backgroundColor: "white",
+  height: 40,
+  padding: spacing[1],
+  marginTop: spacing[1],
+  marginHorizontal: spacing[1],
+  paddingHorizontal: spacing[2],
+  borderColor: color.palette.lightGrey,
+  borderWidth: 1,
+  width:345
 }
 const INPUTS1: ViewStyle = {
   backgroundColor: "white",
@@ -136,6 +147,20 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
     let tmp = ""
     for (let i = 0; i < sItems.length; i++) {
       tmp += sItems[i].label
+      if (sItems[i].id==="2"){
+        return <View>
+          <TextInput
+            placeholder="Zaman bilgisi giriniz"
+            textAlign="left"
+            placeholderTextColor={color.palette.lighterGrey}
+            style={INPUTS_DATE}
+            keyboardType="default"
+            autoCorrect={false}
+            autoCapitalize="none"
+            returnKeyType="next"
+          />
+        </View>
+      }
     }
     return tmp
   }
@@ -175,7 +200,6 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
             </Text>
             :
             <Text>{displaySelectedItems(stateDate)}</Text>
-
           }</View>
 
           <Text style={INNER_TEXT}>Yaklaşık ağırlık</Text>
