@@ -22,6 +22,15 @@ export class Api {
    *
    * @param config The configuration to use.
    */
+  setAuthorizationHeader = (newToken?: string) => {
+    if (newToken) {
+      this.apisauce.setHeader("Authorization", `Bearer ${newToken}`)
+    } else {
+      this.apisauce.deleteHeader("Authorization")
+    }
+  }
+
+
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
   }
@@ -40,6 +49,7 @@ export class Api {
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
+        Authorization: "Bearer ",
       },
     })
   }

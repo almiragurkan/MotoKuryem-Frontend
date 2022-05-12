@@ -1,12 +1,14 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity } from "react-native"
+import { Controller, useForm } from "react-hook-form"
+import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity, ActivityIndicator } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListAuth } from "../../navigators"
 import { AutoImage as Image, Button, GradientBackground, Header, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
+import { useStores } from "../../models"
 
 const motoKuryemLogo = require("./motokuryem-logo.png")
 const motoKuryemText = require("./motokuryem-text.png")
@@ -23,7 +25,7 @@ const BOLD: TextStyle = { fontWeight: "bold" }
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
-  backgroundColor: color.palette.specialBlue
+  backgroundColor: color.palette.specialBlue,
 }
 const HEADER_TITLE: TextStyle = {
   ...TEXT,
@@ -84,16 +86,21 @@ const INPUTS_CONTAINER_VIEW: ViewStyle = {
   marginHorizontal: 40,
 }
 const FORGOT_PASS_BTN: ViewStyle = {
-  alignItems:"center"
+  alignItems: "center",
 }
 const FORGOT_PASS_BTN_TEXT: TextStyle = {
   marginTop: 0,
   fontWeight: "bold",
   textDecorationLine: "underline",
-  color:color.palette.lightBlue,
+  color: color.palette.lightBlue,
 
 }
-const REGISTER_CONTAINER_VIEW: ViewStyle = {flexDirection:"row", alignItems:"center", justifyContent:"center", marginTop:spacing[8]}
+const REGISTER_CONTAINER_VIEW: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: spacing[8],
+}
 const REGISTER_TEXT: TextStyle = {
   marginTop: 0,
   fontWeight: "bold",
@@ -102,12 +109,39 @@ const REGISTER_BTN_TEXT: TextStyle = {
   marginTop: 0,
   fontWeight: "bold",
 }
+const FORM_ERROR_SMALL_TEXT: TextStyle = {
+  textAlign: "center",
+  marginTop: 4,
+  color: color.palette.angry,
+}
+const LOADING_EFFECT: ViewStyle = {
+  position: "absolute",
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: `rgba(0, 0, 0, 0.6)`,
+}
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 
 export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> = observer(
   ({ navigation }) => {
-    const homeScreen = () => navigation.navigate("home")
     const registrationScreen = () => navigation.navigate("registration")
+
+    const { authenticationStore } = useStores()
+
+    const {
+      control, handleSubmit, formState: { errors },
+    } = useForm<FormData>()
+    const onLogin = async (data) => await authenticationStore.login(data.email, data.password, authenticationStore.rememberMe)
+
 
     return (
       <View testID="LoginScreen" style={FULL}>
@@ -117,35 +151,73 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
           <Image source={motoKuryemText} style={TEXT_LOGO} />
           <Image source={motoKuryemLogo} style={LOGO} />
           <View style={INPUTS_VIEW_STYLE}>
-            <View style={INPUTS_CONTAINER_VIEW}>
-              <TextInput
-                placeholder="E-posta"
-                textAlign="center"
-                placeholderTextColor={color.palette.lighterGrey}
-                underlineColorAndroid={color.palette.lighterGrey}
-                style={INPUT_USERNAME}
-                keyboardType="email-address"
-                autoCorrect={false}
-                autoCapitalize="none"
-                returnKeyType="next"
-              />
-            </View>
-            <View style={INPUTS_CONTAINER_VIEW}>
-              <TextInput
-                placeholder="Şifre"
-                textAlign="center"
-                placeholderTextColor={color.palette.lighterGrey}
-                underlineColorAndroid={color.palette.lighterGrey}
-                style={INPUT_USERNAME}
-                keyboardType="numeric"
-                secureTextEntry={true}
-                returnKeyType="done"
-              />
-            </View>
-            <Button style={BUTTON_STYLE} onPress={homeScreen}>
-              <Text style={BUTTON_TEXT_STYLE}>Giriş</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "E-posta adresi boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW}>
+                  <TextInput
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="E-posta"
+                    textAlign="center"
+                    placeholderTextColor={color.palette.lighterGrey}
+                    underlineColorAndroid={color.transparent}
+                    style={INPUT_USERNAME}
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                  />
+                  {errors.email && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.email.message}</Text>}
+                </View>
+              )}
+              name="email"
+              defaultValue=""
+            />
+
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz",
+                },
+                minLength: 6
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+
+                <View style={INPUTS_CONTAINER_VIEW}>
+                  <TextInput
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Parola"
+                    textAlign="center"
+                    placeholderTextColor={color.palette.lighterGrey}
+                    underlineColorAndroid={color.transparent}
+                    style={INPUT_USERNAME}
+                    keyboardType="numeric"
+                    secureTextEntry={true}
+                    returnKeyType="done"
+                  />
+                  {errors.password && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.password.message}</Text>}
+                </View>
+              )}
+              name="password"
+              defaultValue=""
+            />
+
+            <Button style={BUTTON_STYLE} onPress={handleSubmit(onLogin)}>
+              <Text style={BUTTON_TEXT_STYLE}>{authenticationStore.status === "pending" ? "Loading ..." : "Giriş"}</Text>
             </Button>
-            <TouchableOpacity style={FORGOT_PASS_BTN}>
+            <TouchableOpacity style={FORGOT_PASS_BTN} onPress={() => navigation.navigate("resetPassword")}>
               <Text style={FORGOT_PASS_BTN_TEXT}>{"Şifremi Unuttum"}</Text>
             </TouchableOpacity>
             <View style={REGISTER_CONTAINER_VIEW}>
@@ -157,6 +229,9 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
           </View>
 
         </Screen>
+        { authenticationStore.status === "pending" &&
+          <View style={LOADING_EFFECT}><ActivityIndicator size="large" /></View> }
+
       </View>
     )
   })

@@ -1,10 +1,12 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, ImageStyle, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListAuth } from "../../navigators"
 import { AutoImage as Image, Button, GradientBackground, Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
+import { Controller, useForm } from "react-hook-form"
+import { TUserProfile, useStores } from "../../models"
 
 const motoKuryemLogo = require("../login/motokuryem-logo.png")
 
@@ -87,11 +89,41 @@ const BUTTON_STYLE: ViewStyle = {
   height: 40,
   borderRadius: 15,
 }
+const FORM_INPUTS_ERROR_VIEWSTYLES: TextStyle = {
+  textAlign: "center",
+  paddingVertical: 7,
+  marginTop: 4,
+  marginBottom: 15,
+  color: color.palette.angry,
+  backgroundColor: color.palette.white,
+}
+const FORM_INPUTS_ERROR_SMALL_VIEWSTYLES: TextStyle = {
+  textAlign: "left",
+  marginTop: 4,
+  color: color.palette.angry,
+}
+
 
 export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "registration">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
-    const homeScreen = () => navigation.navigate("home")
+    const { authenticationStore } = useStores()
+    const onRegister = async (data: TUserProfile) => await authenticationStore.register(data)
+    const
+      {
+        control,
+        handleSubmit,
+        formState: { errors, isSubmitSuccessful },
+      } = useForm<TUserProfile>()
+
+    useEffect(() => {
+      authenticationStore.clearStatus()
+    }, [])
+    useEffect(() => {
+      if (isSubmitSuccessful === true)
+        navigation.goBack()
+    }, [isSubmitSuccessful])
+
 
     return (
       <View testID="RegistrationScreen" style={FULL}>
@@ -105,7 +137,22 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
             titleStyle={HEADER_TITLE}
           />
           <Image source={motoKuryemLogo} style={LOGO} />
+
+          <View>
+            {authenticationStore.status === "error" && <Text
+              style={FORM_INPUTS_ERROR_VIEWSTYLES}>{"Bir hata ile karşılaşıldı : "}{authenticationStore.error}</Text>}
+          </View>
+
           <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "İsim boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
                 placeholder="İsim"
@@ -117,8 +164,23 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
+              {errors.firstName &&
+                <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.firstName.message}</Text>}
             </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+              )}
+              name="firstName"
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Soyisim boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
                 placeholder="Soyisim"
                 textAlign="left"
@@ -129,8 +191,24 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
-            </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+                  {errors.lastName &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.lastName.message}</Text>}
+                </View>
+              )}
+              name="lastName"
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: false,
+                  message: "Kullanıcı adı boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
                 placeholder="Kullanıcı Adı"
                 textAlign="left"
@@ -141,10 +219,25 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
-            </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+                  {errors.userName &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.userName.message}</Text>}
+
+                </View>
+              )}
+              name="userName"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "e-posta adresi boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
-                placeholder="E-mail"
+                placeholder="E-posta"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
@@ -154,8 +247,25 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="none"
                 returnKeyType="next"
               />
-            </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+                  {errors.email && <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.email.message}</Text>}
+                </View>
+              )}
+              name="email"
+              defaultValue=""
+            />
+
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz",
+                },
+                minLength: 6,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
                 placeholder="Şifre"
                 textAlign="left"
@@ -165,9 +275,27 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 keyboardType="numeric"
                 secureTextEntry={true}
                 returnKeyType="next"
-              />
-            </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+              />{errors.password &&
+                  <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.password.message}</Text>}
+                </View>
+              )}
+              name="password"
+              defaultValue=""
+            />
+
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz",
+                },
+                minLength: 6,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+
+
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
                 placeholder="Şifre Tekrar"
                 textAlign="left"
@@ -179,14 +307,20 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 returnKeyType="done"
               />
             </View>
+              )}
+              name="password"
+              defaultValue=""
+            />
+
+
 
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <Text style={ISCOURIER_TEXT_STYLE}>Kurye iseniz kutucuğu işaretleyin</Text>
             </View>
 
-            <Button style={BUTTON_STYLE} onPress={homeScreen}>
+            <Button style={BUTTON_STYLE} onPress={handleSubmit(onRegister)}>
               <Text
-                style={BUTTON_TEXT_STYLE}>KAYDOL</Text>
+                style={BUTTON_TEXT_STYLE}>{authenticationStore.status === "pending" ? "Loading ..." : "KAYDOL"}</Text>
             </Button>
           </View>
 

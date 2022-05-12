@@ -31,13 +31,16 @@ import {
   HomeCourierScreen,
   LocationCourierScreen,
   CommentsAndRateCourierScreen,
-  WalletCourierScreen, ChangePasswordCourierScreen, SupportCourierScreen,
+  WalletCourierScreen,
+  ChangePasswordCourierScreen,
+  SupportCourierScreen,
+  ResetPasswordScreen,
 } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { color } from "../theme"
 import { Icon } from "../components"
+import { useStores } from "../models"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -65,6 +68,7 @@ export type NavigatorParamListCustomer = {
   support: undefined
   ratingCustomer: undefined
   couriersSentRequestToAd: undefined
+  resetPassword: undefined
   // 🔥 Your screens go here
 }
 export type NavigatorParamListCourier = {
@@ -78,12 +82,13 @@ export type NavigatorParamListCourier = {
   walletCourier: undefined
   supportCourier: undefined
   ratingCourier: undefined
+  resetPassword: undefined
   // 🔥 Your screens go here
 }
 export type NavigatorParamListAuth = {
   login: undefined;
   registration: undefined
-  home:undefined
+  resetPassword: undefined
 };
 
 const StackAuth = createNativeStackNavigator<NavigatorParamListAuth>()
@@ -97,7 +102,7 @@ const AuthStack = () => {
     >
       <StackAuth.Screen name="login" component={LoginScreen} />
       <StackAuth.Screen name="registration" component={RegistrationScreen} />
-      <StackAuth.Screen name="home" component={HomeScreen} />
+      <StackAuth.Screen name="resetPassword" component={ResetPasswordScreen} />
     </StackAuth.Navigator>
   )
 }
@@ -127,6 +132,7 @@ const HomeStackCustomer = () => {
       <StackCustomer.Screen name="changePassword" component={ChangePasswordScreen} />
       <StackCustomer.Screen name="support" component={SupportScreen} />
       <StackCustomer.Screen name="ratingCustomer" component={RatingCustomerScreen} />
+      <StackCustomer.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCustomer.Navigator>
   )
@@ -154,6 +160,7 @@ const AdvetisementStackCustomer = () => {
       <StackCustomer.Screen name="support" component={SupportScreen} />
       <StackCustomer.Screen name="ratingCustomer" component={RatingCustomerScreen} />
       <StackCustomer.Screen name="couriersSentRequestToAd" component={CouriersSentRequestToAdScreen} />
+      <StackCustomer.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCustomer.Navigator>
   )
@@ -178,6 +185,7 @@ const ProfileStackCustomer = () => {
       <StackCustomer.Screen name="changePassword" component={ChangePasswordScreen} />
       <StackCustomer.Screen name="support" component={SupportScreen} />
       <StackCustomer.Screen name="ratingCustomer" component={RatingCustomerScreen} />
+      <StackCustomer.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCustomer.Navigator>
   )
@@ -204,6 +212,7 @@ const HomeStackCourier = () => {
       <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
       <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
+      <StackCourier.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
   )
@@ -228,6 +237,7 @@ const AdvetisementStackCourier = () => {
       <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
       <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
+      <StackCourier.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
   )
@@ -250,6 +260,7 @@ const ProfileStackCourier = () => {
       <StackCourier.Screen name="changePasswordCourier" component={ChangePasswordCourierScreen} />
       <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
+      <StackCourier.Screen name="resetPassword" component={ResetPasswordScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
   )
@@ -356,7 +367,7 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
-  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const { authenticationStore } = useStores();
   const [isCourier, setIsCourier] = useState(false)
 
   useBackButtonHandler(canExit)
@@ -366,7 +377,7 @@ export const AppNavigator = (props: NavigationProps) => {
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      {isAuthenticated ?
+      {authenticationStore.isAuthenticated ?
           isCourier ? <CourierNavigator/> : <CustomerNavigator/>
         : <AuthStack />}
     </NavigationContainer>
