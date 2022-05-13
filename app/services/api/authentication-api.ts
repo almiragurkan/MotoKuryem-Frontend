@@ -21,7 +21,7 @@ export class AuthenticationApi {
   async register(userData: TUserProfile): Promise<RegisterResult> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(
-        "/api/register",
+        "/auth/signup",
         userData,
       )
 
@@ -56,12 +56,12 @@ export class AuthenticationApi {
     }
   }
 
-  async login(emailAddress: string, password: string): Promise<LoginResult> {
+  async login(userName: string, password: string): Promise<LoginResult> {
     try {
       __DEV__ && console.log("API login inProcess")
       const response: ApiResponse<any> = await this.api.apisauce.post(
-        "/api/login_check",
-        { username: emailAddress, password: password },
+        "/auth/signin",
+        { username: userName, password: password },
       )
       __DEV__ && console.log("API login request completed")
 

@@ -1,4 +1,5 @@
-/**
+/*
+/!**
  * We're using a custom metro config because we want to support symlinks
  * out of the box. This allows you to use pnpm and/or play better in a monorepo.
  *
@@ -6,7 +7,7 @@
  * using PNPM or monorepo or symlinks at all.
  *
  * However, it doesn't hurt to have it either.
- */
+ *!/
 const { makeMetroConfig } = require("@rnx-kit/metro-config")
 const MetroSymlinksResolver = require("@rnx-kit/metro-resolver-symlinks")
 const { getDefaultConfig } = require("metro-config")
@@ -21,3 +22,9 @@ module.exports = (async () => {
     },
   })
 })()
+*/
+
+// Learn more https://docs.expo.io/guides/customizing-metro
+const { getDefaultConfig } = require('expo/metro-config');
+
+module.exports = getDefaultConfig(__dirname);

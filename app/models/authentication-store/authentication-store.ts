@@ -155,16 +155,16 @@ export const AuthenticationStoreModel = types
     }),
   }))
   .actions((self) => ({
-    login: flow(function* (emailAddress: string, password: string, savePass?: boolean) {
-      if (emailAddress === "" || password === "") {
+    login: flow(function* (userName: string, password: string, savePass?: boolean) {
+      if (userName === "" || password === "") {
         self.status = "error"
         self.isAuthenticated = false
-        return { result: false, message: "Email or password is missing" }
+        return { result: false, message: "User name or password is missing" }
       }
       self.status = "pending"
       const authenticationApi = new AuthenticationApi(self.environment.api)
       const result: LoginResult = yield authenticationApi.login(
-        emailAddress,
+        userName,
         password,
       )
       self.status = "done"
@@ -176,7 +176,7 @@ export const AuthenticationStoreModel = types
 
         if (savePass) {
           self.password = password
-          self.email = emailAddress
+          self.userName = userName
         }
 
         self.lastLogin = new Date()

@@ -62,6 +62,8 @@ const INPUT_USERNAME: ViewStyle = {
   padding: spacing[1],
   marginTop: spacing[1],
   borderRadius: 15,
+  borderColor:color.palette.lightGrey,
+  borderWidth:1,
 }
 const BUTTON_TEXT_STYLE: TextStyle = {
   ...TEXT,
@@ -126,7 +128,7 @@ const LOADING_EFFECT: ViewStyle = {
 }
 
 type FormData = {
-  email: string;
+  userName: string;
   password: string;
 };
 
@@ -140,7 +142,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
     const {
       control, handleSubmit, formState: { errors },
     } = useForm<FormData>()
-    const onLogin = async (data) => await authenticationStore.login(data.email, data.password, authenticationStore.rememberMe)
+    const onLogin = async (data) => await authenticationStore.login(data.userName, data.password, authenticationStore.rememberMe)
 
 
     return (
@@ -156,7 +158,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
               rules={{
                 required: {
                   value: true,
-                  message: "E-posta adresi boş olamaz!",
+                  message: "Kullanıcı adı boş olamaz!",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -165,20 +167,20 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
-                    placeholder="E-posta"
+                    placeholder="Kullanıcı adı"
                     textAlign="center"
                     placeholderTextColor={color.palette.lighterGrey}
                     underlineColorAndroid={color.transparent}
                     style={INPUT_USERNAME}
-                    keyboardType="email-address"
+                    keyboardType="default"
                     autoCorrect={false}
                     autoCapitalize="none"
                     returnKeyType="next"
                   />
-                  {errors.email && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.email.message}</Text>}
+                  {errors.userName && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.userName.message}</Text>}
                 </View>
               )}
-              name="email"
+              name="userName"
               defaultValue=""
             />
 
@@ -203,7 +205,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
                     placeholderTextColor={color.palette.lighterGrey}
                     underlineColorAndroid={color.transparent}
                     style={INPUT_USERNAME}
-                    keyboardType="numeric"
+                    keyboardType="default"
                     secureTextEntry={true}
                     returnKeyType="done"
                   />

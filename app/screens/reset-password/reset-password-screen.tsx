@@ -29,7 +29,7 @@ export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "r
 
     return (
       <View testID="userProfileScreen" style={FULL}>
-        <GradientBackground colors={["#FFA200", "#FFA200"]} />
+        <GradientBackground colors={["#ffffff", "#ffffff"]} />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
             headerText="Şifremi Unuttum"
@@ -86,12 +86,14 @@ const CONTAINER: ViewStyle = {
 const HEADER: TextStyle = {
   paddingTop: spacing[3],
   paddingBottom: spacing[4] + spacing[1],
-  paddingHorizontal: 0,
+  backgroundColor: color.palette.specialBlue,
 }
+
 const HEADER_TITLE: TextStyle = {
   ...TEXT,
   ...BOLD,
-  fontSize: 13,
+  fontSize: 12,
+  lineHeight: 15,
   textAlign: "center",
   letterSpacing: 1.5,
 }
@@ -100,11 +102,13 @@ const FORM_INPUTS_VIEW_STYLE: TextStyle = {
   ...TEXT,
   ...BOLD,
   backgroundColor: "white",
-  color: color.palette.angry,
+  color: color.palette.lightBlue,
   height: 40,
   borderRadius: 7,
   width: width * 0.65,
   paddingHorizontal: 5,
+  borderColor:color.palette.lightGrey,
+  borderWidth:1,
 }
 
 
@@ -112,11 +116,12 @@ const STYLE_FORM_LABEL_TEXT: TextStyle = {
   ...TEXT,
   ...BOLD,
   justifyContent: "center",
-  color: color.palette.angry,
+  color: color.palette.specialBlue,
   fontSize: 16,
   textAlign: "left",
   letterSpacing: 1.5,
   width: width * 0.30,
+  paddingBottom: spacing[2]
 }
 
 const STYLE_FORM: ViewStyle = {
@@ -142,7 +147,7 @@ const STYLE_FORM_FOOTER: ViewStyle = {
 }
 
 const STYLE_FORM_BTN_RESET: ViewStyle = {
-  backgroundColor: color.palette.angry,
+  backgroundColor: color.palette.specialBlue,
   borderRadius: 25,
   width: 175,
   height: 45,
