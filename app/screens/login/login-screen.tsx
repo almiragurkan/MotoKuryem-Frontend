@@ -219,7 +219,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
             <Button style={BUTTON_STYLE} onPress={handleSubmit(onLogin)}>
               <Text style={BUTTON_TEXT_STYLE}>{authenticationStore.status === "pending" ? "Loading ..." : "Giriş"}</Text>
             </Button>
-            <TouchableOpacity style={FORGOT_PASS_BTN} onPress={() => navigation.navigate("resetPassword")}>
+            <TouchableOpacity style={FORGOT_PASS_BTN} onPress={() => console.log("resetPassword")}>
               <Text style={FORGOT_PASS_BTN_TEXT}>{"Şifremi Unuttum"}</Text>
             </TouchableOpacity>
             <View style={REGISTER_CONTAINER_VIEW}>
