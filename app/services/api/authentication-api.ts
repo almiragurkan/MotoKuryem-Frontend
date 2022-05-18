@@ -29,10 +29,10 @@ export class AuthenticationApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-
+__DEV__&&console.log(response.data)
       return { kind: "ok", data: response.data, userData: userData }
     } catch (e) {
-      __DEV__ && console.log(e.message)
+      // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }
@@ -51,7 +51,7 @@ export class AuthenticationApi {
 
       return { kind: "ok", data: response.data, userData: userData }
     } catch (e) {
-      __DEV__ && console.log(e.message)
+      // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }
@@ -72,7 +72,7 @@ export class AuthenticationApi {
 
       return { kind: "ok", token: response.data.token }
     } catch (e) {
-      __DEV__ && console.log(e.message)
+      // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }
@@ -90,7 +90,7 @@ export class AuthenticationApi {
 
       return { kind: "ok" }
     } catch (e) {
-      __DEV__ && console.log(e.message)
+      // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }

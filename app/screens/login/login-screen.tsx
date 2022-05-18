@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Controller, useForm } from "react-hook-form"
 import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity, ActivityIndicator } from "react-native"
@@ -142,8 +142,17 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
     const {
       control, handleSubmit, formState: { errors },
     } = useForm<FormData>()
-    const onLogin = async (data) => await authenticationStore.login(data.userName, data.password, authenticationStore.rememberMe)
 
+    useEffect(() => {
+      if (authenticationStore.isAuthenticated === true){
+        if(authenticationStore.isCourier === true){
+          navigation.navigate("homeCourier")
+        }else if(authenticationStore.isCourier === false){
+          navigation.navigate("home")
+        }
+      }
+    }, [])
+    const onLogin = async (data) => await authenticationStore.login(data.userName, data.password, authenticationStore.rememberMe)
 
     return (
       <View testID="LoginScreen" style={FULL}>
@@ -219,7 +228,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
             <Button style={BUTTON_STYLE} onPress={handleSubmit(onLogin)}>
               <Text style={BUTTON_TEXT_STYLE}>{authenticationStore.status === "pending" ? "Loading ..." : "Giriş"}</Text>
             </Button>
-            <TouchableOpacity style={FORGOT_PASS_BTN} onPress={() => console.log("resetPassword")}>
+            <TouchableOpacity style={FORGOT_PASS_BTN} onPress={() => navigation.navigate("resetPassword")}>
               <Text style={FORGOT_PASS_BTN_TEXT}>{"Şifremi Unuttum"}</Text>
             </TouchableOpacity>
             <View style={REGISTER_CONTAINER_VIEW}>
@@ -233,7 +242,6 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
         </Screen>
         { authenticationStore.status === "pending" &&
           <View style={LOADING_EFFECT}><ActivityIndicator size="large" /></View> }
-
       </View>
     )
   })

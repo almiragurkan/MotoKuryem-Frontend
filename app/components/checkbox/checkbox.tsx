@@ -21,6 +21,7 @@ const OUTLINE: ViewStyle = {
   borderColor: color.primaryDarker,
   borderRadius: 1,
 }
+const BOLD: TextStyle = { fontWeight: "bold" }
 
 const FILL: ViewStyle = {
   width: DIMENSIONS.width - 4,
@@ -28,7 +29,10 @@ const FILL: ViewStyle = {
   backgroundColor: color.primary,
 }
 
-const LABEL: TextStyle = { paddingLeft: spacing[2] }
+const LABEL: TextStyle = { paddingLeft: spacing[2],  ...BOLD,
+  fontSize: 13,
+  textAlign: "center",
+  color:color.palette.lightGrey }
 
 export function Checkbox(props: CheckboxProps) {
   const numberOfLines = props.multiline ? 0 : 1

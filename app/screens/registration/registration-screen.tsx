@@ -1,9 +1,9 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, ImageStyle, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListAuth } from "../../navigators"
-import { AutoImage as Image, Button, GradientBackground, Header, Screen, Text } from "../../components"
+import { AutoImage as Image, Button, Checkbox, GradientBackground, Header, Screen, Text } from "../../components"
 import { color, spacing, typography } from "../../theme"
 import { Controller, useForm } from "react-hook-form"
 import { TUserProfile, useStores } from "../../models"
@@ -108,6 +108,7 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
     const { authenticationStore } = useStores()
+    const[checkValue, setCheckValue]=useState(false)
     const onRegister = async (data: TUserProfile) => await authenticationStore.register(data)
     const
       {
@@ -155,6 +156,9 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
               render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="İsim"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
@@ -182,6 +186,9 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
               render={({ field: { onChange, onBlur, value } }) => (
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Soyisim"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
@@ -210,6 +217,9 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
 
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Kullanıcı Adı"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
@@ -237,6 +247,9 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
               render={({ field: { onChange, onBlur, value } }) => (
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="E-posta"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
@@ -267,12 +280,15 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
 
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Şifre"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
                 style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="numeric"
+                keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="next"
               />{errors.password &&
@@ -293,38 +309,42 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 minLength: 6,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-
-
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Şifre Tekrar"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
                 style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="numeric"
+                keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="done"
               />
             </View>
               )}
-              name="password"
+              name="passwordAgain"
               defaultValue=""
             />
 
-
-
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <Text style={ISCOURIER_TEXT_STYLE}>Kurye iseniz kutucuğu işaretleyin</Text>
+              <Checkbox style={ISCOURIER_TEXT_STYLE} text="Kurye iseniz kutucuğu işaretleyin" value={checkValue} onToggle={()=>setCheckValue(!checkValue)} />
             </View>
+              )}
+              name="isCourier"
+              defaultValue={checkValue}
+            />
 
             <Button style={BUTTON_STYLE} onPress={handleSubmit(onRegister)}>
               <Text
                 style={BUTTON_TEXT_STYLE}>{authenticationStore.status === "pending" ? "Loading ..." : "KAYDOL"}</Text>
             </Button>
           </View>
-
-
         </Screen>
       </View>
 

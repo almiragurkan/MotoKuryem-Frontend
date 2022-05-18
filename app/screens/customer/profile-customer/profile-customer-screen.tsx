@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -7,6 +7,7 @@ import { GradientBackground, Header, Icon, Screen, Text } from "../../../compone
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -81,6 +82,24 @@ const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, margin
 
 export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "profileCustomer">> = observer(({ navigation }) => {
 
+
+  const { authenticationStore } = useStores()
+
+  const onLogout = () => {
+    authenticationStore.logout().then(
+      () => {
+        authenticationStore.setToken("")
+        authenticationStore.setAuthenticated(false)
+      },
+    )
+  }
+
+  useEffect(()=>{
+    if (authenticationStore.isAuthenticated === false){
+      navigation.navigate("login")
+    }
+  })
+
   return (
     <View testID="ProfileCustomerScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -120,7 +139,7 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
           <Text style={INNER_TEXT2}>Destek</Text>
         </TouchableOpacity>
         <View style={BUTTON_VIEW}>
-          <TouchableOpacity style={BUTTON_STYLE}>
+          <TouchableOpacity style={BUTTON_STYLE} onPress={onLogout}>
             <Text style={BUTTON_TEXT}>ÇIKIŞ YAP</Text>
           </TouchableOpacity>
         </View>

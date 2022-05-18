@@ -1,10 +1,12 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListCustomer } from "../../../navigators"
 import { Button, GradientBackground, Header, Screen, Text } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
+import { TUserProfile, useStores } from "../../../models"
+import { Controller, useForm } from "react-hook-form"
 
 const width = Dimensions.get("window").width
 const FULL: ViewStyle = { flex: 1 }
@@ -70,9 +72,44 @@ const BUTTON_STYLE: ViewStyle = {
   height: 40,
   borderRadius: 15,
 }
+const FORM_INPUTS_ERROR_VIEWSTYLES: TextStyle = {
+  textAlign: "center",
+  paddingVertical: 7,
+  marginTop: 4,
+  marginBottom: 15,
+  color: color.palette.angry,
+  backgroundColor: color.palette.white,
+}
+const FORM_INPUTS_ERROR_SMALL_VIEW_STYLES: TextStyle = {
+  textAlign: "left",
+  marginTop: 4,
+  color: color.palette.angry,
+}
+
+
 export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustomer, "changePassword">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
+
+    const [saving, setSaving] = useState(false)
+
+    const { authenticationStore } = useStores()
+    const onUserUpdate = async (data: TUserProfile) => {
+      setSaving(true)
+      authenticationStore.updateUser(data).then(() => {
+        setSaving(false)
+      })
+    }
+
+    const
+      {
+        control,
+        handleSubmit,
+        formState: { errors },
+      } = useForm<TUserProfile>({
+        defaultValues: authenticationStore.getUserData(),
+      })
+
 
     return (
       <View testID="ChangePasswordScreen" style={FULL}>
@@ -85,50 +122,101 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
             style={HEADER}
             titleStyle={HEADER_TITLE}
           />
+          {authenticationStore.status === "error" &&
+            <Text style={FORM_INPUTS_ERROR_VIEWSTYLES}>{authenticationStore.error}</Text>}
           <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Eski Şifre"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
                 style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="numeric"
+                keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="next"
               />
+              {errors.password &&
+                <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
             </View>
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+              )}
+              name="password"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Yeni Şifre"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
                 style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="numeric"
+                keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="next"
               />
-            </View>
+                  {errors.password &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
+                </View>
+              )}
+              name="password"
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Şifre boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
               <TextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
                 placeholder="Yeni Şifre Tekrar"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
                 underlineColorAndroid={color.palette.lighterGrey}
                 style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="numeric"
+                keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="done"
               />
+              {errors.password &&
+                <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
             </View>
-            <Button style={BUTTON_STYLE} onPress={goBack}>
+              )}
+              name="password"
+            />
+            <Button style={BUTTON_STYLE} onPress={handleSubmit(onUserUpdate)}>
               <Text
-                style={BUTTON_TEXT_STYLE}>ŞİFRE DEĞİŞTİR</Text>
+                style={BUTTON_TEXT_STYLE}>{saving ? "Güncelleniyor" : "ŞİFRE DEĞİŞTİR"}</Text>
             </Button>
           </View>
-
-
         </Screen>
       </View>
 

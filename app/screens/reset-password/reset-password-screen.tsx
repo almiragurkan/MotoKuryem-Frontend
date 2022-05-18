@@ -27,6 +27,7 @@ export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "r
       }
     }
 
+
     return (
       <View testID="userProfileScreen" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />

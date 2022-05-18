@@ -69,6 +69,7 @@ export type NavigatorParamListCustomer = {
   ratingCustomer: undefined
   couriersSentRequestToAd: undefined
   resetPassword: undefined
+  login: undefined
   // 🔥 Your screens go here
 }
 export type NavigatorParamListCourier = {
@@ -83,12 +84,15 @@ export type NavigatorParamListCourier = {
   supportCourier: undefined
   ratingCourier: undefined
   resetPassword: undefined
+  login: undefined
   // 🔥 Your screens go here
 }
 export type NavigatorParamListAuth = {
-  login: undefined;
+  login: undefined
   registration: undefined
   resetPassword: undefined
+  home: undefined
+  homeCourier: undefined
 };
 
 const StackAuth = createNativeStackNavigator<NavigatorParamListAuth>()
@@ -103,6 +107,8 @@ const AuthStack = () => {
       <StackAuth.Screen name="login" component={LoginScreen} />
       <StackAuth.Screen name="registration" component={RegistrationScreen} />
       <StackAuth.Screen name="resetPassword" component={ResetPasswordScreen} />
+      <StackAuth.Screen name="home" component={HomeScreen} />
+      <StackAuth.Screen name="homeCourier" component={HomeCourierScreen} />
     </StackAuth.Navigator>
   )
 }
@@ -186,6 +192,7 @@ const ProfileStackCustomer = () => {
       <StackCustomer.Screen name="support" component={SupportScreen} />
       <StackCustomer.Screen name="ratingCustomer" component={RatingCustomerScreen} />
       <StackCustomer.Screen name="resetPassword" component={ResetPasswordScreen} />
+      <StackCustomer.Screen name="login" component={LoginScreen} />
       {/** 🔥 Your screens go here */}
     </StackCustomer.Navigator>
   )
@@ -261,6 +268,7 @@ const ProfileStackCourier = () => {
       <StackCourier.Screen name="supportCourier" component={SupportCourierScreen} />
       <StackCourier.Screen name="ratingCourier" component={RatingCourierScreen} />
       <StackCourier.Screen name="resetPassword" component={ResetPasswordScreen} />
+      <StackCourier.Screen name="login" component={LoginScreen} />
       {/** 🔥 Your screens go here */}
     </StackCourier.Navigator>
   )
