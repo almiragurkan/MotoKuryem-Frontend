@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { Controller, useForm } from "react-hook-form"
 import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity, ActivityIndicator } from "react-native"
@@ -126,12 +126,10 @@ const LOADING_EFFECT: ViewStyle = {
   justifyContent: "center",
   backgroundColor: `rgba(0, 0, 0, 0.6)`,
 }
-
 type FormData = {
   userName: string;
   password: string;
 };
-
 
 export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> = observer(
   ({ navigation }) => {
@@ -143,15 +141,6 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
       control, handleSubmit, formState: { errors },
     } = useForm<FormData>()
 
-    useEffect(() => {
-      if (authenticationStore.isAuthenticated === true){
-        if(authenticationStore.isCourier === true){
-          navigation.navigate("homeCourier")
-        }else if(authenticationStore.isCourier === false){
-          navigation.navigate("home")
-        }
-      }
-    }, [])
     const onLogin = async (data) => await authenticationStore.login(data.userName, data.password, authenticationStore.rememberMe)
 
     return (

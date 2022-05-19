@@ -110,6 +110,13 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
     const { authenticationStore } = useStores()
     const[checkValue, setCheckValue]=useState(false)
     const onRegister = async (data: TUserProfile) => await authenticationStore.register(data)
+
+    // const handleConfirm = (checkValue) => {
+    //   console.warn("You are courier: ", checkValue)
+    //
+    //   setValue("isCourier", checkValue)
+    // }
+
     const
       {
         control,
@@ -333,7 +340,7 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <Checkbox style={ISCOURIER_TEXT_STYLE} text="Kurye iseniz kutucuğu işaretleyin" value={checkValue} onToggle={()=>setCheckValue(!checkValue)} />
+              <Checkbox style={ISCOURIER_TEXT_STYLE} text="Kurye iseniz kutucuğu işaretleyin" value={checkValue} onToggle={()=>setCheckValue(!checkValue)}/>
             </View>
               )}
               name="isCourier"

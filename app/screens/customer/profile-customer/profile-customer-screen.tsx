@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -93,12 +93,6 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
       },
     )
   }
-
-  useEffect(()=>{
-    if (authenticationStore.isAuthenticated === false){
-      navigation.navigate("login")
-    }
-  })
 
   return (
     <View testID="ProfileCustomerScreen" style={FULL}>

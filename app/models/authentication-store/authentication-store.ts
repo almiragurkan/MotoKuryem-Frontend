@@ -180,7 +180,6 @@ export const AuthenticationStoreModel = types
         self.token = result.token
         self.environment.api.setAuthorizationHeader(result.token)
         __DEV__ && console.log("Giriş başarılı")
-
         if (savePass) {
           self.password = password
           self.userName = userName
