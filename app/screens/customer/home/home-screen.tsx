@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle, TouchableHighlight, TouchableOpacity, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -6,6 +6,7 @@ import { NavigatorParamListCustomer } from "../../../navigators"
 import { GradientBackground, Header, Icon, Screen } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -78,11 +79,21 @@ const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">> = observer(
   ({ navigation }) => {
 
-    const [listData,] = useState(
-      Array(20)
-        .fill('')
-        .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
-    );
+    const { advertisementStore } = useStores()
+    const { advertisements } = advertisementStore
+
+    useEffect(() => {
+      async function fetchData() {
+        await advertisementStore.getAdvertisements()
+      }
+      fetchData().then((value) => console.log(value))
+    }, [])
+
+    // const [listData,] = useState(
+    //   Array(20)
+    //     .fill('')
+    //     .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
+    // );
 
     const onRowDidOpen = rowKey => {
       console.log('This row opened', rowKey);
@@ -90,18 +101,18 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
 
     const renderItem = data => (
       <TouchableHighlight
-        onPress={() => navigation.navigate("advertisement")}
+        onPress={() => navigation.navigate("advertisement",{adId: data.item.id})}
         style={ROWFRONT}
         underlayColor={color.palette.white}
       >
         <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
             <Icon style={ICON_STYLE} icon={"circle"}></Icon>
-          <View style={{flexDirection:"column", padding:10, flex:1}}>
-            <Text style={INNER_TEXT1}>İLAN {data.item.text}</Text>
+            <View style={{flexDirection:"column", padding:10, flex:1}}>
+            <Text style={INNER_TEXT1}>{data.item.header}</Text>
             <Text style={INNER_TEXT2}>Müşteri Puanı: 3,2</Text>
-            <Text style={INNER_TEXT2}>Eşya: Kağıt</Text>
+            <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
             <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
-            <Text style={INNER_TEXT3}>Ücret: 23 TL</Text>
+            <Text style={INNER_TEXT3}>Ücret: {data.item.price} TL</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -127,7 +138,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
           <Header headerTx="homeScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
           <View style={CONTAINER1}>
             <SwipeListView
-              data={listData}
+              data={advertisements}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               leftOpenValue={0}

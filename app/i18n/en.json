@@ -51,6 +51,9 @@
   "createAdvertisementScreen": {
     "title": "İLAN OLUŞTUR"
   },
+  "AdvertisementScreen": {
+    "title": "İLAN DETAYLARI"
+  },
   "locationScreen": {
     "title": "KONUM"
   },

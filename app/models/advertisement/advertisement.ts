@@ -1,22 +1,28 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
-export type TAdvertisement = {
-    price: number
-    addressToGiveId: string
-    addressToTakeId: string
-    productName: string
-    productWeight: number
-}
+export const CourierModel = types.model("Customer").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+})
+export const CustomerModel = types.model("Customer").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+})
 
+export const RatingModel = types.model("Rating").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+  rateCourier: types.optional(types.number, 1, [null, undefined]),
+  commentCourier: types.optional(types.string, "", [null, undefined]),
+  rateCustomer: types.optional(types.number, 1, [null, undefined]),
+  commentCustomer: types.optional(types.string, "", [null, undefined]),
+})
 
 export const AddressModel = types.model("Address").props({
-    id: types.maybe(types.number),
-    address: types.maybe(types.string),
-    city: types.maybe(types.string),
-    zipCode: types.maybe(types.string),
-    xCoordinate: types.maybe(types.string),
-    yCoordinate: types.maybe(types.string),
-    advertisementId: types.maybe(types.string),
+  id: types.optional(types.identifier, "", [null, undefined]),
+  address: types.optional(types.string, "", [null, undefined]),
+  city: types.optional(types.string, "", [null, undefined]),
+  zipCode: types.optional(types.string, "", [null, undefined]),
+  xCoordinate: types.optional(types.string, "", [null, undefined]),
+  yCoordinate: types.optional(types.string, "", [null, undefined]),
+  advertisementId: types.optional(types.string, "", [null, undefined]),
 })
 /**
  * Model description here for TypeScript hints.
@@ -24,20 +30,30 @@ export const AddressModel = types.model("Address").props({
 export const AdvertisementModel = types
   .model("Advertisement")
   .props({
-    id: types.identifierNumber,
-    adStatus: types.maybe(types.string),
-    price: types.maybe(types.number),
-    addressToGiveId: types.optional(AddressModel, {}, [null, undefined]),
+    id: types.optional(types.identifier, "", [null, undefined]),
+    adDate: types.optional(types.string, "", [null, undefined]),
+    price: types.optional(types.number, 1, [null, undefined]),
+    adStatus: types.optional(types.string, "", [null, undefined]),
+    header: types.optional(types.string, "", [null, undefined]),
+    productName: types.optional(types.string, "", [null, undefined]),
+    productWeight: types.optional(types.string, "", [null, undefined]),
+    chosenCourier: types.optional(CourierModel, {}, [null, undefined]),
+    customer: types.optional(CustomerModel, {}, [null, undefined]),
     addressToTakeId: types.optional(AddressModel, {}, [null, undefined]),
-    productName: types.maybe(types.number),
-    productWeight: types.maybe(types.number),
-    ratingId: types.maybe(types.string),
+    addressToGiveId: types.optional(AddressModel, {}, [null, undefined]),
+    ratingId: types.optional(RatingModel, {}, [null, undefined]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type AdvertisementType = Instance<typeof AdvertisementModel>
-export interface Advertisement extends AdvertisementType {}
+
+export interface Advertisement extends AdvertisementType {
+}
+
 type AdvertisementSnapshotType = SnapshotOut<typeof AdvertisementModel>
-export interface AdvertisementSnapshot extends AdvertisementSnapshotType {}
+
+export interface AdvertisementSnapshot extends AdvertisementSnapshotType {
+}
+
 export const createAdvertisementDefaultModel = () => types.optional(AdvertisementModel, {})

@@ -177,6 +177,17 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
         <Header headerTx="createAdvertisementScreen.title" style={HEADER} titleStyle={HEADER_TITLE} onLeftPress={goBack}
                 leftIcon={"back"} />
         <View>
+          <Text style={INNER_INPUT_TEXT}>Eşya:</Text>
+          <TextInput
+            placeholder="İlan ismi giriniz"
+            textAlign="left"
+            placeholderTextColor={color.palette.lighterGrey}
+            style={INPUTS}
+            keyboardType="default"
+            autoCorrect={false}
+            autoCapitalize="none"
+            returnKeyType="next"
+          />
           <Text style={INNER_TEXT}>Ne zaman alınmalı?</Text>
           <TagSelect
             data={dates}

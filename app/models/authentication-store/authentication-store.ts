@@ -114,7 +114,7 @@ export const AuthenticationStoreModel = types
         self.setAuthenticated(false)
         self.setError(result.kind)
       }
-      __DEV__&&console.log(result.kind)
+      // __DEV__&&console.log(result.kind)
       __DEV__&&console.log("Kayıt işlemi gerçekleştirilemedi")
       return { result: "fail", message: "Kayıt işlemi gerçekleştirilemedi" }
     }),
@@ -184,6 +184,7 @@ export const AuthenticationStoreModel = types
           self.password = password
           self.userName = userName
         }
+        __DEV__ && console.log(result.kind)
 
         self.lastLogin = new Date()
         return { result: true, message: "Login success" }

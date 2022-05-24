@@ -42,6 +42,7 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
   ({ navigation }) => {
 
     const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
+    const advertisementScreen = () => navigation.navigate("advertisement",{adId: 1})
     const couriersSentRequestToAdScreen = () => navigation.navigate("couriersSentRequestToAd")
     const ratingCustomerScreen = () => navigation.navigate("ratingCustomer")
     const locationCustomerScreen = () => navigation.navigate("location")
@@ -96,7 +97,7 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
           }
           {
             state === "ad-Start" ?
-              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>createAdvertisementScreen()}/>
+              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>advertisementScreen()} onPressAd={()=>advertisementScreen()}/>
               :
               state === "ad-Pending-request" ?
                 <AdPendingRequest onPressPendingRequest={()=>couriersSentRequestToAdScreen()}/>

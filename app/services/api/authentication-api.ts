@@ -68,8 +68,9 @@ export class AuthenticationApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-
-      return { kind: "ok", token: response.data.token }
+      // __DEV__ && console.log(response.ok)
+      // __DEV__ && console.log(response.data.accessToken)
+      return { kind: "ok", token: response.data.accessToken }
     } catch (e) {
       // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }

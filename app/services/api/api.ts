@@ -1,7 +1,5 @@
-import { ApisauceInstance, create, ApiResponse } from "apisauce"
-import { getGeneralApiProblem } from "./api-problem"
+import { ApisauceInstance, create } from "apisauce"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
-import * as Types from "./api.types"
 
 /**
  * Manages all requests to the API.
@@ -17,11 +15,7 @@ export class Api {
    */
   config: ApiConfig
 
-  /**
-   * Creates the api.
-   *
-   * @param config The configuration to use.
-   */
+
   setAuthorizationHeader = (newToken?: string) => {
     if (newToken) {
       this.apisauce.setHeader("Authorization", `Bearer ${newToken}`)
@@ -30,7 +24,11 @@ export class Api {
     }
   }
 
-
+  /**
+   * Creates the api.
+   *
+   * @param config The configuration to use.
+   */
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
   }
@@ -45,68 +43,21 @@ export class Api {
   setup() {
     // construct the apisauce instance
     this.apisauce = create({
-      baseURL: this.config.url,
+      baseURL: "http://130.61.28.235:3000",
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
         Authorization: "Bearer ",
       },
     })
-  }
 
-  /**
-   * Gets a list of users.
-   */
-  async getUsers(): Promise<Types.GetUsersResult> {
-    // make the api call
-    const response: ApiResponse<any> = await this.apisauce.get(`/users`)
+    // this.apisauce.addRequestTransform(request => {
+    //   __DEV__ && console.log(request.baseURL, request.url, "Authorization :", request.headers.Authorization)
+    // })
+    //
+    // this.apisauce.addResponseTransform(response => {
+    //   __DEV__ && console.log(response.data)
+    // })
 
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    const convertUser = (raw) => {
-      return {
-        id: raw.id,
-        name: raw.name,
-      }
-    }
-
-    // transform the data into the format we are expecting
-    try {
-      const rawUsers = response.data
-      const resultUsers: Types.User[] = rawUsers.map(convertUser)
-      return { kind: "ok", users: resultUsers }
-    } catch {
-      return { kind: "bad-data" }
-    }
-  }
-
-  /**
-   * Gets a single user by ID
-   */
-
-  async getUser(id: string): Promise<Types.GetUserResult> {
-    // make the api call
-    const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
-
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    // transform the data into the format we are expecting
-    try {
-      const resultUser: Types.User = {
-        id: response.data.id,
-        name: response.data.name,
-      }
-      return { kind: "ok", user: resultUser }
-    } catch {
-      return { kind: "bad-data" }
-    }
   }
 }

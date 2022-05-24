@@ -79,10 +79,11 @@ export interface AdStartProps {
   style?: StyleProp<ViewStyle>
   onPressCreateAd?: any
   onPressEdit?: any
+  onPressAd: any
 }
 
 export const AdStart = observer(function AdStart(props: AdStartProps) {
-  const { onPressCreateAd, onPressEdit } = props
+  const { onPressCreateAd, onPressEdit, onPressAd } = props
 
   const [listData] = useState(
     Array(6)
@@ -108,7 +109,7 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => console.log('You touched me')}
+      onPress={() => onPressAd}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >

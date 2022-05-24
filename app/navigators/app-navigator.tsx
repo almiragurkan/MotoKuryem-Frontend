@@ -36,7 +36,7 @@ import {
   SupportCourierScreen,
   ResetPasswordScreen,
 } from "../screens"
-import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
+import { navigationRef } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { color } from "../theme"
 import { Icon } from "../components"
@@ -54,8 +54,9 @@ import { useStores } from "../models"
  *   https://reactnavigation.org/docs/params/
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
+
 export type NavigatorParamListCustomer = {
-  advertisement: undefined
+  advertisement: { adId }
   advertisementsCustomer: undefined
   createAdvertisement: undefined
   home: undefined
@@ -72,7 +73,7 @@ export type NavigatorParamListCustomer = {
   // 🔥 Your screens go here
 }
 export type NavigatorParamListCourier = {
-  advertisementCourier: undefined
+  advertisementCourier: { adId }
   advertisementsCourier: undefined
   homeCourier: undefined
   locationCourier: undefined
