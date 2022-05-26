@@ -7,7 +7,7 @@ import {
   RegisterResult,
   FetchUserProfileResult,
   UpdateUserResult,
-  ResetPasswordResult,
+  ResetPasswordResult, ResetPassword2Result, ResetPassword3Result,
 } from "./api.types"
 import { TUserProfile } from "../../models"
 
@@ -39,7 +39,7 @@ export class AuthenticationApi {
   async updateUser(userData: TUserProfile): Promise<UpdateUserResult> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(
-        "/api/user/update",
+        "/auth/update-user-for-user",
         userData,
       )
 
@@ -55,12 +55,12 @@ export class AuthenticationApi {
     }
   }
 
-  async login(userName: string, password: string): Promise<LoginResult> {
+  async login(username: string, password: string): Promise<LoginResult> {
     try {
       __DEV__ && console.log("API login inProcess")
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "/auth/signin",
-        { username: userName, password: password },
+        { username: username, password: password },
       )
       __DEV__ && console.log("API login request completed")
 
@@ -98,7 +98,7 @@ export class AuthenticationApi {
   async fetchUserProfile(): Promise<FetchUserProfileResult> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(
-        "/api/user/me",
+        "/auth/get-user",
       )
 
       if (!response.ok) {
@@ -106,7 +106,7 @@ export class AuthenticationApi {
         if (problem) return problem
       }
 
-      return { kind: "ok", data: response.data.data }
+      return { kind: "ok", data: response.data }
 
     } catch (e) {
       __DEV__ && console.log(e.message)
@@ -114,29 +114,86 @@ export class AuthenticationApi {
     }
   }
 
-  async resetPassword(email: string): Promise<ResetPasswordResult> {
-    const tmpMail = { email: email }
+  async resetPassword1(email: string): Promise<ResetPasswordResult> {
 
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(
-        "/api/user/reset-password",
-        tmpMail,
+      const response1: ApiResponse<any> = await this.api.apisauce.post(
+        "/auth/request-reset-password",
+        { email: email }
       )
 
-      if (!response.ok) {
-        const problem = getGeneralApiProblem(response)
+      if (!response1.ok) {
+        const problem = getGeneralApiProblem(response1)
         if (problem) return problem
       }
 
-      if (response.data.status !== "OK") {
-        return { kind: "ok", result: response.data.data }
+      if (response1.data.status !== "OK") {
+        return { kind: "ok", resetPasswordToken: response1.data }
       }
 
-      return { kind: "fail", result: response.data.data }
+      return { kind: "fail", resetPasswordToken: response1.data }
+
 
     } catch (e) {
       __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }
+
+  async resetPassword2(encryptedString:string, code: string): Promise<ResetPassword2Result> {
+
+    try {
+      const response2: ApiResponse<any> = await this.api.apisauce.post(
+        "/auth/use-reset-password-code",
+        { encryptedString: encryptedString, code:code }
+      )
+      console.log(code)
+      console.log(response2.data)
+
+      if (!response2.ok) {
+        const problem = getGeneralApiProblem(response2)
+        if (problem) return problem
+      }
+
+      if (response2.data.status !== "OK") {
+        return { kind: "ok", resetPasswordToken: response2.data }
+      }
+
+      return { kind: "fail", resetPasswordToken: response2.data }
+
+
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async resetPassword3(encryptedAnswer:string, newPassword: string): Promise<ResetPassword3Result> {
+
+    try {
+      const response3: ApiResponse<any> = await this.api.apisauce.post(
+        "/auth/reset-password",
+        { encryptedAnswer: encryptedAnswer, newPassword:newPassword }
+      )
+      console.log(newPassword)
+      console.log(response3.data)
+
+      if (!response3.ok) {
+        const problem = getGeneralApiProblem(response3)
+        if (problem) return problem
+      }
+
+      if (response3.data.status !== "OK") {
+        return { kind: "ok", result: response3.data }
+      }
+
+      return { kind: "fail", result: response3.data }
+
+
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
 }

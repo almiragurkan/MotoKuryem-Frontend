@@ -1,11 +1,9 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListCustomer } from "../../../navigators"
 import { GradientBackground, Header, Icon, Screen, Text } from "../../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
 import { useStores } from "../../../models"
 
@@ -45,7 +43,6 @@ const PROFILE_VIEW_STYLE: ViewStyle = {
   shadowOpacity: 0.5,
   shadowRadius: 2,
   elevation: 5
-
 }
 const INNER_VIEW_STYLE: ViewStyle = {
   borderWidth: 2,
@@ -76,14 +73,19 @@ const ICON_STYLE: ImageStyle = {margin: 10, width:30, height:30}
 const ICON_STYLE1: ImageStyle = {margin: 10, width:25, height:25}
 const PROFILE_ICON_STYLE: ImageStyle = { width:120, height:120}
 const PROFILE_INNER_VIEW_STYLE: ViewStyle = {flexDirection:"row"}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, ...BOLD, fontSize: 25 }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, ...BOLD, fontSize: 25, textTransform:"capitalize"}
 const INNER_TEXT2: TextStyle = { color:color.palette.black, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, marginLeft: 15, fontSize: 20 }
 
 export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "profileCustomer">> = observer(({ navigation }) => {
 
-
   const { authenticationStore } = useStores()
+
+  useEffect(() => {
+    (async () => {
+      await authenticationStore.fetchUserProfile()
+    })()
+  })
 
   const onLogout = () => {
     authenticationStore.logout().then(
@@ -94,6 +96,9 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
     )
   }
 
+
+  const fullName = authenticationStore.name + " " + authenticationStore.surname
+
   return (
     <View testID="ProfileCustomerScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -101,11 +106,11 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
         <Header headerTx="profileScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
         <View style={PROFILE_VIEW_STYLE}>
           <Icon style={PROFILE_ICON_STYLE} icon={"profile"}></Icon>
-          <Text style={INNER_TEXT1}>İsim Soyisim</Text>
-          <Text style={INNER_TEXT2}>Müşteri</Text>
+          <Text style={INNER_TEXT1}>{fullName}</Text>
+          <Text style={INNER_TEXT2}>{authenticationStore.isCourier ? "Kurye" : "Müşteri"}</Text>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"gmail"}></Icon>
-            <Text style={INNER_TEXT3}>isimsoyisim@gmail.com</Text>
+            <Text style={INNER_TEXT3}>{authenticationStore.email}</Text>
           </View>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"phone"}></Icon>

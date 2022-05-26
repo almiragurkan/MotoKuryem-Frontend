@@ -3,9 +3,10 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useState } from "react"
+import { useEffect } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -72,6 +73,7 @@ export interface AdFinishProps {
    */
   style?: StyleProp<ViewStyle>
   onPressRatingCustomer?: any
+  customerId: any
 }
 
 /**
@@ -79,13 +81,17 @@ export interface AdFinishProps {
  */
 export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
 
-  const {onPressRatingCustomer} = props
+  const {onPressRatingCustomer, customerId} = props
 
-  const [listData] = useState(
-    Array(3)
-      .fill('')
-      .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
-  );
+  const { advertisementStore } = useStores()
+  const { advertisements } = advertisementStore
+
+  useEffect(() => {
+    async function fetchData() {
+      await advertisementStore.getAdvertisementsForCustomer(customerId,"TRANSACTIONAPPROVED")
+    }
+    fetchData().then((value) => console.log(value))
+  }, [])
 
   const ratingCustomer = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -106,10 +112,11 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
       <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
         <Icon style={ICON_STYLE} icon={"circle"}></Icon>
         <View style={{flexDirection:"column", padding:10, flex:1}}>
-          <Text style={INNER_TEXT1}>İLANIM {data.item.text}</Text>
-          <Text style={INNER_TEXT2}>Eşya: Kağıt</Text>
+          <Text style={INNER_TEXT1}>{data.item.header}</Text>
+          <Text style={INNER_TEXT2}>Müşteri Puanı: 3,2</Text>
+          <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
           <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
-          <Text style={INNER_TEXT3}>Ücret: 23 TL</Text>
+          <Text style={INNER_TEXT3}>Ücret: {data.item.price} TL</Text>
         </View>
       </View>
     </TouchableHighlight>
@@ -119,7 +126,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => ratingCustomer(rowMap, data.item.key)}
+        onPress={() => ratingCustomer(rowMap, data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>KURYEYİ PUANLA</Text>
       </TouchableOpacity>
@@ -131,7 +138,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
       <Text style={TEXT}>TAMAMLANAN İLANLAR</Text>
       <View style={CONTAINER1}>
         <SwipeListView
-          data={listData}
+          data={advertisements}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}

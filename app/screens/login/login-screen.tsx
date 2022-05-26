@@ -127,7 +127,7 @@ const LOADING_EFFECT: ViewStyle = {
   backgroundColor: `rgba(0, 0, 0, 0.6)`,
 }
 type FormData = {
-  userName: string;
+  username: string;
   password: string;
 };
 
@@ -141,7 +141,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
       control, handleSubmit, formState: { errors },
     } = useForm<FormData>()
 
-    const onLogin = async (data) => await authenticationStore.login(data.userName, data.password, authenticationStore.rememberMe)
+    const onLogin = async (data) => await authenticationStore.login(data.username, data.password, authenticationStore.rememberMe)
 
     return (
       <View testID="LoginScreen" style={FULL}>
@@ -175,10 +175,10 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> 
                     autoCapitalize="none"
                     returnKeyType="next"
                   />
-                  {errors.userName && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.userName.message}</Text>}
+                  {errors.username && <Text style={FORM_ERROR_SMALL_TEXT}>{errors.username.message}</Text>}
                 </View>
               )}
-              name="userName"
+              name="username"
               defaultValue=""
             />
 

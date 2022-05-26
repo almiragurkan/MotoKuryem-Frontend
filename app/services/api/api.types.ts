@@ -20,13 +20,18 @@ export type LogoutResult = { kind: "ok" } | GeneralApiProblem;
 export type RegisterResult = { kind: "ok"; data: ApiResponse, userData: TUserProfile } | GeneralApiProblem;
 export type UpdateUserResult = { kind: "ok"; data: ApiResponse, userData: TUserProfile } | GeneralApiProblem;
 export type FetchUserProfileResult = { kind: "ok"; data: any } | GeneralApiProblem;
-export type ResetPasswordResult = { kind: "ok" | "fail"; result: any} | GeneralApiProblem;
+export type ResetPasswordResult = { kind: "ok" | "fail"; resetPasswordToken: string} | GeneralApiProblem;
+export type ResetPassword2Result = { kind: "ok" | "fail"; resetPasswordToken: string} | GeneralApiProblem;
+export type ResetPassword3Result = { kind: "ok" | "fail"; result: string} | GeneralApiProblem;
 
 export type GetUsersResult = { kind: "ok"; users: User[] } | GeneralApiProblem
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem
 
 
 export type GetAdvertisementsResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
+export type GetAdvertisementsForCustomerResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
+export type GetAdvertisementsForCourierResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
+export type GetAdvertisementsFilterResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement } | GeneralApiProblem
 
 // export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, adData: TAdvertisement } | GeneralApiProblem;

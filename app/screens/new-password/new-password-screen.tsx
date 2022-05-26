@@ -9,23 +9,24 @@ import { useStores } from "../../models"
 
 const width = Dimensions.get("window").width
 
-export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "resetPassword">> = observer(
+export const NewPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "newPassword">> = observer(
   ({ navigation }) => {
 
-    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const { authenticationStore } = useStores()
     const goBack = () => navigation.goBack()
 
-    const onReset = async (email: string) => {
-      const { result, message } = await authenticationStore.resetPassword1(email)
-
+    const onReset = async (newPassword: string) => {
+      const { result, message } = await authenticationStore.resetPassword3(newPassword)
       if (result) {
-        alert("E-mailinize kod gönderildi")
-        navigation.navigate("codeVerification")
+        alert("Yeni şifre oluşturuldu")
+        navigation.navigate("login")
       } else {
         alert("İşlem başarısız." + message)
+        navigation.navigate("login")
         // TODO: Try again procedure will be implement
       }
+
     }
 
 
@@ -43,17 +44,17 @@ export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "r
           <View style={STYLE_FORM}>
             <View style={STYLE_FORM_ROW}>
               <View style={STYLE_FORM_LABEL}>
-                <Text style={STYLE_FORM_LABEL_TEXT}>E-posta</Text>
+                <Text style={STYLE_FORM_LABEL_TEXT}>Yeni Şifre</Text>
               </View>
               <View style={STYLE_FORM_INPUT}>
                 <TextInput
-                  value={email}
-                  placeholder={"E-posta adresinizi giriniz..."}
-                  keyboardType="email-address"
+                  value={password}
+                  placeholder={"Yeni şifre giriniz..."}
+                  keyboardType="default"
                   autoCorrect={false}
                   autoCapitalize="none"
                   style={FORM_INPUTS_VIEW_STYLE}
-                  onChangeText={text => setEmail(text)}
+                  onChangeText={text => setPassword(text)}
                 />
               </View>
             </View>
@@ -63,7 +64,7 @@ export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "r
               text={"Şifremi Resetle"}
               style={STYLE_FORM_BTN_RESET}
               textStyle={STYLE_FORM_BTN_RESET_TEXT}
-              onPress={() => onReset(email)} />
+              onPress={() => onReset(password)} />
           </View>
 
         </Screen>

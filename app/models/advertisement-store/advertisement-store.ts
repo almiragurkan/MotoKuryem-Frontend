@@ -39,6 +39,59 @@ export const AdvertisementStoreModel = types
     })
 
   }))
+  .actions((self) => ({
+    getAdvertisementsFilter: flow (function* (cityIds?:any, status?:any) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.getAdvertisementsFilter(cityIds, status)
+        __DEV__ && console.log(result.advertisements)
+
+        if (result.kind === "ok") {
+          self.saveAdvertisementData(result.advertisements)
+        } else {
+          __DEV__ && console.log(result.kind)
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+      }
+    })
+
+  }))
+  .actions((self) => ({
+    getAdvertisementsForCustomer: flow (function* (customerIds:any, status?:any) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.getAdvertisementsForCustomer(customerIds, status)
+        __DEV__ && console.log(result.advertisements)
+
+        if (result.kind === "ok") {
+          self.saveAdvertisementData(result.advertisements)
+        } else {
+          __DEV__ && console.log(result.kind)
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+      }
+    })
+  }))
+  .actions((self) => ({
+    getAdvertisementsForCourier: flow (function* (courierIds?:any, status?:any) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.getAdvertisementsForCourier(courierIds, status)
+        __DEV__ && console.log(result.advertisements)
+
+        if (result.kind === "ok") {
+          self.saveAdvertisementData(result.advertisements)
+        } else {
+          __DEV__ && console.log(result.kind)
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+      }
+    })
+
+  }))
 type AdvertisementStoreType = Instance<typeof AdvertisementStoreModel>
 export interface AdvertisementStore extends AdvertisementStoreType {}
 type AdvertisementStoreSnapshotType = SnapshotOut<typeof AdvertisementStoreModel>

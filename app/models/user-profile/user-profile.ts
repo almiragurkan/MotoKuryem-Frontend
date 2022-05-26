@@ -1,11 +1,12 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 
 export type TUserProfile = {
-  firstName: string
-  lastName: string
-  userName: string
+  name: string
+  surname: string
+  username: string
   email: string
   password: string
+  phoneNumber: string
   isCourier: boolean
 }
 /**
@@ -14,18 +15,20 @@ export type TUserProfile = {
 export const UserProfileModel = types
   .model("UserProfile")
   .props({
-    firstName: types.optional(types.string, ""),
-    lastName: types.optional(types.string, ""),
-    userName: types.optional(types.string,"", [undefined, null]),
+    id:types.optional(types.identifier, ""),
+    name: types.optional(types.string, ""),
+    surname: types.optional(types.string, ""),
+    username: types.optional(types.string,""),
     email: types.optional(types.string, ""),
-    password: types.optional(types.string, "", [undefined, null]),
-    isCourier: types.optional(types.boolean, false)
+    phoneNumber: types.optional(types.string, ""),
+    password: types.optional(types.string, ""),
+    isCourier: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     UpdateUser: flow(function* (user: TUserProfile) {
-      self.firstName = user.firstName
-      self.lastName = user.lastName
-      self.userName = user.userName
+      self.name = user.name
+      self.surname = user.surname
+      self.username = user.username
       self.email = user.email
       self.password = user.password
       self.isCourier = user.isCourier
@@ -34,9 +37,9 @@ export const UserProfileModel = types
   .actions((self) => ({
     getUserProfile: () => {
       return <TUserProfile>{
-        firstName: self.firstName,
-        lastName: self.lastName,
-        userName: self.userName,
+        name: self.name,
+        surname: self.surname,
+        username: self.username,
         email: self.email,
         password: self.password,
         isCourier: self.isCourier

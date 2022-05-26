@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, ImageStyle, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -81,7 +81,7 @@ const ISCOURIER_TEXT_STYLE: TextStyle = {
   color:color.palette.lightGrey
 }
 const BUTTON_STYLE: ViewStyle = {
-  marginVertical: spacing[8],
+  marginVertical: spacing[3],
   marginHorizontal: 40,
   paddingVertical: spacing[2],
   paddingHorizontal: spacing[4],
@@ -108,7 +108,6 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
     const { authenticationStore } = useStores()
-    const[checkValue, setCheckValue]=useState(false)
     const onRegister = async (data: TUserProfile) => await authenticationStore.register(data)
 
     // const handleConfirm = (checkValue) => {
@@ -131,6 +130,7 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
       if (isSubmitSuccessful === true)
         navigation.goBack()
     }, [isSubmitSuccessful])
+
 
 
     return (
@@ -175,11 +175,11 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
-              {errors.firstName &&
-                <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.firstName.message}</Text>}
+              {errors.name &&
+                <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.name.message}</Text>}
             </View>
               )}
-              name="firstName"
+              name="name"
               defaultValue=""
             />
             <Controller
@@ -205,11 +205,11 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
-                  {errors.lastName &&
-                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.lastName.message}</Text>}
+                  {errors.surname &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.surname.message}</Text>}
                 </View>
               )}
-              name="lastName"
+              name="surname"
               defaultValue=""
             />
             <Controller
@@ -236,12 +236,43 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 autoCapitalize="words"
                 returnKeyType="next"
               />
-                  {errors.userName &&
-                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.userName.message}</Text>}
+                  {errors.username &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.username.message}</Text>}
 
                 </View>
               )}
-              name="userName"
+              name="username"
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Telefon numarası boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+                  <TextInput
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Telefon numarası"
+                    textAlign="left"
+                    placeholderTextColor={color.palette.specialBlue}
+                    underlineColorAndroid={color.palette.lighterGrey}
+                    style={FORM_INPUTS_VIEWSTYLE}
+                    keyboardType="default"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    returnKeyType="next"
+                  />
+                  {errors.phoneNumber && <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.phoneNumber.message}</Text>}
+                </View>
+              )}
+              name="phoneNumber"
+              defaultValue=""
             />
             <Controller
               control={control}
@@ -316,35 +347,38 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
                 minLength: 6,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
+
                 <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <TextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Şifre Tekrar"
-                textAlign="left"
-                placeholderTextColor={color.palette.specialBlue}
-                underlineColorAndroid={color.palette.lighterGrey}
-                style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="default"
-                secureTextEntry={true}
-                returnKeyType="done"
-              />
-            </View>
+                  <TextInput
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Şifre Tekrar"
+                    textAlign="left"
+                    placeholderTextColor={color.palette.specialBlue}
+                    underlineColorAndroid={color.palette.lighterGrey}
+                    style={FORM_INPUTS_VIEWSTYLE}
+                    keyboardType="default"
+                    secureTextEntry={true}
+                    returnKeyType="next"
+                  />{errors.password &&
+                  <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.password.message}</Text>}
+                </View>
               )}
               name="passwordAgain"
               defaultValue=""
             />
 
+
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
             <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <Checkbox style={ISCOURIER_TEXT_STYLE} text="Kurye iseniz kutucuğu işaretleyin" value={checkValue} onToggle={()=>setCheckValue(!checkValue)}/>
+              <Checkbox style={ISCOURIER_TEXT_STYLE} text="Kurye iseniz kutucuğu işaretleyin" value={value} onToggle={onChange}/>
             </View>
               )}
               name="isCourier"
-              defaultValue={checkValue}
+              defaultValue={false}
             />
 
             <Button style={BUTTON_STYLE} onPress={handleSubmit(onRegister)}>

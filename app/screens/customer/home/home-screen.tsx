@@ -71,7 +71,7 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize"}
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
@@ -89,11 +89,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
       fetchData().then((value) => console.log(value))
     }, [])
 
-    // const [listData,] = useState(
-    //   Array(20)
-    //     .fill('')
-    //     .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
-    // );
 
     const onRowDidOpen = rowKey => {
       console.log('This row opened', rowKey);

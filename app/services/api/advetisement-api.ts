@@ -1,11 +1,15 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import {
+  GetAdvertisementsFilterResult,
+  GetAdvertisementsForCourierResult,
+  GetAdvertisementsForCustomerResult,
   GetAdvertisementsResult,
 
 } from "./api.types"
 import { getGeneralApiProblem } from "./api-problem"
 
+const API_PAGE_SIZE = 1000
 
 export class AdvertisementApi {
   private api: Api
@@ -34,4 +38,103 @@ export class AdvertisementApi {
       return { kind: "bad-data" }
     }
   }
+
+  async getAdvertisementsForCustomer(API_CUSTOMER_ID:any, STATUS:any ): Promise<GetAdvertisementsForCustomerResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_CUSTOMER_ID.length > 0){
+      params.customerId = API_CUSTOMER_ID.toString()
+    }
+    if(STATUS.length > 0){
+      params.adStatus = STATUS.toString()
+    }
+
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "/advertisement/get-customer-ads?",
+        params
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const advertisements = response.data
+
+      return { kind: "ok", advertisements }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getAdvertisementsForCourier(API_COURIER_ID:any, STATUS:any ): Promise<GetAdvertisementsForCourierResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_COURIER_ID.length > 0){
+      params.courierId = API_COURIER_ID.toString()
+    }
+    if(STATUS.length > 0){
+      params.adStatus = STATUS.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "advertisement/get-chosenCourier-ads?",
+        params
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const advertisements = response.data
+
+      return { kind: "ok", advertisements }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getAdvertisementsFilter(API_CITY_ID:any, STATUS:any ): Promise<GetAdvertisementsFilterResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_CITY_ID.length > 0){
+      params.city = API_CITY_ID.toString()
+    }
+    if(STATUS.length > 0){
+      params.adStatus = STATUS.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "/advertisement/get-filtered-all?",
+        params
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const advertisements = response.data
+
+      return { kind: "ok", advertisements }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+
 }

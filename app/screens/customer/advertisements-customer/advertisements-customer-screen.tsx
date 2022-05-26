@@ -47,6 +47,8 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
     const ratingCustomerScreen = () => navigation.navigate("ratingCustomer")
     const locationCustomerScreen = () => navigation.navigate("location")
 
+    const cusId = "0aaffcf6-42b0-4b59-8a49-cdbbc3e9caff"
+
     const [state, setState] = useState("ad-Start")
     const [visible, setVisible] = useState(false)
     const hideMenu = () => {
@@ -97,15 +99,15 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
           }
           {
             state === "ad-Start" ?
-              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>advertisementScreen()} onPressAd={()=>advertisementScreen()}/>
+              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>advertisementScreen()} onPressAd={()=>advertisementScreen()} customerId={cusId}/>
               :
               state === "ad-Pending-request" ?
-                <AdPendingRequest onPressPendingRequest={()=>couriersSentRequestToAdScreen()}/>
+                <AdPendingRequest onPressPendingRequest={()=>couriersSentRequestToAdScreen()} customerId={cusId}/>
                 :
                 state === "ad-Transfering" ?
-                  <AdTransfering onPressConfirmPayment={()=>ratingCustomerScreen()} onPressLocation={()=>locationCustomerScreen()}/>
+                  <AdTransfering onPressConfirmPayment={()=>ratingCustomerScreen()} onPressLocation={()=>locationCustomerScreen()} customerId={cusId}/>
                   :
-                  <AdFinish onPressRatingCustomer={()=>ratingCustomerScreen()}/>
+                  <AdFinish onPressRatingCustomer={()=>ratingCustomerScreen()} customerId={cusId}/>
 
           }
         </Screen>

@@ -34,7 +34,7 @@ import {
   WalletCourierScreen,
   ChangePasswordCourierScreen,
   SupportCourierScreen,
-  ResetPasswordScreen,
+  ResetPasswordScreen, CodeVerificationScreen, NewPasswordScreen,
 } from "../screens"
 import { navigationRef } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -90,6 +90,8 @@ export type NavigatorParamListAuth = {
   login: undefined
   registration: undefined
   resetPassword: undefined
+  codeVerification: undefined
+  newPassword: undefined
 };
 
 const StackAuth = createNativeStackNavigator<NavigatorParamListAuth>()
@@ -104,6 +106,8 @@ const AuthStack = () => {
       <StackAuth.Screen name="login" component={LoginScreen} />
       <StackAuth.Screen name="registration" component={RegistrationScreen} />
       <StackAuth.Screen name="resetPassword" component={ResetPasswordScreen} />
+      <StackAuth.Screen name="codeVerification" component={CodeVerificationScreen} />
+      <StackAuth.Screen name="newPassword" component={NewPasswordScreen} />
     </StackAuth.Navigator>
   )
 }

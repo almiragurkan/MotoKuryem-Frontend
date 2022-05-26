@@ -9,21 +9,21 @@ import { useStores } from "../../models"
 
 const width = Dimensions.get("window").width
 
-export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "resetPassword">> = observer(
+export const CodeVerificationScreen: FC<StackScreenProps<NavigatorParamListAuth, "codeVerification">> = observer(
   ({ navigation }) => {
 
-    const [email, setEmail] = useState("")
+    const [code, setCode] = useState("")
     const { authenticationStore } = useStores()
     const goBack = () => navigation.goBack()
 
-    const onReset = async (email: string) => {
-      const { result, message } = await authenticationStore.resetPassword1(email)
-
+    const onReset = async (code: string) => {
+      const { result, message } = await authenticationStore.resetPassword2(code)
       if (result) {
-        alert("E-mailinize kod gönderildi")
-        navigation.navigate("codeVerification")
+        alert("Parola resetleme işlemi başarılı. Lütfen yeni şifrenizi girin")
+        navigation.navigate("newPassword")
       } else {
         alert("İşlem başarısız." + message)
+        navigation.navigate("login")
         // TODO: Try again procedure will be implement
       }
     }
@@ -43,27 +43,27 @@ export const ResetPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "r
           <View style={STYLE_FORM}>
             <View style={STYLE_FORM_ROW}>
               <View style={STYLE_FORM_LABEL}>
-                <Text style={STYLE_FORM_LABEL_TEXT}>E-posta</Text>
+                <Text style={STYLE_FORM_LABEL_TEXT}>Kod</Text>
               </View>
               <View style={STYLE_FORM_INPUT}>
                 <TextInput
-                  value={email}
-                  placeholder={"E-posta adresinizi giriniz..."}
-                  keyboardType="email-address"
+                  value={code}
+                  placeholder={"Kod giriniz..."}
+                  keyboardType="decimal-pad"
                   autoCorrect={false}
                   autoCapitalize="none"
                   style={FORM_INPUTS_VIEW_STYLE}
-                  onChangeText={text => setEmail(text)}
+                  onChangeText={text => setCode(text)}
                 />
               </View>
             </View>
           </View>
           <View style={STYLE_FORM_FOOTER}>
             <Button
-              text={"Şifremi Resetle"}
+              text={"Kodu Doğrula"}
               style={STYLE_FORM_BTN_RESET}
               textStyle={STYLE_FORM_BTN_RESET_TEXT}
-              onPress={() => onReset(email)} />
+              onPress={() => onReset(code)} />
           </View>
 
         </Screen>

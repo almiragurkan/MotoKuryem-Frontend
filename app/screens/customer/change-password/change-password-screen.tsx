@@ -110,7 +110,6 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
         defaultValues: authenticationStore.getUserData(),
       })
 
-
     return (
       <View testID="ChangePasswordScreen" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -139,35 +138,6 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                placeholder="Eski Şifre"
-                textAlign="left"
-                placeholderTextColor={color.palette.specialBlue}
-                underlineColorAndroid={color.palette.lighterGrey}
-                style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="default"
-                secureTextEntry={true}
-                returnKeyType="next"
-              />
-              {errors.password &&
-                <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
-            </View>
-              )}
-              name="password"
-            />
-            <Controller
-              control={control}
-              rules={{
-                required: {
-                  value: true,
-                  message: "Şifre boş olamaz!",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <TextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
                 placeholder="Yeni Şifre"
                 textAlign="left"
                 placeholderTextColor={color.palette.specialBlue}
@@ -176,35 +146,6 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
                 keyboardType="default"
                 secureTextEntry={true}
                 returnKeyType="next"
-              />
-                  {errors.password &&
-                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
-                </View>
-              )}
-              name="password"
-            />
-            <Controller
-              control={control}
-              rules={{
-                required: {
-                  value: true,
-                  message: "Şifre boş olamaz!",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-            <View style={INPUTS_CONTAINER_VIEW_STYLE}>
-              <TextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Yeni Şifre Tekrar"
-                textAlign="left"
-                placeholderTextColor={color.palette.specialBlue}
-                underlineColorAndroid={color.palette.lighterGrey}
-                style={FORM_INPUTS_VIEWSTYLE}
-                keyboardType="default"
-                secureTextEntry={true}
-                returnKeyType="done"
               />
               {errors.password &&
                 <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>{errors.password.message}</Text>}
