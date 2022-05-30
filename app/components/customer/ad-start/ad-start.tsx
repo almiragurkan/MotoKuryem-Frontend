@@ -9,6 +9,7 @@ import { SwipeListView } from "react-native-swipe-list-view"
 import { Button } from "../../button/button"
 import { useStores } from "../../../models"
 
+
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   flex:1
@@ -79,16 +80,23 @@ export interface AdStartProps {
    */
   style?: StyleProp<ViewStyle>
   onPressCreateAd?: any
-  onPressEdit?: any
-  onPressAd: any
   customerId: any
+  navigationprops: any
 }
 
 export const AdStart = observer(function AdStart(props: AdStartProps) {
-  const { onPressCreateAd, onPressEdit, onPressAd, customerId } = props
+  const { onPressCreateAd, customerId, navigationprops } = props
 
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
+
+  const goToEdit = (rowKey) => {
+    navigationprops.navigate("createAdvertisement",{adId: rowKey})
+  };
+  const goToDetail = (rowKey) => {
+    navigationprops.navigate("advertisementScreen",{adId: rowKey})
+  };
+
 
   useEffect(() => {
     async function fetchData() {
@@ -97,25 +105,10 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
     fetchData().then((value) => console.log(value))
   }, [])
 
-/*   const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  }; */
-
-  const editAd = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      onPressEdit();
-    }
-  };
-
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
-  };
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => onPressAd}
+      onPress={() => goToDetail(data.item.id)}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >
@@ -132,11 +125,11 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
     </TouchableHighlight>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data) => (
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => editAd(rowMap, data.item.id)}
+        onPress={() => goToEdit(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>Düzenle</Text>
       </TouchableOpacity>
@@ -156,7 +149,6 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-          onRowDidOpen={onRowDidOpen}
         />
       </View>
       <View style={CONTAINER_VIEW}>

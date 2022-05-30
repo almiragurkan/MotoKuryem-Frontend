@@ -90,7 +90,19 @@ export const AdvertisementStoreModel = types
         __DEV__ && console.log(e.message)
       }
     })
-
+  }))
+  .actions((self) => ({
+    findAdvertisement: flow(function* (advertisementId: any){
+      if (advertisementId===null){
+        return null
+      }
+      for(let i=0; i<self.advertisements.length; i++){
+        if (self.advertisements[i].id===advertisementId){
+          return self.advertisements[i]
+        }
+      }
+      return null
+    })
   }))
 type AdvertisementStoreType = Instance<typeof AdvertisementStoreModel>
 export interface AdvertisementStore extends AdvertisementStoreType {}

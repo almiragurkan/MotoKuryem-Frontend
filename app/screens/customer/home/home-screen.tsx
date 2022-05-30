@@ -90,13 +90,17 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
     }, [])
 
 
-    const onRowDidOpen = rowKey => {
-      console.log('This row opened', rowKey);
+    const goToLocation = (rowKey) => {
+      console.log("key: "+rowKey)
+      navigation.navigate("location")
+    };
+    const goToDetail = (rowKey) => {
+      navigation.navigate("advertisementScreen",{adId: rowKey})
     };
 
     const renderItem = data => (
       <TouchableHighlight
-        onPress={() => navigation.navigate("advertisement",{adId: data.item.id})}
+        onPress={() => goToDetail(data.item.id)}
         style={ROWFRONT}
         underlayColor={color.palette.white}
       >
@@ -113,12 +117,11 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
       </TouchableHighlight>
     );
 
-    const renderHiddenItem = (data, rowMap) => (
+    const renderHiddenItem = (data) => (
       <View style={ROWBACK}>
         <TouchableOpacity
           style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-          onPress={() => navigation.navigate("location")}
-          // onPress={() => deleteRow(rowMap, data.item.key)}
+          onPress={() => goToLocation(data.item.id)}
         >
           <Text style={BACKTEXTWHITE}>Lokasyonu Gör</Text>
         </TouchableOpacity>
@@ -141,7 +144,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
               previewRowKey={'0'}
               previewOpenValue={-40}
               previewOpenDelay={3000}
-              onRowDidOpen={onRowDidOpen}
             />
           </View>
         </Screen>

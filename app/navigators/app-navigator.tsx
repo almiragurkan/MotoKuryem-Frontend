@@ -56,9 +56,9 @@ import { useStores } from "../models"
  */
 
 export type NavigatorParamListCustomer = {
-  advertisement: { adId }
+  advertisementScreen: { adId }
   advertisementsCustomer: undefined
-  createAdvertisement: undefined
+  createAdvertisement: { adId? }
   home: undefined
   location: undefined
   profileCustomer: undefined
@@ -125,7 +125,7 @@ const HomeStackCustomer = () => {
       }}
       initialRouteName="home"
     >
-      <StackCustomer.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCustomer.Screen name="advertisementScreen" component={AdvertisementScreen} />
       <StackCustomer.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
       <StackCustomer.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <StackCustomer.Screen name="home" component={HomeScreen} />
@@ -152,7 +152,7 @@ const AdvetisementStackCustomer = () => {
       }}
       initialRouteName="advertisementsCustomer"
     >
-      <StackCustomer.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCustomer.Screen name="advertisementScreen" component={AdvertisementScreen} />
       <StackCustomer.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
       <StackCustomer.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <StackCustomer.Screen name="home" component={HomeScreen} />
@@ -178,7 +178,7 @@ const ProfileStackCustomer = () => {
       }}
       initialRouteName="profileCustomer"
     >
-      <StackCustomer.Screen name="advertisement" component={AdvertisementScreen} />
+      <StackCustomer.Screen name="advertisementScreen" component={AdvertisementScreen} />
       <StackCustomer.Screen name="advertisementsCustomer" component={AdvertisementsCustomerScreen} />
       <StackCustomer.Screen name="createAdvertisement" component={CreateAdvertisementScreen} />
       <StackCustomer.Screen name="home" component={HomeScreen} />

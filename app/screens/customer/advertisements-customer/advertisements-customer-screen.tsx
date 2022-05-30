@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -14,6 +14,8 @@ import {
 } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
 import { Menu, MenuDivider, MenuItem } from "react-native-material-menu"
+import { useStores } from "../../../models"
+
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -42,12 +44,18 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
   ({ navigation }) => {
 
     const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
-    const advertisementScreen = () => navigation.navigate("advertisement",{adId: 1})
     const couriersSentRequestToAdScreen = () => navigation.navigate("couriersSentRequestToAd")
     const ratingCustomerScreen = () => navigation.navigate("ratingCustomer")
     const locationCustomerScreen = () => navigation.navigate("location")
 
-    const cusId = "0aaffcf6-42b0-4b59-8a49-cdbbc3e9caff"
+    const { authenticationStore } = useStores()
+
+    useEffect(() => {
+      (async () => {
+        await authenticationStore.fetchUserProfile()
+      })()
+    })
+    const cusId = authenticationStore.customer.id
 
     const [state, setState] = useState("ad-Start")
     const [visible, setVisible] = useState(false)
@@ -99,7 +107,7 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
           }
           {
             state === "ad-Start" ?
-              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} onPressEdit={()=>advertisementScreen()} onPressAd={()=>advertisementScreen()} customerId={cusId}/>
+              <AdStart onPressCreateAd={()=>createAdvertisementScreen()} customerId={cusId} navigationprops={navigation}/>
               :
               state === "ad-Pending-request" ?
                 <AdPendingRequest onPressPendingRequest={()=>couriersSentRequestToAdScreen()} customerId={cusId}/>

@@ -13,6 +13,13 @@ import { TUserProfile } from "../user-profile/user-profile"
 import Moment from "moment"
 import { AuthenticationApi } from "../../services/api/authentication-api"
 
+export const CourierModel = types.model("Customer").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+})
+export const CustomerModel = types.model("Customer").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+})
+
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
   .props({
@@ -22,6 +29,7 @@ export const AuthenticationStoreModel = types
     email: types.optional(types.string, ""),
     password: types.optional(types.string, ""),
     phoneNumber: types.optional(types.string, ""),
+    customer: types.optional(CustomerModel, {}, [null, undefined]),
     token: types.optional(types.string, ""),
     resetPasswordToken: types.optional(types.string, ""),
     isAuthenticated: types.optional(types.boolean, false),
@@ -164,6 +172,8 @@ export const AuthenticationStoreModel = types
         self.surname = result.data.surname
         self.email = result.data.email
         self.username = result.data.username
+        self.phoneNumber = result.data.phoneNumber
+        self.customer = result.data.customer
         return { result: true, message: "User updated" }
       } else {
         self.setStatus("error")

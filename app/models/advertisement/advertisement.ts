@@ -1,11 +1,7 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { CourierModel, CustomerModel } from "../authentication-store/authentication-store"
 
-export const CourierModel = types.model("Customer").props({
-  id: types.optional(types.identifier, "", [null, undefined]),
-})
-export const CustomerModel = types.model("Customer").props({
-  id: types.optional(types.identifier, "", [null, undefined]),
-})
+
 
 export const RatingModel = types.model("Rating").props({
   id: types.optional(types.identifier, "", [null, undefined]),
@@ -20,9 +16,9 @@ export const AddressModel = types.model("Address").props({
   address: types.optional(types.string, "", [null, undefined]),
   city: types.optional(types.string, "", [null, undefined]),
   zipCode: types.optional(types.string, "", [null, undefined]),
-  xCoordinate: types.optional(types.string, "", [null, undefined]),
-  yCoordinate: types.optional(types.string, "", [null, undefined]),
-  advertisementId: types.optional(types.string, "", [null, undefined]),
+  phoneNumber: types.optional(types.string, "", [null, undefined]),
+  xCoordinate: types.optional(types.number, 0, [null, undefined]),
+  yCoordinate: types.optional(types.number, 0, [null, undefined]),
 })
 /**
  * Model description here for TypeScript hints.
@@ -39,9 +35,9 @@ export const AdvertisementModel = types
     productWeight: types.optional(types.string, "", [null, undefined]),
     chosenCourier: types.optional(CourierModel, {}, [null, undefined]),
     customer: types.optional(CustomerModel, {}, [null, undefined]),
-    addressToTakeId: types.optional(AddressModel, {}, [null, undefined]),
-    addressToGiveId: types.optional(AddressModel, {}, [null, undefined]),
-    ratingId: types.optional(RatingModel, {}, [null, undefined]),
+    addressToTake: types.optional(AddressModel, {}, [null, undefined]),
+    addressToGive: types.optional(AddressModel, {}, [null, undefined]),
+    rating: types.optional(RatingModel, {}, [null, undefined]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

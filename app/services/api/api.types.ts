@@ -32,7 +32,7 @@ export type GetAdvertisementsResult = { kind: "ok"; advertisements: Advertisemen
 export type GetAdvertisementsForCustomerResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsForCourierResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsFilterResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
-export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement } | GeneralApiProblem
+export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
 
 // export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, adData: TAdvertisement } | GeneralApiProblem;
 // export type UpdateAdvertisementResult = { kind: "ok"; data: ApiResponse, adData: TAdvertisement } | GeneralApiProblem;

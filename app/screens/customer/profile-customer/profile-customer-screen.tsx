@@ -114,7 +114,7 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
           </View>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"phone"}></Icon>
-            <Text style={INNER_TEXT3}>+90(533)333 33 33</Text>
+            <Text style={INNER_TEXT3}>{authenticationStore.phoneNumber}</Text>
           </View>
         </View>
         <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("commentsAndRate")}>
