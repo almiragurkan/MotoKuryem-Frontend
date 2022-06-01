@@ -1,15 +1,16 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { CourierModel, CustomerModel } from "../authentication-store/authentication-store"
+import { RatingModel } from "../rating/rating"
 
 
 
-export const RatingModel = types.model("Rating").props({
-  id: types.optional(types.identifier, "", [null, undefined]),
-  rateCourier: types.optional(types.number, 1, [null, undefined]),
-  commentCourier: types.optional(types.string, "", [null, undefined]),
-  rateCustomer: types.optional(types.number, 1, [null, undefined]),
-  commentCustomer: types.optional(types.string, "", [null, undefined]),
-})
+// export const RatingModel = types.model("Rating").props({
+//   id: types.optional(types.identifier, "", [null, undefined]),
+//   rateCourier: types.optional(types.number, 1, [null, undefined]),
+//   commentCourier: types.optional(types.string, "", [null, undefined]),
+//   rateCustomer: types.optional(types.number, 1, [null, undefined]),
+//   commentCustomer: types.optional(types.string, "", [null, undefined]),
+// })
 
 export const AddressModel = types.model("Address").props({
   id: types.optional(types.identifier, "", [null, undefined]),

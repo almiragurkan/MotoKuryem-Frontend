@@ -96,7 +96,6 @@ export const ProfileCustomerScreen: FC<StackScreenProps<NavigatorParamListCustom
     )
   }
 
-
   const fullName = authenticationStore.name + " " + authenticationStore.surname
 
   return (

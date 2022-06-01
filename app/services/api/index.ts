@@ -1,3 +1,5 @@
 export * from "./api"
 export * from "./api.types"
 export * from "./authentication-api"
+export * from "./advetisement-api"
+export * from "./rating-api"

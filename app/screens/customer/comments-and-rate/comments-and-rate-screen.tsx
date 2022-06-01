@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, FlatList } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -7,6 +7,7 @@ import { GradientBackground, Header, Icon, Screen, Text } from "../../../compone
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -63,38 +64,27 @@ const INNER_TEXT2: TextStyle = { color: color.palette.black, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { marginTop: 10, color: color.palette.black, fontSize: 20 }
 
 export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustomer, "commentsAndRate">> = observer(function CommentsAndRateScreen() {
-  const DATA = [
-    {
-      id: "1",
-      name: "A**** G****",
-      star: 5,
-      comment: "Güzel",
-    },
-    {
-      id: "2",
-      name: "S**** Y****",
-      star: 2,
-      comment: "Teslimatım hasar görmüş. Kurye çok sorumsuzdu ve aksiydi. Birdaha bu kuryeyle eşyamı taşıtmam.",
-    },
-    {
-      id: "3",
-      name: "E**** T****",
-      star: 4,
-      comment: "Biraz gecikti",
-    },
-    {
-      id: "4",
-      name: "S**** Y****",
-      star: 3,
-      comment: "Teslimatım hasar görmüş. Kurye çok sorumsuzdu ve aksiydi. Birdaha bu kuryeyle eşyamı taşıtmam.",
-    },
-    {
-      id: "5",
-      name: "S**** Y****",
-      star: 1,
-      comment: "Teslimatım hasar görmüş. Kurye çok sorumsuzdu ve aksiydi. Birdaha bu kuryeyle eşyamı taşıtmam.",
-    },
-  ]
+
+
+  const { authenticationStore } = useStores()
+
+  useEffect(() => {
+    (async () => {
+      await authenticationStore.fetchUserProfile()
+    })()
+  })
+
+  const { ratingStore } = useStores()
+  const { ratings } = ratingStore
+
+
+  useEffect(() => {
+    async function fetchData() {
+      await ratingStore.getRatingsForCustomer(authenticationStore.customer.id)
+    }
+    fetchData().then((value) => console.log(value))
+  }, [])
+
 
 
   const genStar = (starsCount) => {
@@ -116,6 +106,9 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustom
     }
     return stars
   }
+
+  const fullName = authenticationStore.name + " " + authenticationStore.surname
+
   return (
     <View testID="CommentsAndRateScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -124,8 +117,8 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustom
                 onLeftPress={goBack} />
         <View style={PROFILE_VIEW_STYLE}>
           <Icon style={PROFILE_ICON_STYLE} icon={"profile"}></Icon>
-          <Text style={INNER_TEXT1}>İsim Soyisim</Text>
-          <Text style={INNER_TEXT2}>Müşteri</Text>
+          <Text style={INNER_TEXT1}>{fullName}</Text>
+          <Text style={INNER_TEXT2}>{authenticationStore.isCourier ? "Kurye" : "Müşteri"}</Text>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"star"}></Icon>
             <Text style={INNER_TEXT3}>3,6 </Text>
@@ -133,7 +126,7 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustom
         </View>
         <FlatList
           scrollEnabled={true}
-          data={[...DATA]}
+          data={[...ratings]}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <View style={INNER_VIEW_STYLE}>
@@ -145,15 +138,10 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustom
                 borderBottomWidth: 2,
                 borderBottomColor: color.palette.lighterGrey,
               }}>
-                {genStar(item.star)}
-                <Text style={{ color: color.palette.black, fontSize: 15, paddingHorizontal: 5 }}>{item.star}</Text>
-                <Text style={{
-                  paddingHorizontal: 15,
-                  color: color.palette.black,
-                  fontSize: 17, ...BOLD,
-                }}>{item.name}</Text>
+                {genStar(item.rateCustomer)}
+                <Text style={{ color: color.palette.black, fontSize: 15, paddingHorizontal: 5 }}>{item.rateCustomer}</Text>
               </View>
-              <Text style={{ padding: 10, color: color.palette.black }}>{item.comment}</Text>
+              <Text style={{ padding: 10, color: color.palette.black }}>{item.commentCustomer}</Text>
             </View>
           )}
         />
