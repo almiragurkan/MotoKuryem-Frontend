@@ -1,10 +1,11 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import {
-  AdvertisementModel, AdvertisementSnapshot,
+  AdvertisementModel, AdvertisementSnapshot, TAdvertisement,
 } from "../advertisement/advertisement"
 import { withStatus } from "../extensions/with-status"
 import { withEnvironment } from "../extensions/with-environment"
 import { AdvertisementApi } from "../../services/api/advetisement-api"
+import { CreateAdvertisementResult } from "../../services/api"
 
 /**
  * Model description here for TypeScript hints.
@@ -22,6 +23,30 @@ export const AdvertisementStoreModel = types
       self.advertisements.replace(advertisementSnapshots)
     })
   }))
+  .actions((self) => ({
+    createAdvertisement: flow(function* (advertisementData: TAdvertisement) {
+      self.setStatus("pending")
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      const result: CreateAdvertisementResult = yield advertisementApi.createAdvertisement(advertisementData)
+      self.setStatus("done")
+      __DEV__&&console.log("İlan oluşturma işlemi gerçekleştiriliyor...")
+      // __DEV__&&console.log(result.kind)
+      // __DEV__&&console.log(result)
+
+
+      if (result.kind === "ok") {
+        // __DEV__&&console.log(result.data)
+        // __DEV__&&console.log(result.userData)
+        __DEV__&&console.log("İlan oluşturma işlemi başarılı")
+        return { result: "ok", message: "İlan oluşturma işlemi başarılı" }
+      } else {
+        self.setStatus("error")
+        __DEV__&&console.log("İlan oluşturma işlemi gerçekleştirilemedi")
+        return { result: "fail", message: "İlan oluşturma işlemi gerçekleştirilemedi" }
+      }
+    }),
+  }))
+
   .actions((self) => ({
     getAdvertisements: flow (function* () {
       const advertisementApi = new AdvertisementApi(self.environment.api)

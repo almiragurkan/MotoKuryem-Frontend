@@ -65,7 +65,6 @@ const INNER_TEXT3: TextStyle = { marginTop: 10, color: color.palette.black, font
 
 export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustomer, "commentsAndRate">> = observer(function CommentsAndRateScreen() {
 
-
   const { authenticationStore } = useStores()
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export const CommentsAndRateScreen: FC<StackScreenProps<NavigatorParamListCustom
           <Text style={INNER_TEXT2}>{authenticationStore.isCourier ? "Kurye" : "Müşteri"}</Text>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"star"}></Icon>
-            <Text style={INNER_TEXT3}>3,6 </Text>
+            <Text style={INNER_TEXT3}>{authenticationStore.averageRating}</Text>
           </View>
         </View>
         <FlatList

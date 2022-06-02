@@ -110,12 +110,6 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
     const { authenticationStore } = useStores()
     const onRegister = async (data: TUserProfile) => await authenticationStore.register(data)
 
-    // const handleConfirm = (checkValue) => {
-    //   console.warn("You are courier: ", checkValue)
-    //
-    //   setValue("isCourier", checkValue)
-    // }
-
     const
       {
         control,

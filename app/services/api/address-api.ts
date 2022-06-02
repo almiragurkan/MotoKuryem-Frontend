@@ -1,0 +1,68 @@
+import { ApiResponse } from "apisauce"
+import { Api } from "./api"
+import { getGeneralApiProblem } from "./api-problem"
+import {
+  CreateAddressResult,
+  GetAddressesResult,
+} from "./api.types"
+import { Address } from "../../models"
+
+const API_PAGE_SIZE = 1000
+
+export class AddressApi {
+  private api: Api
+
+  constructor(api: Api) {
+    this.api = api
+  }
+
+  async getAddresses(API_CUSTOMER_ID:any ): Promise<GetAddressesResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_CUSTOMER_ID.length > 0){
+      params.customerId = API_CUSTOMER_ID.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "/address/get-all-addresses?",
+        params
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const addresses = response.data
+
+      return { kind: "ok", addresses }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async createAddress(adressData: Address): Promise<CreateAddressResult> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        "/address",
+        adressData,
+      )
+
+      __DEV__ && console.log(response)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok", data: response.data, addressData: adressData }
+    } catch (e) {
+      // __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+}

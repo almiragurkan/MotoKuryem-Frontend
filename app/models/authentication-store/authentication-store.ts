@@ -36,6 +36,7 @@ export const AuthenticationStoreModel = types
     isCourier: types.optional(types.boolean, false),
     error: types.optional(types.string, ""),
     userRefresh: types.optional(types.number, 0, [undefined, null]),
+    averageRating: types.optional(types.number, 0, [undefined, null]),
     rememberMe: types.optional(types.boolean, false, [undefined, null]),
     lastLogin: types.optional(types.Date, new Date(), [undefined, null]),
   })
@@ -89,6 +90,7 @@ export const AuthenticationStoreModel = types
       self.username = userData.username
       self.isCourier = userData.isCourier
       self.email = userData.email
+      self.averageRating = userData.averageRating
     }),
 
     getUserData: () => {
@@ -100,7 +102,8 @@ export const AuthenticationStoreModel = types
         username: self.username,
         email: self.email,
         password: self.password,
-        isCourier: self.isCourier
+        isCourier: self.isCourier,
+        averageRating: self.averageRating
       }
     },
   }))
@@ -112,32 +115,23 @@ export const AuthenticationStoreModel = types
       self.setAuthenticated(false)
       self.setStatus("done")
       __DEV__&&console.log("Kayıt işlemi gerçekleştiriliyor...")
-      __DEV__&&console.log(result.kind)
-      __DEV__&&console.log("result ------")
-      __DEV__&&console.log(result)
-      __DEV__&&console.log("result ------")
+      // __DEV__&&console.log(result.kind)
+      // __DEV__&&console.log(result)
 
 
       if (result.kind === "ok") {
-        __DEV__&&console.log(result.data)
-        __DEV__&&console.log(result.userData)
-        __DEV__&&console.log("status :"+result.data.status)
-        if (result.data.status === "OK") {
+         // __DEV__&&console.log(result.data)
+         // __DEV__&&console.log(result.userData)
           self.saveUserData(result.userData)
           __DEV__&&console.log("Kayıt işlemi başarılı")
           return { result: "ok", message: "Kayıt işlemi başarılı" }
-        } else {
-          self.setStatus("error")
-          // self.setError(result.data.error.toString())
-        }
       } else {
         self.setStatus("error")
         self.setAuthenticated(false)
         self.setError(result.kind)
+        __DEV__&&console.log("Kayıt işlemi gerçekleştirilemedi")
+        return { result: "fail", message: "Kayıt işlemi gerçekleştirilemedi" }
       }
-      // __DEV__&&console.log(result.kind)
-      __DEV__&&console.log("Kayıt işlemi gerçekleştirilemedi")
-      return { result: "fail", message: "Kayıt işlemi gerçekleştirilemedi" }
     }),
   }))
   .actions((self) => ({
@@ -147,14 +141,11 @@ export const AuthenticationStoreModel = types
       const authenticationApi = new AuthenticationApi(self.environment.api)
       const result: RegisterResult = yield authenticationApi.updateUser(userData)
 
+      __DEV__ && console.log(result)
+
       if (result.kind === "ok") {
-        if (result.data.status === "OK") {
           self.setStatus("done")
           self.saveUserData(result.userData)
-        } else {
-          self.setStatus("error")
-          self.setError(result.data.error.toString())
-        }
       } else {
         self.setStatus("error")
         self.setError(result.kind)
@@ -174,6 +165,7 @@ export const AuthenticationStoreModel = types
         self.username = result.data.username
         self.phoneNumber = result.data.phoneNumber
         self.customer = result.data.customer
+        self.averageRating = result.data.averageRating
         return { result: true, message: "User updated" }
       } else {
         self.setStatus("error")
@@ -303,6 +295,7 @@ export const AuthenticationStoreModel = types
       }
     }),
   }))
+
 
 
 

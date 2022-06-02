@@ -8,6 +8,7 @@ export type TUserProfile = {
   password: string
   phoneNumber: string
   isCourier: boolean
+  averageRating: number
 }
 /**
  * Model description here for TypeScript hints.
@@ -23,6 +24,7 @@ export const UserProfileModel = types
     phoneNumber: types.optional(types.string, ""),
     password: types.optional(types.string, ""),
     isCourier: types.optional(types.boolean, false),
+    averageRating: types.optional(types.number, 0, [undefined, null]),
   })
   .actions((self) => ({
     UpdateUser: flow(function* (user: TUserProfile) {
@@ -32,6 +34,7 @@ export const UserProfileModel = types
       self.email = user.email
       self.password = user.password
       self.isCourier = user.isCourier
+      self.averageRating = user.averageRating
     }),
   }))
   .actions((self) => ({
@@ -42,10 +45,12 @@ export const UserProfileModel = types
         username: self.username,
         email: self.email,
         password: self.password,
-        isCourier: self.isCourier
+        isCourier: self.isCourier,
+        averageRating: self.averageRating
       }
     },
   }))
+
 
 type UserProfileType = Instance<typeof UserProfileModel>
 

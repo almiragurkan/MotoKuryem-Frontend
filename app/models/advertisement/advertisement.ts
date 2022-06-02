@@ -1,8 +1,19 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { CourierModel, CustomerModel } from "../authentication-store/authentication-store"
 import { RatingModel } from "../rating/rating"
+import { AddressModel } from "../address/address"
 
-
+export type TAdvertisement = {
+    adDate: string
+    price: number
+    adStatus: string
+    header: string
+    productName: string
+    productWeight: string
+    addressToTake: string
+    addressToGive: string
+    rating: string
+}
 
 // export const RatingModel = types.model("Rating").props({
 //   id: types.optional(types.identifier, "", [null, undefined]),
@@ -12,15 +23,15 @@ import { RatingModel } from "../rating/rating"
 //   commentCustomer: types.optional(types.string, "", [null, undefined]),
 // })
 
-export const AddressModel = types.model("Address").props({
-  id: types.optional(types.identifier, "", [null, undefined]),
-  address: types.optional(types.string, "", [null, undefined]),
-  city: types.optional(types.string, "", [null, undefined]),
-  zipCode: types.optional(types.string, "", [null, undefined]),
-  phoneNumber: types.optional(types.string, "", [null, undefined]),
-  xCoordinate: types.optional(types.number, 0, [null, undefined]),
-  yCoordinate: types.optional(types.number, 0, [null, undefined]),
-})
+// export const AddressModel = types.model("Address").props({
+//   id: types.optional(types.identifier, "", [null, undefined]),
+//   address: types.optional(types.string, "", [null, undefined]),
+//   city: types.optional(types.string, "", [null, undefined]),
+//   zipCode: types.optional(types.string, "", [null, undefined]),
+//   phoneNumber: types.optional(types.string, "", [null, undefined]),
+//   xCoordinate: types.optional(types.number, 0, [null, undefined]),
+//   yCoordinate: types.optional(types.number, 0, [null, undefined]),
+// })
 /**
  * Model description here for TypeScript hints.
  */

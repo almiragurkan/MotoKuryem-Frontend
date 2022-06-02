@@ -71,7 +71,7 @@ export const AdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer
 
   useEffect(()=>{
     if(route.params.adId)
-      advertisementStore.findAdvertisement (route.params.adId)
+      advertisementStore.findAdvertisement(route.params.adId)
         .then(value => setAdvertiementDetail(value))
   },[advertisementStore])
 

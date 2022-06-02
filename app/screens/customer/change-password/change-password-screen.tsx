@@ -32,7 +32,7 @@ const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
 }
 const INPUTS_CONTAINER_VIEW_STYLE: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: "column",
   justifyContent: "flex-start",
   paddingBottom: 7,
   marginHorizontal: 1,
@@ -92,12 +92,14 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
     const goBack = () => navigation.goBack()
 
     const [saving, setSaving] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const { authenticationStore } = useStores()
     const onUserUpdate = async (data: TUserProfile) => {
       setSaving(true)
       authenticationStore.updateUser(data).then(() => {
         setSaving(false)
+        setSuccess(true)
       })
     }
 
@@ -157,6 +159,13 @@ export const ChangePasswordScreen: FC<StackScreenProps<NavigatorParamListCustome
               <Text
                 style={BUTTON_TEXT_STYLE}>{saving ? "Güncelleniyor" : "ŞİFRE DEĞİŞTİR"}</Text>
             </Button>
+            {success ?
+              <View>
+                <Text style={FORM_INPUTS_ERROR_SMALL_VIEW_STYLES}>Şifre Değiştirildi</Text>
+              </View>
+              :
+              null
+            }
           </View>
         </Screen>
       </View>

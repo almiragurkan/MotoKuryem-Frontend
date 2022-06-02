@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TouchableOpacity, FlatList } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -7,6 +7,7 @@ import { GradientBackground, Header, Screen, Text } from "../../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -66,44 +67,65 @@ const TITLE_TEXT: TextStyle = {
 }
 
 export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "addresses">> = observer(function AddressesScreen() {
-  const DATA = [
-    {
-      id: "1",
-      name: "ev",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-      checked: false
-    },
-    {
-      id: "2",
-      name: "ev1",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-      checked: false
-    },
-    {
-      id: "3",
-      name: "iş",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-      checked: false
-    },
-    {
-      id: "4",
-      name: "iş yeri",
-      addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-      checked: false
-    },
-  ]
+
+  const { authenticationStore } = useStores()
+
+  useEffect(() => {
+    (async () => {
+      await authenticationStore.fetchUserProfile()
+    })()
+  })
+
+  const { addressStore } = useStores()
+  const { addresses } = addressStore
+
+
+  useEffect(() => {
+    async function fetchData() {
+      await addressStore.getAddresses(authenticationStore.customer.id)
+    }
+    fetchData().then((value) => console.log(value))
+  }, [])
+
+
+  // const DATA = [
+  //   {
+  //     id: "1",
+  //     name: "ev",
+  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+  //     checked: false
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "ev1",
+  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+  //     checked: false
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "iş",
+  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+  //     checked: false
+  //   },
+  //   {
+  //     id: "4",
+  //     name: "iş yeri",
+  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+  //     checked: false
+  //   },
+  // ]
 
   return (
     <View testID="AddressesScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
       <Screen style={CONTAINER} backgroundColor={color.transparent}>
         <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"} onLeftPress={goBack} />
-        <Text style={TITLE_TEXT}>Adresinizi Seçin</Text>
+        <Text style={TITLE_TEXT}>Kayıtlı Adresler</Text>
         <View style={{flex:1}}>
           <View style={{borderRadius:2, borderWidth:2, borderColor:color.palette.lighterGrey, padding:10, marginHorizontal:25, marginBottom:25}}>
             <FlatList
               scrollEnabled={true}
-              data={[...DATA]}
+              data={[...addresses]}
               keyExtractor={(item) => String(item.id)}
               renderItem={({ item }) => (
                 <View style={INNER_VIEW_STYLE}>
@@ -112,8 +134,8 @@ export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "a
                     color: color.palette.black,
                     fontSize: 17, ...BOLD,
                     textTransform:"capitalize"
-                  }}>{item.name}:</Text>
-                  <Text style={{ padding: 10, color: color.palette.black }}>{item.addresses}</Text>
+                  }}>{item.addressName}:</Text>
+                  <Text style={{ padding: 10, color: color.palette.black }}>{item.address}</Text>
                 </View>
               )}
             />

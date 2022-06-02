@@ -39,7 +39,7 @@ export class AuthenticationApi {
   async updateUser(userData: TUserProfile): Promise<UpdateUserResult> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(
-        "/auth/update-user-for-user",
+        "/auth/update-password-for-user",
         userData,
       )
 
@@ -47,6 +47,7 @@ export class AuthenticationApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
+
 
       return { kind: "ok", data: response.data, userData: userData }
     } catch (e) {
