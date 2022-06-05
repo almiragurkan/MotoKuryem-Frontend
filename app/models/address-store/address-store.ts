@@ -1,6 +1,6 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { AddressModel, AddressSnapshot } from "../address/address"
-import { AddressApi } from "../../services/api"
+import { AddressModel, AddressSnapshot, TAddress } from "../address/address"
+import { AddressApi, CreateAddressResult, DeleteAddressResult } from "../../services/api"
 import { withStatus } from "../extensions/with-status"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -15,6 +15,11 @@ export const AddressStoreModel = types
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .extend(withStatus)
   .extend(withEnvironment)
+  .actions((self) => ({
+    clearStatus: flow(function* () {
+      self.setStatus("idle")
+    })
+  }))
   .actions((self) => ({
     saveAddresses: flow(function* (addressSnapshots: AddressSnapshot[]) {
       self.addresses.replace(addressSnapshots)
@@ -35,6 +40,53 @@ export const AddressStoreModel = types
         __DEV__ && console.log(e.message)
       }
     })
+  }))
+  .actions((self) => ({
+    createAddress: flow(function* (addressData: TAddress) {
+      self.setStatus("pending")
+      const addressApi = new AddressApi(self.environment.api)
+      const result: CreateAddressResult = yield addressApi.createAddress(addressData)
+      self.setStatus("done")
+      __DEV__&&console.log("Adres oluşturma işlemi gerçekleştiriliyor...")
+      // __DEV__&&console.log(result.kind)
+      // __DEV__&&console.log(result)
+
+
+      if (result.kind === "ok") {
+        // __DEV__&&console.log(result.data)
+        // __DEV__&&console.log(result.userData)
+        __DEV__&&console.log("Adres oluşturma işlemi başarılı")
+        return { result: "ok", message: "Adres oluşturma işlemi başarılı" }
+      } else {
+        self.setStatus("error")
+        __DEV__&&console.log("Adres oluşturma işlemi gerçekleştirilemedi")
+        return { result: "fail", message: "Adres oluşturma işlemi gerçekleştirilemedi" }
+      }
+    }),
+  }))
+  .actions((self) => ({
+    deleteAddress: flow(function* (addressId: string) {
+      self.setStatus("pending")
+      const addressApi = new AddressApi(self.environment.api)
+      const result: DeleteAddressResult = yield addressApi.deleteAddress(addressId)
+      self.setStatus("done")
+      __DEV__&&console.log("Adres silme işlemi gerçekleştiriliyor...")
+      __DEV__&&console.log(result.kind)
+       __DEV__&&console.log(result)
+
+
+
+      if (result.kind === "ok") {
+        // __DEV__&&console.log(result.data)
+        // __DEV__&&console.log(result.userData)
+        __DEV__&&console.log("Adres silme işlemi başarılı")
+        return { result: "ok", message: "Adres silme işlemi başarılı" }
+      } else {
+        self.setStatus("error")
+        __DEV__&&console.log("Adres silme işlemi gerçekleştirilemedi")
+        return { result: "fail", message: "Adres silme işlemi gerçekleştirilemedi" }
+      }
+    }),
   }))
 type AddressStoreType = Instance<typeof AddressStoreModel>
 export interface AddressStore extends AddressStoreType {}

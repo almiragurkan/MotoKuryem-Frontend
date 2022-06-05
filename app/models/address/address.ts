@@ -1,9 +1,18 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { CustomerModel } from "../authentication-store/authentication-store"
-
 /**
  * Model description here for TypeScript hints.
  */
+export type TAddress = {
+    id:string,
+    address: string,
+    addressName: string,
+    city: string,
+    zipCode: string,
+    phoneNumber: string,
+    xCoordinate: number,
+    yCoordinate: number
+}
 
 export const AddressModel = types
   .model("Address")

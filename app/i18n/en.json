@@ -66,6 +66,9 @@
   "addressesScreen": {
     "title": "ADRESLERİM"
   },
+  "createAddressScreen": {
+    "title": "ADRES EKLE"
+  },
   "walletScreen": {
     "title": "CÜZDANIM"
   },

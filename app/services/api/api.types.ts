@@ -1,6 +1,6 @@
 import { GeneralApiProblem } from "./api-problem"
 import { Character } from "../../models/character/character"
-import { Address, Advertisement, TAdvertisement, TUserProfile } from "../../models"
+import { Address, Advertisement, TAddress, TAdvertisement, TUserProfile } from "../../models"
 import { Rating } from "../../models/rating/rating"
 
 export interface User {
@@ -46,7 +46,10 @@ export type GetCourierRatingsResult = { kind: "ok"; ratings: Rating[] } | Genera
 export type GetAdvertisementRatingsResult = { kind: "ok"; ratings: Rating[] } | GeneralApiProblem
 
 export type GetAddressesResult = { kind: "ok"; addresses: Address[] } | GeneralApiProblem
-// export type CreateAddressResult = { kind: "ok"; data: ApiResponse, addressData: TAddress } | GeneralApiProblem
+export type CreateAddressResult = { kind: "ok"; data: ApiResponse, addressData: TAddress } | GeneralApiProblem
+export type DeleteAddressResult = { kind: "ok" } | GeneralApiProblem;
+
+
 
 // export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, adData: TAdvertisement } | GeneralApiProblem;
 // export type UpdateAdvertisementResult = { kind: "ok"; data: ApiResponse, adData: TAdvertisement } | GeneralApiProblem;

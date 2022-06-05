@@ -39,15 +39,23 @@ const INNER_VIEW_STYLE: ViewStyle = {
   paddingHorizontal: spacing[1],
   paddingVertical: spacing[1],
   borderColor: color.palette.lighterGrey,
-  alignItems: "flex-start",
-  flexDirection: "column",
 }
-const BUTTON_VIEW: ViewStyle = { flex: 0.1, justifyContent: "flex-end", alignItems: "center"}
+const BUTTON_VIEW: ViewStyle = { flex: 0.1, justifyContent: "flex-end", alignItems: "center" }
+const INNER_BUTTON_VIEW: ViewStyle = { flex: 1, alignItems: "flex-end" }
 const BUTTON_STYLE: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
   margin: spacing[2],
   width: 80,
   height: 50,
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 5,
+}
+const INNER_BUTTON_STYLE: ViewStyle = {
+  backgroundColor: color.palette.specialBlue,
+  margin: spacing[2],
+  width: 70,
+  height: 30,
   justifyContent: "center",
   alignItems: "center",
   borderRadius: 5,
@@ -61,94 +69,110 @@ const TITLE_TEXT: TextStyle = {
   ...BOLD,
   fontSize: 15,
   lineHeight: 15,
-  paddingTop:50,
-  paddingLeft:30,
-  paddingBottom:10
+  paddingTop: 50,
+  paddingLeft: 30,
+  paddingBottom: 10,
 }
 
-export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "addresses">> = observer(function AddressesScreen() {
+export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "addresses">> = observer(
+  ({ navigation }) => {
+    const { authenticationStore } = useStores()
 
-  const { authenticationStore } = useStores()
+    useEffect(() => {
+      (async () => {
+        await authenticationStore.fetchUserProfile()
+      })()
+    })
 
-  useEffect(() => {
-    (async () => {
-      await authenticationStore.fetchUserProfile()
-    })()
-  })
-
-  const { addressStore } = useStores()
-  const { addresses } = addressStore
-
-
-  useEffect(() => {
-    async function fetchData() {
-      await addressStore.getAddresses(authenticationStore.customer.id)
-    }
-    fetchData().then((value) => console.log(value))
-  }, [])
+    const { addressStore } = useStores()
+    const { addresses } = addressStore
 
 
-  // const DATA = [
-  //   {
-  //     id: "1",
-  //     name: "ev",
-  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-  //     checked: false
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "ev1",
-  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-  //     checked: false
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "iş",
-  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-  //     checked: false
-  //   },
-  //   {
-  //     id: "4",
-  //     name: "iş yeri",
-  //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
-  //     checked: false
-  //   },
-  // ]
+    useEffect(() => {
+      async function fetchData() {
+        await addressStore.getAddresses(authenticationStore.customer.id)
+      }
+      fetchData().then((value) => console.log(value))
+    }, [])
 
-  return (
-    <View testID="AddressesScreen" style={FULL}>
-      <GradientBackground colors={["#ffffff", "#ffffff"]} />
-      <Screen style={CONTAINER} backgroundColor={color.transparent}>
-        <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"} onLeftPress={goBack} />
-        <Text style={TITLE_TEXT}>Kayıtlı Adresler</Text>
-        <View style={{flex:1}}>
-          <View style={{borderRadius:2, borderWidth:2, borderColor:color.palette.lighterGrey, padding:10, marginHorizontal:25, marginBottom:25}}>
-            <FlatList
-              scrollEnabled={true}
-              data={[...addresses]}
-              keyExtractor={(item) => String(item.id)}
-              renderItem={({ item }) => (
-                <View style={INNER_VIEW_STYLE}>
-                  <Text style={{
-                    paddingHorizontal: 15,
-                    color: color.palette.black,
-                    fontSize: 17, ...BOLD,
-                    textTransform:"capitalize"
-                  }}>{item.addressName}:</Text>
-                  <Text style={{ padding: 10, color: color.palette.black }}>{item.address}</Text>
-                </View>
-              )}
-            />
+    const onDelete = async (id: string) => await addressStore.deleteAddress(id)
+
+    // const DATA = [
+    //   {
+    //     id: "1",
+    //     name: "ev",
+    //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+    //     checked: false
+    //   },
+    //   {
+    //     id: "2",
+    //     name: "ev1",
+    //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+    //     checked: false
+    //   },
+    //   {
+    //     id: "3",
+    //     name: "iş",
+    //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+    //     checked: false
+    //   },
+    //   {
+    //     id: "4",
+    //     name: "iş yeri",
+    //     addresses: "Kötekli Mah. 311.Sokak No:17 Balarısı Apt",
+    //     checked: false
+    //   },
+    // ]
+
+    return (
+      <View testID="AddressesScreen" style={FULL}>
+        <GradientBackground colors={["#ffffff", "#ffffff"]} />
+        <Screen style={CONTAINER} backgroundColor={color.transparent}>
+          <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"}
+                  onLeftPress={goBack} />
+          <Text style={TITLE_TEXT}>Kayıtlı Adresler</Text>
+          <View style={{ flex: 1 }}>
+            <View style={{
+              borderRadius: 2,
+              borderWidth: 2,
+              borderColor: color.palette.lighterGrey,
+              padding: 10,
+              marginHorizontal: 25,
+              marginBottom: 25,
+            }}>
+              <FlatList
+                scrollEnabled={true}
+                data={[...addresses]}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => (
+                  <View style={INNER_VIEW_STYLE}>
+                    <Text style={{
+                      paddingHorizontal: 10,
+                      color: color.palette.black,
+                      fontSize: 17, ...BOLD,
+                      textTransform: "capitalize",
+                    }}>{item.addressName}:</Text>
+                    <Text style={{ padding: 10, color: color.palette.black }}>{item.address}</Text>
+                    <View style={INNER_BUTTON_VIEW}>
+                      <TouchableOpacity style={INNER_BUTTON_STYLE} onPress={()=>onDelete(item.id)}>
+                        <Text style={BUTTON_TEXT}>
+                          Adresi Sil
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              />
+            </View>
+
           </View>
 
-        </View>
-
-        <View style={BUTTON_VIEW}>
-          <TouchableOpacity style={BUTTON_STYLE}>
-            <Text style={BUTTON_TEXT}>ADRES EKLE</Text>
-          </TouchableOpacity>
-        </View>
-      </Screen>
-    </View>
-  )
-})
+          <View style={BUTTON_VIEW}>
+            <TouchableOpacity style={BUTTON_STYLE} onPress={() => navigation.navigate("createAddress")}>
+              <Text style={BUTTON_TEXT}>ADRES EKLE</Text>
+            </TouchableOpacity>
+          </View>
+        </Screen>
+      </View>
+    )
+  })

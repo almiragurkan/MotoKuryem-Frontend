@@ -34,7 +34,7 @@ import {
   WalletCourierScreen,
   ChangePasswordCourierScreen,
   SupportCourierScreen,
-  ResetPasswordScreen, CodeVerificationScreen, NewPasswordScreen,
+  ResetPasswordScreen, CodeVerificationScreen, NewPasswordScreen, CreateAddressScreen,
 } from "../screens"
 import { navigationRef } from "./navigation-utilities"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -70,6 +70,7 @@ export type NavigatorParamListCustomer = {
   ratingCustomer: undefined
   couriersSentRequestToAd: undefined
   resetPassword: undefined
+  createAddress: undefined
   // 🔥 Your screens go here
 }
 export type NavigatorParamListCourier = {
@@ -138,6 +139,7 @@ const HomeStackCustomer = () => {
       <StackCustomer.Screen name="support" component={SupportScreen} />
       <StackCustomer.Screen name="ratingCustomer" component={RatingCustomerScreen} />
       <StackCustomer.Screen name="resetPassword" component={ResetPasswordScreen} />
+      <StackCustomer.Screen name="createAddress" component={CreateAddressScreen} />
       {/** 🔥 Your screens go here */}
     </StackCustomer.Navigator>
   )

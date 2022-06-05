@@ -2,10 +2,10 @@ import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
 import {
-  CreateAddressResult,
+  CreateAddressResult, DeleteAddressResult,
   GetAddressesResult,
 } from "./api.types"
-import { Address } from "../../models"
+import { TAddress } from "../../models"
 
 const API_PAGE_SIZE = 1000
 
@@ -45,7 +45,7 @@ export class AddressApi {
     }
   }
 
-  async createAddress(adressData: Address): Promise<CreateAddressResult> {
+  async createAddress(adressData: TAddress): Promise<CreateAddressResult> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "/address",
@@ -64,5 +64,51 @@ export class AddressApi {
       return { kind: "bad-data" }
     }
   }
+
+  async deleteAddress(API_ADDRESS_ID:string): Promise<DeleteAddressResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_ADDRESS_ID.length > 0){
+      params.addressId = API_ADDRESS_ID.toString()
+    }
+
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.delete(
+        "/address/delete-address",
+        params
+      )
+
+      __DEV__ && console.log(response)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok" }
+    } catch (e) {
+      // __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  // async updateAddress(addressData: TAddress): Promise<UpdateAddressResult> {
+  //   try {
+  //     const response: ApiResponse<any> = await this.api.apisauce.post(
+  //       "/address/update-address",
+  //       addressData,
+  //     )
+  //
+  //     if (!response.ok) {
+  //       const problem = getGeneralApiProblem(response)
+  //       if (problem) return problem
+  //     }
+  //
+  //
+  //     return { kind: "ok", data: response.data, addressData: addressData }
+  //   } catch (e) {
+  //     // __DEV__ && console.log(e.message)
+  //     return { kind: "bad-data" }
+  //   }
+  // }
 
 }
