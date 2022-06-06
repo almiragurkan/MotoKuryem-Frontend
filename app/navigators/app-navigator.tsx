@@ -68,7 +68,7 @@ export type NavigatorParamListCustomer = {
   changePassword: undefined
   support: undefined
   ratingCustomer: undefined
-  couriersSentRequestToAd: undefined
+  couriersSentRequestToAd: { adId? }
   resetPassword: undefined
   createAddress: undefined
   // 🔥 Your screens go here

@@ -34,9 +34,7 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 
-export const CouriersSentRequestToAdScreen: FC<StackScreenProps<NavigatorParamListCustomer, "couriersSentRequestToAd">> = observer(({ navigation }) => {
-
-  const couriersRatingScreen = () => navigation.navigate("commentsAndRate")
+export const CouriersSentRequestToAdScreen: FC<StackScreenProps<NavigatorParamListCustomer, "couriersSentRequestToAd">> = observer(({ route, navigation }) => {
 
     return (
 
@@ -45,7 +43,7 @@ export const CouriersSentRequestToAdScreen: FC<StackScreenProps<NavigatorParamLi
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
           <Header headerTx="advertisementsCustomerScreen.title" style={HEADER} titleStyle={HEADER_TITLE}
                   leftIcon={"back"} onLeftPress={goBack} />
-          <CouriersSendAdRequest couriersRating={()=>couriersRatingScreen()}/>
+          <CouriersSendAdRequest navigationprops={navigation} adId={route.params.adId}/>
         </Screen>
       </View>
     )

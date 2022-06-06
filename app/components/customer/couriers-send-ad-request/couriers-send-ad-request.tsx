@@ -3,9 +3,10 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -83,6 +84,9 @@ export interface CouriersSendAdRequestProps {
    */
   style?: StyleProp<ViewStyle>
   couriersRating?: any
+  navigationprops: any
+  adId: any
+
 }
 
 /**
@@ -90,57 +94,65 @@ export interface CouriersSendAdRequestProps {
  */
 export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(props: CouriersSendAdRequestProps) {
 
-  const { couriersRating } = props
+  const { navigationprops, adId } = props
 
-  const [listData] = useState(
-    Array(3)
-      .fill('')
-      .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
-  );
 
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  };
+  const { advertisementStore } = useStores()
+  const { advertisements, couriers } = advertisementStore
 
-  const couriersRatings = (rowKey) => {
+  const [advertisementDetail, setAdvertiementDetail] = useState(advertisements[0])
+
+
+  useEffect(() => {
+    if (adId)
+      advertisementStore.findAdvertisement(adId)
+        .then(value => setAdvertiementDetail(value))
+  }, [advertisementStore])
+
+  useEffect(() => {
+    if (adId)
+  advertisementStore.getBiddingCourierOnAdvertisement(adId).then((value) => console.log(value))
+  }, [advertisementStore])
+
+  const onReject = (rowKey) => {
     if (rowKey) {
-      couriersRating();
+      console.log(rowKey + "Reddet");
     }
   };
 
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
+  const onConfirm = (rowKey) => {
+    if (rowKey) {
+      console.log( rowKey + "Onayla");
+    }
   };
+
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => console.log('You touched me')}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >
       <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
         <Icon style={ICON_STYLE} icon={"profile"}></Icon>
-        <TouchableOpacity style={{flexDirection:"column", padding:10, flex:1}} onPress={() => couriersRatings(data.item.key)}>
-          <Text style={INNER_TEXT1}>KURYE {data.item.text}</Text>
+        <View style={{flexDirection:"column", padding:10, flex:1}}>
+          <Text style={INNER_TEXT1}>{data.item.id}</Text>
           <Text style={INNER_TEXT2}>Puan: 4,7</Text>
-        </TouchableOpacity>
+        </View>
       </View>
     </TouchableHighlight>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data) => (
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNLEFT]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => onConfirm(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>ONAYLA</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        // onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => onReject(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>REDDET</Text>
       </TouchableOpacity>
@@ -150,10 +162,10 @@ export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(pro
   return (
     <View style={CONTAINER}>
       <Text style={TEXT}>İLAN İÇİN İSTEK GÖNDEREN KURYELER</Text>
-      <Text style={SUB_TEXT}>İlan Adı: Acil!!!</Text>
+      <Text style={SUB_TEXT}>İlan Adı: {advertisementDetail.header}</Text>
       <View style={CONTAINER1}>
         <SwipeListView
-          data={listData}
+          data={couriers}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -161,7 +173,6 @@ export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(pro
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-          onRowDidOpen={onRowDidOpen}
         />
       </View>
     </View>

@@ -5,7 +5,7 @@ import {
   GetAdvertisementsFilterResult,
   GetAdvertisementsForCourierResult,
   GetAdvertisementsForCustomerResult,
-  GetAdvertisementsResult,
+  GetAdvertisementsResult, GetBiddingCourierOnAdvertisementResult,
 
 } from "./api.types"
 import { getGeneralApiProblem } from "./api-problem"
@@ -27,7 +27,7 @@ export class AdvertisementApi {
         advertisementData,
       )
 
-      __DEV__ && console.log(response)
+      // __DEV__ && console.log(response)
 
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -151,6 +151,37 @@ export class AdvertisementApi {
       const advertisements = response.data
 
       return { kind: "ok", advertisements }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getBiddingCourierOnAdvertisement(API_ADVERTISEMENT_ID:string ): Promise<GetBiddingCourierOnAdvertisementResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_ADVERTISEMENT_ID.length > 0){
+      params.advertisementId = API_ADVERTISEMENT_ID.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "/advertisement/get-bidding-couriers?",
+        params
+      )
+
+      // __DEV__ && console.log(response.data)
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const result = response.data
+
+      return { kind: "ok", result }
     } catch (e) {
       __DEV__ && console.log(e.message)
       return { kind: "bad-data" }

@@ -13,7 +13,9 @@ export interface ApiResponse {
   message: string
   error: []
 }
-
+export interface Courier {
+  id: number
+}
 
 export type LoginResult = { kind: "ok"; token: string } | GeneralApiProblem;
 export type LogoutResult = { kind: "ok" } | GeneralApiProblem;
@@ -37,6 +39,7 @@ export type GetAdvertisementsResult = { kind: "ok"; advertisements: Advertisemen
 export type GetAdvertisementsForCustomerResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsForCourierResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsFilterResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
+export type GetBiddingCourierOnAdvertisementResult = { kind: "ok"; result: Courier[] } | GeneralApiProblem
 // export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
 export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, advertisementData: TAdvertisement } | GeneralApiProblem
 
