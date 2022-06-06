@@ -6,6 +6,7 @@ import { withStatus } from "../extensions/with-status"
 import { withEnvironment } from "../extensions/with-environment"
 import { AdvertisementApi } from "../../services/api/advetisement-api"
 import { CreateAdvertisementResult } from "../../services/api"
+import { CourierModel } from "../authentication-store/authentication-store"
 
 /**
  * Model description here for TypeScript hints.
@@ -15,12 +16,16 @@ export const AdvertisementStoreModel = types
   .model("AdvertisementStore")
   .props({
     advertisements: types.optional(types.array(AdvertisementModel), []),
+    couriers: types.optional(types.array(CourierModel), [], [null, undefined])
   })
   .extend(withStatus)
   .extend(withEnvironment)
   .actions((self) => ({
     saveAdvertisementData: flow(function* (advertisementSnapshots: AdvertisementSnapshot[]) {
       self.advertisements.replace(advertisementSnapshots)
+    }),
+    saveCourierData: flow(function* (couriers) {
+      self.couriers.replace(couriers)
     })
   }))
   .actions((self) => ({
@@ -87,7 +92,7 @@ export const AdvertisementStoreModel = types
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
         const result = yield advertisementApi.getAdvertisementsForCustomer(customerIds, status)
-        __DEV__ && console.log(result.advertisements)
+        // __DEV__ && console.log(result.advertisements)
 
         if (result.kind === "ok") {
           self.saveAdvertisementData(result.advertisements)
@@ -104,7 +109,7 @@ export const AdvertisementStoreModel = types
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
         const result = yield advertisementApi.getAdvertisementsForCourier(courierIds, status)
-        __DEV__ && console.log(result.advertisements)
+        // __DEV__ && console.log(result.advertisements)
 
         if (result.kind === "ok") {
           self.saveAdvertisementData(result.advertisements)
@@ -127,6 +132,26 @@ export const AdvertisementStoreModel = types
         }
       }
       return null
+    })
+  }))
+  .actions((self) => ({
+    getBiddingCourierOnAdvertisement: flow (function* (advertisementId:string) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.getBiddingCourierOnAdvertisement(advertisementId)
+
+        // __DEV__ && console.log(result)
+
+        if (result.kind === "ok") {
+          return self.saveCourierData(result.result)
+        } else {
+          __DEV__ && console.log(result.kind)
+          return null
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+        return null
+      }
     })
   }))
 type AdvertisementStoreType = Instance<typeof AdvertisementStoreModel>
