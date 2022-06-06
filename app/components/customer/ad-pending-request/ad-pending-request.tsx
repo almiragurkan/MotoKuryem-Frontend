@@ -37,7 +37,7 @@ const ROWFRONT: ViewStyle = {
   borderBottomWidth: 1,
   flex:1,
   justifyContent: 'center',
-  height:102
+  height:150
 }
 const ROWBACK: ViewStyle = {
   alignItems: 'center',
@@ -58,11 +58,11 @@ const BACKRIGHTBTN: ViewStyle = {
 }
 const BACKRIGHTBTNRIGHT: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  top:23,
+  top:40,
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize" }
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
@@ -72,8 +72,8 @@ export interface AdPendingRequestProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressPendingRequest?: any
   customerId: any
+  navigationprops: any
 }
 
 /**
@@ -81,7 +81,7 @@ export interface AdPendingRequestProps {
  */
 export const AdPendingRequest = observer(function AdPendingRequest(props: AdPendingRequestProps) {
 
-  const { onPressPendingRequest, customerId } = props
+  const { customerId, navigationprops } = props
 
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
@@ -93,19 +93,18 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
     fetchData().then((value) => console.log(value))
   }, [])
 
-  const pendingRequest = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      onPressPendingRequest();
-    }
+
+  const pendingRequest = (rowKey) => {
+    navigationprops.navigate("couriersSentRequestToAd", {adId: rowKey})
+  };
+  const goToDetail = (rowKey) => {
+    navigationprops.navigate("advertisementScreen",{adId: rowKey})
   };
 
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
-  };
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => console.log('You touched me')}
+      onPress={() => goToDetail(data.item.id)}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >
@@ -122,11 +121,11 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
     </TouchableHighlight>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data) => (
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => pendingRequest(rowMap, data.item.key)}
+        onPress={() => pendingRequest(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>KURYE İSTEĞİNİZ VAR!</Text>
       </TouchableOpacity>
@@ -146,7 +145,6 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-          onRowDidOpen={onRowDidOpen}
         />
       </View>
     </View>
