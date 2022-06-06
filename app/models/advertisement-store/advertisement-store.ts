@@ -6,17 +6,21 @@ import { withStatus } from "../extensions/with-status"
 import { withEnvironment } from "../extensions/with-environment"
 import { AdvertisementApi } from "../../services/api/advetisement-api"
 import { CreateAdvertisementResult } from "../../services/api"
-import { CourierModel } from "../authentication-store/authentication-store"
+import { UserProfileModel } from "../user-profile/user-profile"
 
 /**
  * Model description here for TypeScript hints.
  */
+export const CourierModel1 = types.model("Courier").props({
+  id: types.optional(types.identifier, "", [null, undefined]),
+  user: types.optional(UserProfileModel, {}, [null, undefined]),
+})
 
 export const AdvertisementStoreModel = types
   .model("AdvertisementStore")
   .props({
     advertisements: types.optional(types.array(AdvertisementModel), []),
-    couriers: types.optional(types.array(CourierModel), [], [null, undefined])
+    couriers: types.optional(types.array(CourierModel1), [], [null, undefined])
   })
   .extend(withStatus)
   .extend(withEnvironment)
@@ -154,6 +158,33 @@ export const AdvertisementStoreModel = types
       }
     })
   }))
+  .actions((self) => ({
+    setChosenCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string, adStatus:string) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.setChosenCourierOnAdvertisement(advertisementId, courierId)
+
+        __DEV__ && console.log(result)
+
+        if (result.kind === "ok") {
+          const result = yield advertisementApi.setStatus(advertisementId, adStatus)
+          if (result.kind === "ok") {
+            return null
+          } else {
+            __DEV__ && console.log(result.kind)
+            return null
+          }
+        } else {
+          __DEV__ && console.log(result.kind)
+          return null
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+        return null
+      }
+    })
+  }))
+
 type AdvertisementStoreType = Instance<typeof AdvertisementStoreModel>
 export interface AdvertisementStore extends AdvertisementStoreType {}
 type AdvertisementStoreSnapshotType = SnapshotOut<typeof AdvertisementStoreModel>

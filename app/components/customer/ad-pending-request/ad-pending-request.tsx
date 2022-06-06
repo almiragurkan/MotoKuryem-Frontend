@@ -95,6 +95,7 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
 
 
   const pendingRequest = (rowKey) => {
+    console.log("advertisementId:" + rowKey)
     navigationprops.navigate("couriersSentRequestToAd", {adId: rowKey})
   };
   const goToDetail = (rowKey) => {

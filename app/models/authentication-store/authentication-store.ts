@@ -13,7 +13,8 @@ import { TUserProfile } from "../user-profile/user-profile"
 import Moment from "moment"
 import { AuthenticationApi } from "../../services/api/authentication-api"
 
-export const CourierModel = types.model("Customer").props({
+
+export const CourierModel = types.model("Courier").props({
   id: types.optional(types.identifier, "", [null, undefined]),
 })
 export const CustomerModel = types.model("Customer").props({

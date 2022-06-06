@@ -121,11 +121,6 @@ export const AdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer
             <Text style={INNER_TEXT}>Ücret: </Text>
             <Text style={INNER_TEXT2}>{advertisementDetail.price} TL</Text>
           </View>
-          <View style={BUTTON_VIEW}>
-            <TouchableOpacity style={BUTTON_STYLE}>
-              <Text style={BUTTON_TEXT}>İSTEK YOLLA</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </Screen>
     </View>

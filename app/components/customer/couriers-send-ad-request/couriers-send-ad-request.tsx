@@ -28,7 +28,8 @@ const SUB_TEXT: TextStyle = {
   ...BOLD,
   fontSize: 15,
   lineHeight: 15,
-  padding:10
+  padding:10,
+  textTransform:"capitalize"
 }
 const CONTAINER1: ViewStyle = {
   backgroundColor: color.palette.white,
@@ -75,7 +76,7 @@ const BACKRIGHTBTNRIGHT: ViewStyle = {
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:60, height:60}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize" }
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 
 export interface CouriersSendAdRequestProps {
@@ -123,6 +124,7 @@ export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(pro
   const onConfirm = (rowKey) => {
     if (rowKey) {
       console.log( rowKey + "Onayla");
+      advertisementStore.setChosenCourierOnAdvertisement(adId, rowKey, "ACCEPTED").then((value) => console.log(value))
     }
   };
 
@@ -135,8 +137,8 @@ export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(pro
       <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
         <Icon style={ICON_STYLE} icon={"profile"}></Icon>
         <View style={{flexDirection:"column", padding:10, flex:1}}>
-          <Text style={INNER_TEXT1}>{data.item.id}</Text>
-          <Text style={INNER_TEXT2}>Puan: 4,7</Text>
+          <Text style={INNER_TEXT1}>{data.item.user.name} {data.item.user.surname}</Text>
+          <Text style={INNER_TEXT2}>Puan: {data.item.user.averageRating}</Text>
         </View>
       </View>
     </TouchableHighlight>

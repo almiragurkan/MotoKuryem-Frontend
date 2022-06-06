@@ -43,6 +43,9 @@ export type GetBiddingCourierOnAdvertisementResult = { kind: "ok"; result: Couri
 // export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
 export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, advertisementData: TAdvertisement } | GeneralApiProblem
 
+export type SetChosenCourierOnAdvertisementResult = { kind: "ok" } | GeneralApiProblem
+export type SetStatus = { kind: "ok" } | GeneralApiProblem
+
 
 export type GetCustomerRatingsResult = { kind: "ok"; ratings: Rating[] } | GeneralApiProblem
 export type GetCourierRatingsResult = { kind: "ok"; ratings: Rating[] } | GeneralApiProblem
