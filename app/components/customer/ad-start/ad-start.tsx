@@ -66,7 +66,7 @@ const BACKRIGHTBTN: ViewStyle = {
 }
 const BACKRIGHTBTNRIGHT: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  top:50,
+  top:52,
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
@@ -90,14 +90,6 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
 
-  const goToEdit = (rowKey) => {
-    navigationprops.navigate("createAdvertisement",{adId: rowKey})
-  };
-  const goToDetail = (rowKey) => {
-    navigationprops.navigate("advertisementScreen",{adId: rowKey})
-  };
-
-
   useEffect(() => {
     async function fetchData() {
       await advertisementStore.getAdvertisementsForCustomer(customerId,"WAITINGFOROFFER")
@@ -105,6 +97,13 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
     fetchData().then((value) => console.log(value))
   }, [])
 
+
+  const goToEdit = (rowKey) => {
+    navigationprops.navigate("createAdvertisement",{adId: rowKey})
+  };
+  const goToDetail = (rowKey) => {
+    navigationprops.navigate("advertisementScreen",{adId: rowKey})
+  };
 
   const renderItem = data => (
     <TouchableHighlight

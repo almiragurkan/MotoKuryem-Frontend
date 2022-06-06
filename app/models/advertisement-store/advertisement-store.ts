@@ -184,6 +184,26 @@ export const AdvertisementStoreModel = types
       }
     })
   }))
+  .actions((self) => ({
+    removeCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.setChosenCourierOnAdvertisement(advertisementId, courierId)
+
+        __DEV__ && console.log(result)
+
+        if (result.kind === "ok") {
+          return null
+        } else {
+          __DEV__ && console.log(result.kind)
+          return null
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+        return null
+      }
+    })
+  }))
 
 type AdvertisementStoreType = Instance<typeof AdvertisementStoreModel>
 export interface AdvertisementStore extends AdvertisementStoreType {}

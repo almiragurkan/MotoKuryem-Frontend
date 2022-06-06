@@ -37,7 +37,7 @@ const ROWFRONT: ViewStyle = {
   borderBottomWidth: 1,
   flex:1,
   justifyContent: 'center',
-  height:102
+  height:150
 }
 const ROWBACK: ViewStyle = {
   alignItems: 'center',
@@ -54,7 +54,7 @@ const BACKRIGHTBTN: ViewStyle = {
   position: 'absolute',
   top: 0,
   width: 100,
-  height:50,
+  height:74,
 }
 const BACKRIGHTBTNLEFT: ViewStyle = {
   backgroundColor: color.palette.specialBlue2,
@@ -63,7 +63,7 @@ const BACKRIGHTBTNLEFT: ViewStyle = {
 }
 const BACKRIGHTBTNRIGHT: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  top:52,
+  top:76,
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}

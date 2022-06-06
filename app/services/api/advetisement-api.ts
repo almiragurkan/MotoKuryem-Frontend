@@ -5,7 +5,10 @@ import {
   GetAdvertisementsFilterResult,
   GetAdvertisementsForCourierResult,
   GetAdvertisementsForCustomerResult,
-  GetAdvertisementsResult, GetBiddingCourierOnAdvertisementResult, SetChosenCourierOnAdvertisementResult,
+  GetAdvertisementsResult,
+  GetBiddingCourierOnAdvertisementResult,
+  RemoveCourierOnAdvertisemenResultt, RemoveCourierOnAdvertisementResult,
+  SetChosenCourierOnAdvertisementResult,
 
 } from "./api.types"
 import { getGeneralApiProblem } from "./api-problem"
@@ -202,6 +205,38 @@ export class AdvertisementApi {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "/advertisement/set-chosenCourier",
+        params
+      )
+
+      // __DEV__ && console.log(response.data)
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      return { kind: "ok" }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async removeCourierOnAdvertisement(API_ADVERTISEMENT_ID:string, API_COURIER_ID:string ): Promise<RemoveCourierOnAdvertisementResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_ADVERTISEMENT_ID.length > 0){
+      params.advertisementId = API_ADVERTISEMENT_ID.toString()
+    }
+    if(API_COURIER_ID.length > 0){
+      params.courierId = API_COURIER_ID.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        "/advertisement/remove-courier-from-bidding-couriers-of-the-advertisement",
         params
       )
 

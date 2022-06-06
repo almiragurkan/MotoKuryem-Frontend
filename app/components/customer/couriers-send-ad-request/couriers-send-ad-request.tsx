@@ -84,7 +84,6 @@ export interface CouriersSendAdRequestProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  couriersRating?: any
   navigationprops: any
   adId: any
 
