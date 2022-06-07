@@ -2,10 +2,13 @@ import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
 import {
+  CreateRatingCourierResult,
+  CreateRatingCustomerResult,
   GetAdvertisementRatingsResult,
   GetCourierRatingsResult,
   GetCustomerRatingsResult,
 } from "./api.types"
+import { TRatingCourier, TRatingCustomer } from "../../models"
 
 const API_PAGE_SIZE = 1000
 
@@ -107,6 +110,46 @@ export class RatingApi {
       return { kind: "ok", ratings }
     } catch (e) {
       __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async createRatingCustomer(ratingData: TRatingCustomer): Promise<CreateRatingCustomerResult> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        "/rating/update-rate-and-comment-courier",
+        ratingData,
+      )
+
+      __DEV__ && console.log(response)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok", data: response.data, ratingData: ratingData }
+    } catch (e) {
+      // __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async createRatingCourier(ratingData: TRatingCourier): Promise<CreateRatingCourierResult> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        "/rating/update-rate-and-comment-customer",
+        ratingData,
+      )
+
+      __DEV__ && console.log(response)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok", data: response.data, ratingData: ratingData }
+    } catch (e) {
+      // __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
     }
   }

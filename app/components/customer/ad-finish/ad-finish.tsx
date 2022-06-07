@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
@@ -93,10 +93,10 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     fetchData().then((value) => console.log(value))
   }, [])
 
+
   const goToDetail = (rowKey) => {
     navigationprops.navigate("advertisementScreen",{adId: rowKey})
   };
-
 
   const ratingCustomer = (rowKey) => {
     console.log("advertisementId:" + rowKey)

@@ -71,7 +71,23 @@ export const AdvertisementStoreModel = types
         __DEV__ && console.log(e.message)
       }
     })
+  }))
+  .actions((self) => ({
+    getAdvertisementWithAdvertisementId: flow (function* (advertisementIds?:any) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.getAdvertisementWithAdvertisementId(advertisementIds)
+        // __DEV__ && console.log(result.advertisements)
 
+        if (result.kind === "ok") {
+          self.saveAdvertisementData(result.advertisements)
+        } else {
+          __DEV__ && console.log(result.kind)
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+      }
+    })
   }))
   .actions((self) => ({
     getAdvertisementsFilter: flow (function* (cityIds?:any, status?:any) {

@@ -47,7 +47,7 @@ export class UserApi {
     const params:any = {take: API_PAGE_SIZE}
 
     if(API_COURIER_ID.length > 0){
-      params.customerId = API_COURIER_ID.toString()
+      params.courierId = API_COURIER_ID.toString()
     }
 
     try {
@@ -63,6 +63,7 @@ export class UserApi {
         if (problem) return problem
       }
 
+      console.log(response.data)
       const users = response.data
 
       return { kind: "ok", users }

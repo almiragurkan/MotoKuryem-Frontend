@@ -1,6 +1,14 @@
 import { GeneralApiProblem } from "./api-problem"
 import { Character } from "../../models/character/character"
-import { Address, Advertisement, TAddress, TAdvertisement, TUserProfile } from "../../models"
+import {
+  Address,
+  Advertisement,
+  TAddress,
+  TAdvertisement,
+  TRatingCourier,
+  TRatingCustomer,
+  TUserProfile,
+} from "../../models"
 import { Rating } from "../../models/rating/rating"
 
 export interface User {
@@ -40,7 +48,7 @@ export type GetAdvertisementsForCustomerResult = { kind: "ok"; advertisements: A
 export type GetAdvertisementsForCourierResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsFilterResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetBiddingCourierOnAdvertisementResult = { kind: "ok"; result: Courier[] } | GeneralApiProblem
-// export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
+export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
 export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, advertisementData: TAdvertisement } | GeneralApiProblem
 
 export type SetChosenCourierOnAdvertisementResult = { kind: "ok" } | GeneralApiProblem
@@ -52,9 +60,14 @@ export type GetCustomerRatingsResult = { kind: "ok"; ratings: Rating[] } | Gener
 export type GetCourierRatingsResult = { kind: "ok"; ratings: Rating[] } | GeneralApiProblem
 export type GetAdvertisementRatingsResult = { kind: "ok"; ratings: Rating[] } | GeneralApiProblem
 
+export type CreateRatingCustomerResult = { kind: "ok"; data: ApiResponse, ratingData: TRatingCustomer } | GeneralApiProblem
+export type CreateRatingCourierResult = { kind: "ok"; data: ApiResponse, ratingData: TRatingCourier } | GeneralApiProblem
+
 export type GetAddressesResult = { kind: "ok"; addresses: Address[] } | GeneralApiProblem
 export type CreateAddressResult = { kind: "ok"; data: ApiResponse, addressData: TAddress } | GeneralApiProblem
 export type DeleteAddressResult = { kind: "ok" } | GeneralApiProblem;
+
+
 
 
 

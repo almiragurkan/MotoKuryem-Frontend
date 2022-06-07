@@ -3,6 +3,18 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 /**
  * Model description here for TypeScript hints.
  */
+export type TRatingCustomer = {
+    ratingId:string,
+    rateCourier: string,
+    commentCourier: string,
+}
+export type TRatingCourier = {
+    ratingId:string,
+    rateCustomer: string,
+    commentCustomer: string,
+}
+
+
 export const RatingModel = types
   .model("Rating")
   .props({

@@ -1,13 +1,13 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import {
-  CreateAdvertisementResult,
+  CreateAdvertisementResult, GetAdvertisementResult,
   GetAdvertisementsFilterResult,
   GetAdvertisementsForCourierResult,
   GetAdvertisementsForCustomerResult,
   GetAdvertisementsResult,
   GetBiddingCourierOnAdvertisementResult,
-  RemoveCourierOnAdvertisemenResultt, RemoveCourierOnAdvertisementResult,
+  RemoveCourierOnAdvertisementResult,
   SetChosenCourierOnAdvertisementResult,
 
 } from "./api.types"
@@ -58,6 +58,34 @@ export class AdvertisementApi {
       const advertisements = response.data
 
       return { kind: "ok", advertisements }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+
+  async getAdvertisementWithAdvertisementId(API_ADVERTISEMENT_ID:any ): Promise<GetAdvertisementResult> {
+    const params:any = {take: API_PAGE_SIZE}
+
+    if(API_ADVERTISEMENT_ID.length > 0){
+      params.advertisementId = API_ADVERTISEMENT_ID.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(
+        "/advertisement/get-ad?",
+        params
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      return { kind: "ok", advertisement: response.data }
     } catch (e) {
       __DEV__ && console.log(e.message)
       return { kind: "bad-data" }
@@ -286,32 +314,5 @@ export class AdvertisementApi {
       return { kind: "bad-data" }
     }
   }
-
-  // async findAdvertisement(API_ADVETISEMENT_ID:any ): Promise<GetAdvertisementResult> {
-  //   const params:any = {take: API_PAGE_SIZE}
-  //
-  //   if(API_ADVETISEMENT_ID.length > 0){
-  //     params.advertisementId = API_ADVETISEMENT_ID.toString()
-  //   }
-  //
-  //   try {
-  //     // make the api call
-  //     const response: ApiResponse<any> = await this.api.apisauce.get(
-  //       "/advertisement/get-ad?",
-  //       params
-  //     )
-  //
-  //     // the typical ways to die when calling an api
-  //     if (!response.ok) {
-  //       const problem = getGeneralApiProblem(response)
-  //       if (problem) return problem
-  //     }
-  //
-  //     return { kind: "ok", advertisement: response.data }
-  //   } catch (e) {
-  //     __DEV__ && console.log(e.message)
-  //     return { kind: "bad-data" }
-  //   }
-  // }
 
 }

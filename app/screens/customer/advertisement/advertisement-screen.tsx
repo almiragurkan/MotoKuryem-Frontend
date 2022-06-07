@@ -67,12 +67,12 @@ export const AdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
 
-  const [advertisementDetail, setAdvertiementDetail] = useState(advertisements[0])
+  const [advertisementDetail, setAdvertisementDetail] = useState(advertisements[0])
 
   useEffect(()=>{
     if(route.params.adId)
       advertisementStore.findAdvertisement(route.params.adId)
-        .then(value => setAdvertiementDetail(value))
+        .then(value => setAdvertisementDetail(value))
   },[advertisementStore])
 
 
