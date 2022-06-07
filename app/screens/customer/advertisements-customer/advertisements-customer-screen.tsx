@@ -112,9 +112,9 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
                 <AdPendingRequest customerId={cusId} navigationprops={navigation}/>
                 :
                 state === "ad-Transfering" ?
-                  <AdTransfering onPressConfirmPayment={()=>ratingCustomerScreen()} onPressLocation={()=>locationCustomerScreen()} customerId={cusId}/>
+                  <AdTransfering onPressLocation={()=>locationCustomerScreen()} customerId={cusId} navigationprops={navigation}/>
                   :
-                  <AdFinish onPressRatingCustomer={()=>ratingCustomerScreen()} customerId={cusId}/>
+                  <AdFinish onPressRatingCustomer={()=>ratingCustomerScreen()} customerId={cusId} navigationprops={navigation}/>
 
           }
         </Screen>

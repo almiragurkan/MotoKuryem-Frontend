@@ -62,7 +62,7 @@ const BACKRIGHTBTNRIGHT: ViewStyle = {
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize" }
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
@@ -72,8 +72,8 @@ export interface AdFinishProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressRatingCustomer?: any
   customerId: any
+  navigationprops: any
 }
 
 /**
@@ -81,7 +81,7 @@ export interface AdFinishProps {
  */
 export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
 
-  const {onPressRatingCustomer, customerId} = props
+  const { customerId, navigationprops} = props
 
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
@@ -93,10 +93,14 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     fetchData().then((value) => console.log(value))
   }, [])
 
-  const ratingCustomer = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      onPressRatingCustomer();
-    }
+  const goToDetail = (rowKey) => {
+    navigationprops.navigate("advertisementScreen",{adId: rowKey})
+  };
+
+
+  const ratingCustomer = (rowKey) => {
+    console.log("advertisementId:" + rowKey)
+    navigationprops.navigate("ratingCustomer",{adId: rowKey})
   };
 
   const onRowDidOpen = rowKey => {
@@ -105,7 +109,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => console.log('You touched me')}
+      onPress={() => goToDetail(data.item.id)}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >
@@ -122,11 +126,11 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     </TouchableHighlight>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data) => (
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => ratingCustomer(rowMap, data.item.id)}
+        onPress={() => ratingCustomer(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>KURYEYİ PUANLA</Text>
       </TouchableOpacity>

@@ -67,7 +67,7 @@ const BACKRIGHTBTNRIGHT: ViewStyle = {
   right: 0,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize" }
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
@@ -80,6 +80,7 @@ export interface AdTransferingProps {
   onPressConfirmPayment?: any
   onPressLocation?: any
   customerId: any
+  navigationprops: any
 }
 
 /**
@@ -87,7 +88,7 @@ export interface AdTransferingProps {
  */
 export const AdTransfering = observer(function AdTransfering(props: AdTransferingProps) {
 
-  const {onPressConfirmPayment, onPressLocation, customerId} = props
+  const {onPressConfirmPayment, onPressLocation, customerId, navigationprops} = props
 
   const { advertisementStore } = useStores()
   const { advertisements } = advertisementStore
@@ -104,6 +105,10 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
     }
   };
 
+  const goToDetail = (rowKey) => {
+    navigationprops.navigate("advertisementScreen",{adId: rowKey})
+  };
+
   const ratingCustomer = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       onPressConfirmPayment();
@@ -116,7 +121,7 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
 
   const renderItem = data => (
     <TouchableHighlight
-      onPress={() => console.log('You touched me')}
+      onPress={() => goToDetail(data.item.id)}
       style={ROWFRONT}
       underlayColor={color.palette.white}
     >

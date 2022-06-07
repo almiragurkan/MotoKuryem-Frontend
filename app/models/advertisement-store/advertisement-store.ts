@@ -159,7 +159,7 @@ export const AdvertisementStoreModel = types
     })
   }))
   .actions((self) => ({
-    setChosenCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string, adStatus:string) {
+    setChosenCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string) {
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
         const result = yield advertisementApi.setChosenCourierOnAdvertisement(advertisementId, courierId)
@@ -167,13 +167,14 @@ export const AdvertisementStoreModel = types
         __DEV__ && console.log(result)
 
         if (result.kind === "ok") {
-          const result = yield advertisementApi.setStatus(advertisementId, adStatus)
-          if (result.kind === "ok") {
-            return null
-          } else {
-            __DEV__ && console.log(result.kind)
-            return null
-          }
+          //  const result = yield advertisementApi.setStatus(advertisementId, adStatus)
+          // if (result.kind === "ok") {
+          //   return null
+          // } else {
+          //   __DEV__ && console.log(result.kind)
+          //   return null
+          // }
+          return null
         } else {
           __DEV__ && console.log(result.kind)
           return null
@@ -188,7 +189,7 @@ export const AdvertisementStoreModel = types
     removeCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string) {
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
-        const result = yield advertisementApi.setChosenCourierOnAdvertisement(advertisementId, courierId)
+        const result = yield advertisementApi.removeCourierOnAdvertisement(advertisementId, courierId)
 
         __DEV__ && console.log(result)
 

@@ -134,7 +134,7 @@ export const CouriersSentRequestToAdScreen: FC<StackScreenProps<NavigatorParamLi
   const onConfirm = (rowKey) => {
     if (rowKey) {
       console.log( rowKey + "Onayla");
-      advertisementStore.setChosenCourierOnAdvertisement(route.params.adId, rowKey, "ACCEPTED").then((value) => console.log(value))
+      advertisementStore.setChosenCourierOnAdvertisement(route.params.adId, rowKey).then((value) => console.log(value))
     }
   };
 
