@@ -106,8 +106,8 @@ export const RatingStoreModel = types
       const result: CreateRatingCourierResult = yield ratingApi.createRatingCourier(ratingData)
       self.setStatus("done")
       __DEV__&&console.log("Rating oluşturma işlemi gerçekleştiriliyor...")
-      // __DEV__&&console.log(result.kind)
-      // __DEV__&&console.log(result)
+      __DEV__&&console.log(result.kind)
+      __DEV__&&console.log(result)
 
 
       if (result.kind === "ok") {

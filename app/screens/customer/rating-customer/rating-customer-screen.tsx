@@ -1,14 +1,14 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TextInput, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamListCustomer } from "../../../navigators"
-import { GradientBackground, Header, Icon, Screen, Text } from "../../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { NavigatorParamListCustomer } from "../../../navigators"
+import { GradientBackground, Header, Screen, Text } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
-import { TAddress, TRatingCustomer, useStores } from "../../../models"
+import { TRatingCustomer, useStores } from "../../../models"
 import { Controller, useForm } from "react-hook-form"
+import { AirbnbRating } from 'react-native-ratings';
+
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -79,15 +79,6 @@ const INNER_TEXT: TextStyle = {
   ...BOLD,
   marginHorizontal:10
 }
-const INNER_TEXT1: TextStyle = {
-  color: color.palette.black,
-  fontFamily: typography.primary,
-  fontSize: 15,
-  paddingVertical: 10,
-  justifyContent:"flex-start",
-  flex:1,
-  paddingLeft:10
-}
 const INPUTS: ViewStyle = {
   backgroundColor: "white",
   padding: spacing[1],
@@ -147,27 +138,6 @@ const FORM_INPUTS_ERROR_SMALL_VIEWSTYLES: TextStyle = {
 
 export const RatingCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "ratingCustomer">> = observer(({ route, navigation }) => {
 
-  const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
-
-  const [advertisementDetail, setAdvertisementDetail] = useState(advertisements[0])
-
-  useEffect(()=>{
-    if(route.params.adId)
-      advertisementStore.findAdvertisement(route.params.adId)
-        .then(value => setAdvertisementDetail(value))
-  },[advertisementStore])
-
-console.log("chosen courierId:" + advertisementDetail.chosenCourier.id)
-
-  // const { userStore } = useStores()
-  // const { users } = userStore
-  //
-  // useEffect(()=>{
-  //   if(advertisementDetail.chosenCourier.id !== "" )
-  //     userStore.getUserWithCourierId(advertisementDetail.chosenCourier.id)
-  //       .then(value => console.log(value))
-  // },[userStore])
 
   const goBack = () => navigation.goBack()
   const { ratingStore } = useStores()
@@ -189,8 +159,6 @@ console.log("chosen courierId:" + advertisementDetail.chosenCourier.id)
   }, [isSubmitSuccessful])
 
 
-
-
   return (
     <View testID="RatingCustomerScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -201,15 +169,35 @@ console.log("chosen courierId:" + advertisementDetail.chosenCourier.id)
         <View style={VIEW}>
           <View style={INNER_VIEW1}>
             <Text style={INNER_TEXT}>Kuryeyi Puanla</Text>
-            <Text style={INNER_TEXT1}></Text>
+          </View>
+          <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              render={({ field: {} }) => (<View/>)}
+              name="ratingId"
+              defaultValue={route.params.ratingId}
+            />
           </View>
 
-          <View style={INNER_VIEW2}>
-            <Icon icon={"starBorder"}/>
-            <Icon icon={"starBorder"}/>
-            <Icon icon={"starBorder"}/>
-            <Icon icon={"starBorder"}/>
-            <Icon icon={"starBorder"}/>
+          <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              render={({ field: { onChange} }) => (
+                  <View style={INNER_VIEW2}>
+                    <AirbnbRating
+                      count={5}
+                      reviews={["Çok Kötü", "Kötü", "İdare eder", "İyi", "Mükemmel"]}
+                      defaultRating={1}
+                      size={30}
+                      onFinishRating={onChange}
+                    />
+                  {errors.rateCourier &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.rateCourier.message}</Text>}
+                </View>
+              )}
+              name="rateCourier"
+              defaultValue={1}
+            />
           </View>
 
           <View>

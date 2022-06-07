@@ -67,7 +67,7 @@ export type NavigatorParamListCustomer = {
   wallet: undefined
   changePassword: undefined
   support: undefined
-  ratingCustomer: { adId? }
+  ratingCustomer: { ratingId?}
   couriersSentRequestToAd: { adId? }
   resetPassword: undefined
   createAddress: undefined

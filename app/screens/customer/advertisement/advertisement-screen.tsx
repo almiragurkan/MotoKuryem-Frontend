@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListCustomer } from "../../../navigators"
 import { GradientBackground, Header, Screen } from "../../../components"
@@ -44,19 +44,6 @@ const INPUTS_VIEW_STYLE: ViewStyle = {
   paddingHorizontal: spacing[1],
   paddingBottom: spacing[2],
   borderColor: color.palette.lightGrey,
-}
-const BUTTON_VIEW: ViewStyle = { flex: 1, justifyContent: "center", alignItems: "center" }
-const BUTTON_STYLE: ViewStyle = {
-  backgroundColor: color.palette.specialBlue,
-  margin: spacing[2],
-  width: 80,
-  height: 50,
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 5,
-}
-const BUTTON_TEXT: TextStyle = {
-  color: color.palette.white,
 }
 
 

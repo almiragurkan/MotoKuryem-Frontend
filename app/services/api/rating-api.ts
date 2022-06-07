@@ -141,7 +141,7 @@ export class RatingApi {
         ratingData,
       )
 
-      __DEV__ && console.log(response)
+      __DEV__ && console.log(response.data)
 
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)

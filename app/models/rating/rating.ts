@@ -5,12 +5,12 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
  */
 export type TRatingCustomer = {
     ratingId:string,
-    rateCourier: string,
+    rateCourier: number,
     commentCourier: string,
 }
 export type TRatingCourier = {
     ratingId:string,
-    rateCustomer: string,
+    rateCustomer: number,
     commentCustomer: string,
 }
 

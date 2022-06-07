@@ -89,6 +89,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
   useEffect(() => {
     async function fetchData() {
       await advertisementStore.getAdvertisementsForCustomer(customerId,"TRANSACTIONAPPROVED")
+      await advertisementStore.getAdvertisementsForCustomer(customerId,"COMMENTED")
     }
     fetchData().then((value) => console.log(value))
   }, [])
@@ -98,13 +99,12 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     navigationprops.navigate("advertisementScreen",{adId: rowKey})
   };
 
-  const ratingCustomer = (rowKey) => {
-    console.log("advertisementId:" + rowKey)
-    navigationprops.navigate("ratingCustomer",{adId: rowKey})
+  const ratingCustomer = (ratingId) => {
+    navigationprops.navigate("ratingCustomer",{ratingId: ratingId})
   };
 
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
+  const onRowDidOpen = () => {
+    console.log('This row opened');
   };
 
   const renderItem = data => (
@@ -117,7 +117,6 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
         <Icon style={ICON_STYLE} icon={"circle"}></Icon>
         <View style={{flexDirection:"column", padding:10, flex:1}}>
           <Text style={INNER_TEXT1}>{data.item.header}</Text>
-          <Text style={INNER_TEXT2}>Müşteri Puanı: 3,2</Text>
           <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
           <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
           <Text style={INNER_TEXT3}>Ücret: {data.item.price} TL</Text>
@@ -130,7 +129,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => ratingCustomer(data.item.id)}
+        onPress={() => ratingCustomer(data.item.rating.id)}
       >
         <Text style={BACKTEXTWHITE}>KURYEYİ PUANLA</Text>
       </TouchableOpacity>
