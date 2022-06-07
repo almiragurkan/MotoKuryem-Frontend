@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { CourierModel, CustomerModel } from "../authentication-store/authentication-store"
+import { CourierModel } from "../authentication-store/authentication-store"
 import { RatingModel } from "../rating/rating"
 import { AddressModel } from "../address/address"
 
@@ -35,6 +35,18 @@ export type TAdvertisement = {
 /**
  * Model description here for TypeScript hints.
  */
+
+
+
+export const UserModel2 = types.model("UserModel2").props({
+    id: types.optional(types.identifier, "", [null, undefined]),
+    averageRating: types.optional(types.number, 0, [null, undefined]),
+})
+export const CustomerModel2 = types.model("CustomerModel2").props({
+    id: types.optional(types.identifier, "", [null, undefined]),
+    user: types.optional(UserModel2, {}, [null, undefined]),
+})
+
 export const AdvertisementModel = types
   .model("Advertisement")
   .props({
@@ -46,7 +58,7 @@ export const AdvertisementModel = types
     productName: types.optional(types.string, "", [null, undefined]),
     productWeight: types.optional(types.string, "", [null, undefined]),
     chosenCourier: types.optional(CourierModel, {}, [null, undefined]),
-    customer: types.optional(CustomerModel, {}, [null, undefined]),
+    customer: types.optional(CustomerModel2, {}, [null, undefined]),
     addressToTake: types.optional(AddressModel, {}, [null, undefined]),
     addressToGive: types.optional(AddressModel, {}, [null, undefined]),
     rating: types.optional(RatingModel, {}, [null, undefined]),

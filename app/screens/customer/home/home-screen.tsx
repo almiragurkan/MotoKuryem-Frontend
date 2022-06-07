@@ -108,7 +108,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
             <Icon style={ICON_STYLE} icon={"circle"}></Icon>
             <View style={{flexDirection:"column", padding:10, flex:1}}>
             <Text style={INNER_TEXT1}>{data.item.header}</Text>
-            <Text style={INNER_TEXT2}>Müşteri Puanı: 3,2</Text>
+            <Text style={INNER_TEXT2}>Müşteri Puanı: {data.item.customer.user.averageRating}</Text>
             <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
             <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
             <Text style={INNER_TEXT3}>Ücret: {data.item.price} TL</Text>
