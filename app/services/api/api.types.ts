@@ -4,7 +4,7 @@ import {
   Address,
   Advertisement,
   TAddress,
-  TAdvertisement, TBidOn,
+  TAdvertisement,
   TRatingCourier,
   TRatingCustomer,
   TUserProfile,

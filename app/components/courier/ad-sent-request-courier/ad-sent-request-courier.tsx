@@ -85,11 +85,12 @@ export const AdSentRequestCourier = observer(function AdSentRequestCourier(props
   const { courierId, navigationprops } = props
 
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
+  const [ads, setAds ] = useState([])
 
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCourier(courierId,"WAITINGFORAPPROVEL")
+      let a = await advertisementStore.getAdvertisementsForCourier(courierId,"WAITINGFORAPPROVEL")
+      setAds(a)
     }
     fetchData().then((value) => console.log(value))
   }, [])
@@ -138,8 +139,8 @@ export const AdSentRequestCourier = observer(function AdSentRequestCourier(props
     <View style={CONTAINER}>
       <Text style={TEXT}>İSTEK GÖNDERİLEN İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {(ads)?<SwipeListView
+          data={ads}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -147,7 +148,7 @@ export const AdSentRequestCourier = observer(function AdSentRequestCourier(props
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-        />
+        /> : <Text text={"LOADING..."}/>}
       </View>
     </View>
   )

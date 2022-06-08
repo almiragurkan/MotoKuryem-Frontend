@@ -79,6 +79,7 @@ export class AuthenticationApi {
   }
 
   async logout(): Promise<LogoutResult> {
+    return { kind: "ok" };
     try {
       const response: ApiResponse<any> = await this.api.apisauce.patch(
         "/logout",

@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
@@ -82,13 +82,12 @@ export interface AdPendingRequestProps {
 export const AdPendingRequest = observer(function AdPendingRequest(props: AdPendingRequestProps) {
 
   const { customerId, navigationprops } = props
-
+  const [ads, setAds]=useState([])
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
-
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCustomer(customerId,"WAITINGFORAPPROVEL")
+      let ads = await advertisementStore.getAdvertisementsForCustomer(customerId,"WAITINGFORAPPROVEL")
+      setAds(ads)
     }
     fetchData().then((value) => console.log(value))
   }, [])
@@ -136,8 +135,8 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
     <View style={CONTAINER}>
       <Text style={TEXT}>KURYE İSTEĞİ BEKLEYEN İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {ads?<SwipeListView
+          data={ads}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -145,7 +144,7 @@ export const AdPendingRequest = observer(function AdPendingRequest(props: AdPend
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-        />
+        />:<Text text={"LOADING..."}/>}
       </View>
     </View>
   )

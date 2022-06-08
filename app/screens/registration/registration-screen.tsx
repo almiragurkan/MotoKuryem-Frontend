@@ -125,7 +125,7 @@ export const RegistrationScreen: FC<StackScreenProps<NavigatorParamListAuth, "re
         navigation.goBack()
     }, [isSubmitSuccessful])
 
-
+  console.log(authenticationStore.isAuthenticated,"TEST5")
 
     return (
       <View testID="RegistrationScreen" style={FULL}>

@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { Controller, useForm } from "react-hook-form"
 import { ImageStyle, TextInput, Text, TextStyle, View, ViewStyle, TouchableOpacity, ActivityIndicator } from "react-native"
@@ -9,6 +9,7 @@ import { AutoImage as Image, Button, GradientBackground, Header, Screen } from "
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
 import { useStores } from "../../models"
+import { MyContext } from "../../models/my-context/my-context"
 
 const motoKuryemLogo = require("./motokuryem-logo.png")
 const motoKuryemText = require("./motokuryem-text.png")
@@ -133,15 +134,18 @@ type FormData = {
 
 export const LoginScreen: FC<StackScreenProps<NavigatorParamListAuth, "login">> = observer(
   ({ navigation }) => {
+    const {setValue}=useContext(MyContext) as any;
     const registrationScreen = () => navigation.navigate("registration")
 
     const { authenticationStore } = useStores()
-
     const {
       control, handleSubmit, formState: { errors },
     } = useForm<FormData>()
 
-    const onLogin = async (data) => await authenticationStore.login(data.username, data.password, authenticationStore.rememberMe)
+    const onLogin = async (data) => {
+      let res= await authenticationStore.login(data.username, data.password, authenticationStore.rememberMe)
+      setValue({isAuthenticated: res.isAuthenticated, isCourier:res.isCourier})
+    }
 
     return (
       <View testID="LoginScreen" style={FULL}>

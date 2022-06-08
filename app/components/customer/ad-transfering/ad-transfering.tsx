@@ -3,10 +3,11 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
+import { MyContext } from "../../../models/my-context/my-context"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -77,7 +78,6 @@ export interface AdTransferingProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressConfirmPayment?: any
   onPressLocation?: any
   customerId: any
   navigationprops: any
@@ -87,15 +87,15 @@ export interface AdTransferingProps {
  * Describe your component here
  */
 export const AdTransfering = observer(function AdTransfering(props: AdTransferingProps) {
-
-  const {onPressConfirmPayment, onPressLocation, customerId, navigationprops} = props
+  const myContext= useContext(MyContext);
+  const { onPressLocation, customerId, navigationprops} = props
 
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
-
+  const [ads,setAds]=useState([]);
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCustomer(customerId,"ACCEPTED")
+      let a=await advertisementStore.getAdvertisementsForCustomer(customerId,"ACCEPTED", myContext.token)
+      setAds(a);
     }
     fetchData().then((value) => console.log(value))
   }, [])
@@ -109,11 +109,11 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
     navigationprops.navigate("advertisementScreen",{adId: rowKey})
   };
 
-  const ratingCustomer = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      onPressConfirmPayment();
-    }
-  };
+
+  const confirmPayment = (rowKey) => {
+    console.log("Ödemeyi Onayla:" + rowKey)
+    advertisementStore.setStatusAdvertisement(rowKey, "TRANSACTIONAPPROVED").then((value) => console.log(value))
+  }
 
   const onRowDidOpen = rowKey => {
     console.log('This row opened', rowKey);
@@ -147,7 +147,7 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
       </TouchableOpacity>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => ratingCustomer(rowMap, data.item.key)}
+        onPress={() => confirmPayment(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>ÖDEMEYİ ONAYLA</Text>
       </TouchableOpacity>
@@ -158,17 +158,17 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
     <View style={CONTAINER}>
       <Text style={TEXT}>TAŞIMA AŞAMASINDAKİ İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {ads?<SwipeListView
+          data={ads}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
           rightOpenValue={-100}
-          previewRowKey={'0'}
+          previewRowKey={"0"}
           previewOpenValue={-40}
           previewOpenDelay={3000}
           onRowDidOpen={onRowDidOpen}
-        />
+        />:<Text text={"..."}/> }
       </View>
     </View>
   )

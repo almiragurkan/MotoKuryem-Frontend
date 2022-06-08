@@ -4,7 +4,7 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { useColorScheme } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
@@ -41,6 +41,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { color } from "../theme"
 import { Icon } from "../components"
 import { useStores } from "../models"
+import { MyContext } from "../models/my-context/my-context"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -67,7 +68,7 @@ export type NavigatorParamListCustomer = {
   wallet: undefined
   changePassword: undefined
   support: undefined
-  ratingCustomer: { ratingId?}
+  ratingCustomer: { ratingId? }
   couriersSentRequestToAd: { adId? }
   resetPassword: undefined
   createAddress: undefined
@@ -83,7 +84,7 @@ export type NavigatorParamListCourier = {
   changePasswordCourier: undefined
   walletCourier: undefined
   supportCourier: undefined
-  ratingCourier: { ratingId?}
+  ratingCourier: { ratingId? }
   resetPassword: undefined
   // 🔥 Your screens go here
 }
@@ -286,10 +287,10 @@ const CustomerNavigator = () => {
         component={HomeStackCustomer}
         options={{
           tabBarLabel: "Anasayfa",
-          tabBarStyle:{height:57},
-          tabBarLabelStyle:{fontSize:15, marginBottom:10},
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
           tabBarIcon: ({ color, size }) => (
-            <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
+            <Icon icon="homeTabBar" style={{ width: 20, height: 20, marginTop: 5 }} />
           ),
         }}
       />
@@ -298,10 +299,10 @@ const CustomerNavigator = () => {
         component={AdvetisementStackCustomer}
         options={{
           tabBarLabel: "İlanlarım",
-          tabBarStyle:{height:57},
-          tabBarLabelStyle:{fontSize:15, marginBottom:10},
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
           tabBarIcon: ({ color, size }) => (
-            <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
+            <Icon icon="homeTabBar" style={{ width: 20, height: 20, marginTop: 5 }} />
           ),
         }}
       />
@@ -310,10 +311,10 @@ const CustomerNavigator = () => {
         component={ProfileStackCustomer}
         options={{
           tabBarLabel: "Profil",
-          tabBarStyle:{height:57},
-          tabBarLabelStyle:{fontSize:15, marginBottom:10},
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
           tabBarIcon: ({ color, size }) => (
-            <Icon icon="profileTabBar" style={{width:25,height:25, marginTop:5}}/>
+            <Icon icon="profileTabBar" style={{ width: 25, height: 25, marginTop: 5 }} />
           ),
         }}
       />
@@ -322,51 +323,51 @@ const CustomerNavigator = () => {
 }
 
 const CourierNavigator = () => {
-  return(
-      <TabCourier.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: color.palette.specialBlue,
+  return (
+    <TabCourier.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: color.palette.specialBlue,
+      }}
+      initialRouteName="home">
+      <TabCourier.Screen
+        name="HomeStack"
+        component={HomeStackCourier}
+        options={{
+          tabBarLabel: "Anasayfa",
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
+          tabBarIcon: ({ color, size }) => (
+            <Icon icon="homeTabBar" style={{ width: 20, height: 20, marginTop: 5 }} />
+          ),
         }}
-        initialRouteName="home">
-        <TabCourier.Screen
-          name="HomeStack"
-          component={HomeStackCourier}
-          options={{
-            tabBarLabel: "Anasayfa",
-            tabBarStyle:{height:57},
-            tabBarLabelStyle:{fontSize:15, marginBottom:10},
-            tabBarIcon: ({ color, size }) => (
-              <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
-            ),
-          }}
-        />
-        <TabCourier.Screen
-          name="AdvertisementStack"
-          component={AdvetisementStackCourier}
-          options={{
-            tabBarLabel: "İlanlarım",
-            tabBarStyle:{height:57},
-            tabBarLabelStyle:{fontSize:15, marginBottom:10},
-            tabBarIcon: ({ color, size }) => (
-              <Icon icon="homeTabBar" style={{width:20,height:20, marginTop:5}}/>
-            ),
-          }}
-        />
-        <TabCourier.Screen
-          name="ProfileStack"
-          component={ProfileStackCourier}
-          options={{
-            tabBarLabel: "Profil",
-            tabBarStyle:{height:57},
-            tabBarLabelStyle:{fontSize:15, marginBottom:10},
-            tabBarIcon: ({ color, size }) => (
-              <Icon icon="profileTabBar" style={{width:25,height:25, marginTop:5}}/>
-            ),
-          }}
-        />
-      </TabCourier.Navigator>
-    )
+      />
+      <TabCourier.Screen
+        name="AdvertisementStack"
+        component={AdvetisementStackCourier}
+        options={{
+          tabBarLabel: "İlanlarım",
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
+          tabBarIcon: ({ color, size }) => (
+            <Icon icon="homeTabBar" style={{ width: 20, height: 20, marginTop: 5 }} />
+          ),
+        }}
+      />
+      <TabCourier.Screen
+        name="ProfileStack"
+        component={ProfileStackCourier}
+        options={{
+          tabBarLabel: "Profil",
+          tabBarStyle: { height: 57 },
+          tabBarLabelStyle: { fontSize: 15, marginBottom: 10 },
+          tabBarIcon: ({ color, size }) => (
+            <Icon icon="profileTabBar" style={{ width: 25, height: 25, marginTop: 5 }} />
+          ),
+        }}
+      />
+    </TabCourier.Navigator>
+  )
 }
 
 interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {
@@ -374,10 +375,10 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
-  const { authenticationStore } = useStores();
+  const myContext = useContext(MyContext)
+  const { authenticationStore } = useStores()
   const [isLogged, setIsLogged] = useState(false)
   const [isLogging, setIsLogging] = useState(false)
-
   const lastLoginTime = Math.abs((new Date().getTime() - authenticationStore.lastLogin.getTime()) / 1000)
 
   if (lastLoginTime > 3600) {
@@ -410,8 +411,8 @@ export const AppNavigator = (props: NavigationProps) => {
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      {authenticationStore.isAuthenticated ?
-          authenticationStore.isCourier ? <CourierNavigator/> : <CustomerNavigator/>
+      {myContext.isAuthenticated ?
+        myContext.isCourier ? <CourierNavigator /> : <CustomerNavigator />
         : <AuthStack />}
     </NavigationContainer>
   )

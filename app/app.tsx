@@ -19,6 +19,8 @@ import { useBackButtonHandler, AppNavigator, canExit } from "./navigators"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 // import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens"
+import { MyContext } from "./models/my-context/my-context"
+import { AppRegistry } from "react-native"
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
@@ -31,6 +33,7 @@ export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
  */
 function App() {
   const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
+  let [myState, setMyState] = useState({ isAuthenticated: false, isCourier: false })
 
   useBackButtonHandler(canExit)
   // const {
@@ -45,7 +48,6 @@ function App() {
       setupRootStore().then(setRootStore)
     })()
   }, [])
-
   // Before we show the app, we have to wait for our state to be ready.
   // In the meantime, don't render anything. This will be the background
   // color set in native by rootView's background color.
@@ -53,10 +55,17 @@ function App() {
   // In Android: https://stackoverflow.com/a/45838109/204044
   // You can replace with your own loading component if you wish.
   if (!rootStore) return null
-
+  else if (myState.isAuthenticated != rootStore.authenticationStore.isAuthenticated
+    || myState.isCourier != rootStore.authenticationStore.isCourier) {
+    setMyState({
+      isAuthenticated: rootStore.authenticationStore.isAuthenticated,
+      isCourier: rootStore.authenticationStore.isCourier,
+    })
+  }
   // otherwise, we're ready to render the app
   return (
     // <ToggleStorybook>
+    <MyContext.Provider value={{ ...myState, setValue: setMyState as any }}>
       <RootStoreProvider value={rootStore}>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
           <ErrorBoundary catchErrors={"always"}>
@@ -67,8 +76,11 @@ function App() {
           </ErrorBoundary>
         </SafeAreaProvider>
       </RootStoreProvider>
+    </MyContext.Provider>
     // </ToggleStorybook>
+
   )
 }
 
 export default App
+AppRegistry.registerComponent('MotoKuryem', () => App);

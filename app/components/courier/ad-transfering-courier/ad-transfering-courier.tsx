@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
@@ -91,11 +91,12 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
 
 
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
+  const [ads, setAds ] = useState([])
 
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCourier(courierId, "ACCEPTED")
+      let a = await advertisementStore.getAdvertisementsForCourier(courierId, "ACCEPTED")
+      setAds(a)
     }
 
     fetchData().then((value) => console.log(value))
@@ -106,8 +107,8 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
   }
 
 
-  const ratingCourier = (rowKey) => {
-    console.log("Ödemeyi Onayla:" + rowKey)
+  const itemDelivered = (rowKey) => {
+    console.log("Taşıma tamamlandı:" + rowKey)
     advertisementStore.setStatusAdvertisement(rowKey, "ITEMDELIVERED").then((value) => console.log(value))
   }
 
@@ -148,7 +149,7 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
       </TouchableOpacity>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-        onPress={() => ratingCourier(data.item.id)}
+        onPress={() => itemDelivered(data.item.id)}
       >
         <Text style={BACKTEXTWHITE}>TAŞIMA TAMAMLANDI</Text>
       </TouchableOpacity>
@@ -159,8 +160,8 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
     <View style={CONTAINER}>
       <Text style={TEXT}>TAŞIMA AŞAMASINDAKİ İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {(ads)?<SwipeListView
+          data={ads}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -169,7 +170,7 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
           previewOpenValue={-40}
           previewOpenDelay={3000}
           onRowDidOpen={onRowDidOpen}
-        />
+        /> : <Text text={"LOADING..."}/>}
       </View>
     </View>
   )

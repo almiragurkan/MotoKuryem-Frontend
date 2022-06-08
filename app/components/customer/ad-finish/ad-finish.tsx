@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
@@ -84,12 +84,12 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
   const { customerId, navigationprops} = props
 
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
+  const [ads, setAds]=useState([])
 
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCustomer(customerId,"TRANSACTIONAPPROVED")
-      await advertisementStore.getAdvertisementsForCustomer(customerId,"COMMENTED")
+      let ads = await advertisementStore.getAdvertisementsForCustomer(customerId,"TRANSACTIONAPPROVED")
+      setAds(ads)
     }
     fetchData().then((value) => console.log(value))
   }, [])
@@ -140,8 +140,8 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
     <View style={CONTAINER}>
       <Text style={TEXT}>TAMAMLANAN İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {ads?<SwipeListView
+          data={ads? ads: []}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -150,7 +150,7 @@ export const AdFinish = observer(function AdFinish(props: AdFinishProps) {
           previewOpenValue={-40}
           previewOpenDelay={3000}
           onRowDidOpen={onRowDidOpen}
-        />
+        />:<Text text={"LOADING..."}/>}
       </View>
     </View>
   )

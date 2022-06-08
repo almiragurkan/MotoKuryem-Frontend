@@ -205,11 +205,12 @@ export const AuthenticationStoreModel = types
         __DEV__ && console.log(result.kind)
 
         self.lastLogin = new Date()
-        return { result: true, message: "Login success" }
+
+        return { result: true, message: "Login success", isAuthenticated: self.isAuthenticated, isCourier:self.isCourier }
       } else {
         self.status = "error"
         self.isAuthenticated = false
-        return { result: false, message: result.kind }
+        return { result: false, message: result.kind, isAuthenticated: self.isAuthenticated, isCourier:self.isCourier }
       }
     }),
   }))

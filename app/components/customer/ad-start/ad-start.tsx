@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { Button } from "../../button/button"
@@ -86,17 +86,16 @@ export interface AdStartProps {
 
 export const AdStart = observer(function AdStart(props: AdStartProps) {
   const { onPressCreateAd, customerId, navigationprops } = props
-
   const { advertisementStore } = useStores()
-  const { advertisements } = advertisementStore
+  const [ads, setAds ] = useState([])
 
   useEffect(() => {
     async function fetchData() {
-      await advertisementStore.getAdvertisementsForCustomer(customerId,"WAITINGFOROFFER")
+      let a = await advertisementStore.getAdvertisementsForCustomer(customerId,"WAITINGFOROFFER")
+      setAds(a)
     }
     fetchData().then((value) => console.log(value))
   }, [])
-
 
   const goToEdit = (rowKey) => {
     navigationprops.navigate("createAdvertisement",{adId: rowKey})
@@ -138,8 +137,8 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
     <View style={CONTAINER}>
       <Text style={TEXT}>BAŞLANGIÇ AŞAMASINDAKİ İLANLAR</Text>
       <View style={CONTAINER1}>
-        <SwipeListView
-          data={advertisements}
+        {(ads)?<SwipeListView
+          data={ads}
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
@@ -147,7 +146,7 @@ export const AdStart = observer(function AdStart(props: AdStartProps) {
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-        />
+        /> : <Text text={"LOADING..."}/>}
       </View>
       <View style={CONTAINER_VIEW}>
         <Button style={{borderRadius:100, marginHorizontal:10, marginVertical:10, width:60, height:60}}>

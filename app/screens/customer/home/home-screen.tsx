@@ -1,11 +1,11 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle, TouchableHighlight, TouchableOpacity, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListCustomer } from "../../../navigators"
 import { GradientBackground, Header, Icon, Screen } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
-import { SwipeListView } from 'react-native-swipe-list-view';
+import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
@@ -13,42 +13,42 @@ const CONTAINER: ViewStyle = {
 }
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER1: ViewStyle = {
-    backgroundColor: color.palette.white,
-    flex: 1,
-  }
-const BACKTEXTWHITE: TextStyle = {
-  color: '#FFF',
-}
-const ROWFRONT: ViewStyle = {
-  alignItems: 'flex-start',
-  padding:10,
-  backgroundColor: color.palette.white,
-  borderBottomColor: 'black',
-  borderBottomWidth: 1,
-  flex:1,
-  justifyContent: 'center',
-  height:150
-}
-const ROWBACK: ViewStyle = {
-  alignItems: 'center',
   backgroundColor: color.palette.white,
   flex: 1,
-  flexDirection: 'column',
-  justifyContent: 'center',
+}
+const BACKTEXTWHITE: TextStyle = {
+  color: "#FFF",
+}
+const ROWFRONT: ViewStyle = {
+  alignItems: "flex-start",
+  padding: 10,
+  backgroundColor: color.palette.white,
+  borderBottomColor: "black",
+  borderBottomWidth: 1,
+  flex: 1,
+  justifyContent: "center",
+  height: 150,
+}
+const ROWBACK: ViewStyle = {
+  alignItems: "center",
+  backgroundColor: color.palette.white,
+  flex: 1,
+  flexDirection: "column",
+  justifyContent: "center",
   paddingLeft: 15,
 }
 const BACKRIGHTBTN: ViewStyle = {
-  alignItems: 'center',
+  alignItems: "center",
   bottom: 0,
-  justifyContent: 'center',
-  position: 'absolute',
+  justifyContent: "center",
+  position: "absolute",
   top: 0,
   width: 120,
-  height:50,
+  height: 50,
 }
 const BACKRIGHTBTNRIGHT: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  top:50,
+  top: 50,
   right: 0,
 }
 
@@ -70,33 +70,35 @@ const HEADER_TITLE: TextStyle = {
   textAlign: "center",
   letterSpacing: 1.5,
 }
-const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize"}
-const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
-const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
+const ICON_STYLE: ImageStyle = { margin: 10, width: 40, height: 40 }
+const INNER_TEXT1: TextStyle = { color: color.palette.black, fontSize: 15, ...BOLD, textTransform: "capitalize" }
+const INNER_TEXT2: TextStyle = { color: color.palette.lighterGrey, fontSize: 15 }
+const INNER_TEXT3: TextStyle = { color: color.palette.lighterGrey, fontSize: 15, textAlign: "right", paddingRight: 25 }
 
 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">> = observer(
   ({ navigation }) => {
+    const [ads, setAds] = useState([])
 
     const { advertisementStore } = useStores()
-    const { advertisements } = advertisementStore
 
     useEffect(() => {
       async function fetchData() {
-        await advertisementStore.getAdvertisements()
+        let r = await advertisementStore.getAdvertisements()
+        setAds(r)
       }
+
       fetchData().then((value) => console.log(value))
     }, [])
 
 
     const goToLocation = (rowKey) => {
-      console.log("key: "+rowKey)
+      console.log("key: " + rowKey)
       navigation.navigate("location")
-    };
+    }
     const goToDetail = (rowKey) => {
-      navigation.navigate("advertisementScreen",{adId: rowKey})
-    };
+      navigation.navigate("advertisementScreen", { adId: rowKey })
+    }
 
     const renderItem = data => (
       <TouchableHighlight
@@ -104,9 +106,9 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
         style={ROWFRONT}
         underlayColor={color.palette.white}
       >
-        <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
-            <Icon style={ICON_STYLE} icon={"circle"}></Icon>
-            <View style={{flexDirection:"column", padding:10, flex:1}}>
+        <View style={{ flexDirection: "row", padding: 10, alignItems: "center" }}>
+          <Icon style={ICON_STYLE} icon={"circle"}></Icon>
+          <View style={{ flexDirection: "column", padding: 10, flex: 1 }}>
             <Text style={INNER_TEXT1}>{data.item.header}</Text>
             <Text style={INNER_TEXT2}>Müşteri Puanı: {data.item.customer.user.averageRating}</Text>
             <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
@@ -115,7 +117,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
           </View>
         </View>
       </TouchableHighlight>
-    );
+    )
 
     const renderHiddenItem = (data) => (
       <View style={ROWBACK}>
@@ -126,7 +128,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
           <Text style={BACKTEXTWHITE}>Lokasyonu Gör</Text>
         </TouchableOpacity>
       </View>
-    );
+    )
 
 
     return (
@@ -135,16 +137,16 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
           <Header headerTx="homeScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
           <View style={CONTAINER1}>
-            <SwipeListView
-              data={advertisements}
+            {ads?<SwipeListView
+              data={ads}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               leftOpenValue={0}
               rightOpenValue={-120}
-              previewRowKey={'0'}
+              previewRowKey={"0"}
               previewOpenValue={-40}
               previewOpenDelay={3000}
-            />
+            />: <Text>LOADING...</Text>}
           </View>
         </Screen>
       </View>

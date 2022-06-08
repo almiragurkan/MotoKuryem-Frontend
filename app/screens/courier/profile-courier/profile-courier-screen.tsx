@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useContext, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -8,6 +8,7 @@ import { GradientBackground, Header, Icon, Screen, Text } from "../../../compone
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
 import { useStores } from "../../../models"
+import { MyContext } from "../../../models/my-context/my-context"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -83,6 +84,7 @@ const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, margin
 export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "profileCourier">> = observer(({ navigation }) => {
 
   const { authenticationStore } = useStores()
+  const myContext = useContext(MyContext) as any
 
   useEffect(() => {
     (async () => {
@@ -91,6 +93,7 @@ export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier
   })
 
   const onLogout = () => {
+    myContext.setValue({isAuthenticated:false, isCourier:false});
     authenticationStore.logout().then(
       () => {
         authenticationStore.setToken("")

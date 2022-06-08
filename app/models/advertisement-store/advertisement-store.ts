@@ -64,6 +64,7 @@ export const AdvertisementStoreModel = types
 
         if (result.kind === "ok") {
           self.saveAdvertisementData(result.advertisements)
+          return result.advertisements;
         } else {
           __DEV__ && console.log(result.kind)
         }
@@ -108,7 +109,8 @@ export const AdvertisementStoreModel = types
 
   }))
   .actions((self) => ({
-    getAdvertisementsForCustomer: flow (function* (customerIds:any, status?:any) {
+    getAdvertisementsForCustomer: flow (function* (customerIds:any, status?:any, token?:string) {
+      console.log(self.environment.api.apisauce.setHeader)
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
         const result = yield advertisementApi.getAdvertisementsForCustomer(customerIds, status)
@@ -116,6 +118,7 @@ export const AdvertisementStoreModel = types
 
         if (result.kind === "ok") {
           self.saveAdvertisementData(result.advertisements)
+          return result.advertisements;
         } else {
           __DEV__ && console.log(result.kind)
         }
@@ -132,8 +135,8 @@ export const AdvertisementStoreModel = types
         // __DEV__ && console.log(result.advertisements)
 
         if (result.kind === "ok") {
-          console.log(result.advertisements)
           self.saveAdvertisementData(result.advertisements)
+          return result.advertisements;
         } else {
           __DEV__ && console.log(result.kind)
         }
