@@ -94,7 +94,7 @@ export const AdvertisementCourierScreen: FC<StackScreenProps<NavigatorParamListC
 
   return (
 
-    <View testID="AdvertisementScreen" style={FULL}>
+    <View testID="AdvertisementCourierScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
         <Header headerTx="AdvertisementScreen.title" style={HEADER} titleStyle={HEADER_TITLE} onLeftPress={goBack}

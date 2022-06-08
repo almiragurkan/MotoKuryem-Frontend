@@ -3,7 +3,7 @@ import { ImageStyle, StyleProp, TextStyle, TouchableHighlight, TouchableOpacity,
 import { observer } from "mobx-react-lite"
 import { color, typography } from "../../../theme"
 import { Text } from "../../text/text"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Icon } from "../../icon/icon"
 import { SwipeListView } from "react-native-swipe-list-view"
 import { useStores } from "../../../models"

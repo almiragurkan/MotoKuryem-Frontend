@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -13,6 +13,7 @@ import {
 } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
 import { Menu, MenuDivider, MenuItem } from "react-native-material-menu"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -40,8 +41,17 @@ const HEADER_TITLE: TextStyle = {
 export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "advertisementsCourier">> = observer(
   ({ navigation }) => {
 
-    const ratingCourierScreen = () => navigation.navigate("ratingCourier")
     const locationCourierScreen = () => navigation.navigate("locationCourier")
+
+    const { authenticationStore } = useStores()
+
+    useEffect(() => {
+      (async () => {
+        await authenticationStore.fetchUserProfile()
+      })()
+    })
+    const courId = authenticationStore.courier.id
+
 
     const [state, setState] = useState("ad-sent-request")
     const [visible, setVisible] = useState(false)
@@ -87,12 +97,12 @@ export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamList
           }
           {
             state === "ad-sent-request" ?
-              <AdSentRequestCourier />
+              <AdSentRequestCourier courierId={courId} navigationprops={navigation} />
               :
               state === "ad-transfering" ?
-                <AdTransferingCourier onPressConfirmPayment={()=>ratingCourierScreen()} onPressLocation={()=>locationCourierScreen()}/>
+                <AdTransferingCourier onPressLocation={()=>locationCourierScreen()} courierId={courId} navigationprops={navigation}/>
                 :
-                <AdFinishCourier onPressRatingCourier={()=>ratingCourierScreen()}/>
+                <AdFinishCourier courierId={courId} navigationprops={navigation}/>
 
           }
         </Screen>

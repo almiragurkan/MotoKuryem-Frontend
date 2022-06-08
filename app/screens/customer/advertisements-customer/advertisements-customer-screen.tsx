@@ -44,7 +44,6 @@ export const AdvertisementsCustomerScreen: FC<StackScreenProps<NavigatorParamLis
   ({ navigation }) => {
 
     const createAdvertisementScreen = () => navigation.navigate("createAdvertisement")
-    const ratingCustomerScreen = () => navigation.navigate("ratingCustomer")
     const locationCustomerScreen = () => navigation.navigate("location")
 
     const { authenticationStore } = useStores()

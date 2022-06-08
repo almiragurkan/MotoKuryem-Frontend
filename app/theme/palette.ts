@@ -11,5 +11,6 @@ export const palette = {
   specialBlue: "#055580",
   specialBlue2: "#4988af",
   specialBlue3: "#076a9f",
-  lightBlue: "#2aa6ec"
+  lightBlue: "#2aa6ec",
+  green: "#44be13"
 }

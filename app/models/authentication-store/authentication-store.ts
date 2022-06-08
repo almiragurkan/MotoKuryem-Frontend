@@ -31,6 +31,7 @@ export const AuthenticationStoreModel = types
     password: types.optional(types.string, ""),
     phoneNumber: types.optional(types.string, ""),
     customer: types.optional(CustomerModel, {}, [null, undefined]),
+    courier: types.optional(CourierModel, {}, [null, undefined]),
     token: types.optional(types.string, ""),
     resetPasswordToken: types.optional(types.string, ""),
     isAuthenticated: types.optional(types.boolean, false),
@@ -163,9 +164,11 @@ export const AuthenticationStoreModel = types
         self.name = result.data.name
         self.surname = result.data.surname
         self.email = result.data.email
+        self.isCourier = result.data.isCourier
         self.username = result.data.username
         self.phoneNumber = result.data.phoneNumber
         self.customer = result.data.customer
+        self.courier = result.data.courier
         self.averageRating = result.data.averageRating
         return { result: true, message: "User updated" }
       } else {

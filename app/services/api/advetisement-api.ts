@@ -1,6 +1,7 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import {
+  BidOnAdvertisementResult,
   CreateAdvertisementResult, GetAdvertisementResult,
   GetAdvertisementsFilterResult,
   GetAdvertisementsForCourierResult,
@@ -213,6 +214,35 @@ export class AdvertisementApi {
       const result = response.data
 
       return { kind: "ok", result }
+    } catch (e) {
+      __DEV__ && console.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async bidOnAdvertisement(API_ADVERTISEMENT_ID:string, ): Promise<BidOnAdvertisementResult> {
+
+    const params:any = {}
+
+    if(API_ADVERTISEMENT_ID.length > 0){
+      params.advertisementId = API_ADVERTISEMENT_ID.toString()
+    }
+
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        "/advertisement/bid-on-advertisement",
+        params
+      )
+      console.log("adId:" + params.advertisementId)
+      console.log(params)
+
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      return { kind: "ok" }
     } catch (e) {
       __DEV__ && console.log(e.message)
       return { kind: "bad-data" }

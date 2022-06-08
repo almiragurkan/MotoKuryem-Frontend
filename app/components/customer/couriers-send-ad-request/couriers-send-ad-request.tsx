@@ -123,7 +123,7 @@ export const CouriersSendAdRequest = observer(function CouriersSendAdRequest(pro
   const onConfirm = (rowKey) => {
     if (rowKey) {
       console.log( rowKey + "Onayla");
-      advertisementStore.setChosenCourierOnAdvertisement(adId, rowKey, "ACCEPTED").then((value) => console.log(value))
+      advertisementStore.setChosenCourierOnAdvertisement(adId, rowKey).then((value) => console.log(value))
     }
   };
 

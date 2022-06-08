@@ -1,12 +1,15 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, TextInput, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { goBack, NavigatorParamListCourier } from "../../../navigators"
-import { GradientBackground, Header, Icon, Screen, Text } from "../../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { NavigatorParamListCourier } from "../../../navigators"
+import { GradientBackground, Header, Screen, Text } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
+import { TRatingCourier, useStores } from "../../../models"
+import { Controller, useForm } from "react-hook-form"
+import { AirbnbRating } from 'react-native-ratings';
+
+
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -54,37 +57,28 @@ const INNER_VIEW1: ViewStyle = {
   borderRadius: 2,
   borderWidth: 2,
   borderColor: color.palette.lighterGrey,
-  margin: 10,
-  width: 300,
+  margin:10,
+  width:300,
 }
 const INNER_VIEW2: ViewStyle = {
   borderRadius: 2,
   borderWidth: 2,
   borderColor: color.palette.lighterGrey,
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  alignContent: "space-around",
-  width: 300,
-  margin: 10,
+  justifyContent:"center",
+  alignItems:"center",
+  flexDirection:"row",
+  alignContent:"space-around",
+  width:300,
+  margin:10
 }
 const INNER_TEXT: TextStyle = {
   color: color.palette.black,
   fontFamily: typography.primary,
   fontSize: 15,
   paddingVertical: 10,
-  justifyContent: "flex-start",
+  justifyContent:"flex-start",
   ...BOLD,
-  marginHorizontal: 10,
-}
-const INNER_TEXT1: TextStyle = {
-  color: color.palette.black,
-  fontFamily: typography.primary,
-  fontSize: 15,
-  paddingVertical: 10,
-  justifyContent: "flex-start",
-  flex: 1,
-  paddingLeft: 10,
+  marginHorizontal:10
 }
 const INPUTS: ViewStyle = {
   backgroundColor: "white",
@@ -93,16 +87,16 @@ const INPUTS: ViewStyle = {
   paddingHorizontal: spacing[1],
   borderColor: color.palette.lighterGrey,
   borderWidth: 2,
-  width: 300,
-  height: 200,
-  maxHeight: 500,
-  margin: 10,
+  width:300,
+  height:200,
+  maxHeight:500,
+  margin:10
 }
 const BUTTON_VIEW: ViewStyle = {
-  margin: 10,
-  width: 300,
-  justifyContent: "center",
-  alignItems: "center",
+  margin:10,
+  width:300,
+  justifyContent:"center",
+  alignItems:"center"
 }
 const BUTTON_STYLE: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
@@ -116,7 +110,55 @@ const BUTTON_STYLE: ViewStyle = {
 const BUTTON_TEXT: TextStyle = {
   color: color.palette.white,
 }
-export const RatingCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "ratingCourier">> = observer(function RatingCourierScreen() {
+const INPUTS_CONTAINER_VIEW_STYLE: ViewStyle = {
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  paddingBottom: 7,
+  marginHorizontal: 1,
+  marginVertical:spacing[2],
+  alignItems:"center",
+}
+const INPUTS_VIEW_STYLE: ViewStyle = {
+  alignItems:"center",
+  justifyContent: "center",
+  marginTop: 10,
+}
+const FORM_INPUTS_ERROR_VIEWSTYLES: TextStyle = {
+  textAlign: "center",
+  paddingVertical: 7,
+  marginTop: 4,
+  marginBottom: 15,
+  color: color.palette.angry,
+  backgroundColor: color.palette.white,
+}
+const FORM_INPUTS_ERROR_SMALL_VIEWSTYLES: TextStyle = {
+  textAlign: "left",
+  marginTop: 4,
+  color: color.palette.angry,
+}
+
+export const RatingCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "ratingCourier">> = observer(({ route, navigation }) => {
+
+  const goBack = () => navigation.goBack()
+  const { ratingStore } = useStores()
+  const onCreate = async (data: TRatingCourier) => await ratingStore.createRatingCourier(data)
+
+  const
+    {
+      control,
+      handleSubmit,
+      formState: { errors, isSubmitSuccessful },
+    } = useForm<TRatingCourier>()
+
+  useEffect(() => {
+    ratingStore.clearStatus()
+  }, [])
+  useEffect(() => {
+    if (isSubmitSuccessful === true)
+      navigation.goBack()
+  }, [isSubmitSuccessful])
+
+
   return (
     <View testID="RatingCourierScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -126,31 +168,78 @@ export const RatingCourierScreen: FC<StackScreenProps<NavigatorParamListCourier,
         <Text style={TITLE_TEXT}>TAMAMLANAN İLANLAR</Text>
         <View style={VIEW}>
           <View style={INNER_VIEW1}>
-            <Text style={INNER_TEXT}>Müşteri:</Text>
-            <Text style={INNER_TEXT1}>Ayşe GÜRBÜZ</Text>
+            <Text style={INNER_TEXT}>Müşteriyi Puanla</Text>
           </View>
-          <View style={INNER_VIEW2}>
-            <Icon icon={"starBorder"} />
-            <Icon icon={"starBorder"} />
-            <Icon icon={"starBorder"} />
-            <Icon icon={"starBorder"} />
-            <Icon icon={"starBorder"} />
+          <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              render={({ field: {} }) => (<View/>)}
+              name="ratingId"
+              defaultValue={route.params.ratingId}
+            />
           </View>
-          <TextInput
-            placeholder="Yorum yazınız..."
-            textAlign="left"
-            placeholderTextColor={color.palette.lighterGrey}
-            style={INPUTS}
-            keyboardType="default"
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="next"
-            multiline={true}
-          />
+
+          <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              render={({ field: { onChange} }) => (
+                <View style={INNER_VIEW2}>
+                  <AirbnbRating
+                    count={5}
+                    reviews={["Çok Kötü", "Kötü", "İdare eder", "İyi", "Mükemmel"]}
+                    defaultRating={1}
+                    size={30}
+                    onFinishRating={onChange}
+                  />
+                  {errors.rateCustomer &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.rateCustomer.message}</Text>}
+                </View>
+              )}
+              name="rateCustomer"
+              defaultValue={1}
+            />
+          </View>
+
+          <View>
+            {ratingStore.status === "error" && <Text
+              style={FORM_INPUTS_ERROR_VIEWSTYLES}>{"Bir hata ile karşılaşıldı : "}{ratingStore.status}</Text>}
+          </View>
+          <View style={INPUTS_VIEW_STYLE}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Yorum boş olamaz!",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={INPUTS_CONTAINER_VIEW_STYLE}>
+                  <TextInput
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Yorum yazınız..."
+                    textAlign="left"
+                    placeholderTextColor={color.palette.specialBlue}
+                    underlineColorAndroid={color.palette.lighterGrey}
+                    style={INPUTS}
+                    autoCorrect={true}
+                    autoCapitalize="words"
+                    returnKeyType="next"
+                  />
+                  {errors.commentCustomer &&
+                    <Text style={FORM_INPUTS_ERROR_SMALL_VIEWSTYLES}>{errors.commentCustomer.message}</Text>}
+                </View>
+              )}
+              name="commentCustomer"
+              defaultValue=""
+            />
+          </View>
 
           <View style={BUTTON_VIEW}>
-            <TouchableOpacity style={BUTTON_STYLE}>
-              <Text style={BUTTON_TEXT}>MÜŞTERİYİ PUANLA</Text>
+            <TouchableOpacity style={BUTTON_STYLE} onPress={handleSubmit(onCreate)}>
+              <Text style={BUTTON_TEXT}>{ratingStore.status === "pending" ? "Loading ..." : "MÜŞTERİYİ PUANLA"}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -159,4 +248,3 @@ export const RatingCourierScreen: FC<StackScreenProps<NavigatorParamListCourier,
     </View>
   )
 })
-

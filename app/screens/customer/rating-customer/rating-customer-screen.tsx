@@ -138,7 +138,6 @@ const FORM_INPUTS_ERROR_SMALL_VIEWSTYLES: TextStyle = {
 
 export const RatingCustomerScreen: FC<StackScreenProps<NavigatorParamListCustomer, "ratingCustomer">> = observer(({ route, navigation }) => {
 
-
   const goBack = () => navigation.goBack()
   const { ratingStore } = useStores()
   const onCreate = async (data: TRatingCustomer) => await ratingStore.createRatingCustomer(data)

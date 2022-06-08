@@ -77,6 +77,7 @@ export class RatingApi {
         ratingsObj.push({"id": i.toString(), "rateCourier": response.data[0][i], "commentCourier": response.data[1][i], "rateCustomer": 0, "commentCustomer": ""})
       }
       const ratings = ratingsObj
+      console.log(ratings)
 
       return { kind: "ok", ratings }
     } catch (e) {

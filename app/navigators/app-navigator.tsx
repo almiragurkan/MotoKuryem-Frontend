@@ -83,7 +83,7 @@ export type NavigatorParamListCourier = {
   changePasswordCourier: undefined
   walletCourier: undefined
   supportCourier: undefined
-  ratingCourier: undefined
+  ratingCourier: { ratingId?}
   resetPassword: undefined
   // 🔥 Your screens go here
 }
@@ -375,7 +375,6 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
   const { authenticationStore } = useStores();
-  const [isCourier] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
   const [isLogging, setIsLogging] = useState(false)
 
@@ -412,7 +411,7 @@ export const AppNavigator = (props: NavigationProps) => {
       {...props}
     >
       {authenticationStore.isAuthenticated ?
-          isCourier ? <CourierNavigator/> : <CustomerNavigator/>
+          authenticationStore.isCourier ? <CourierNavigator/> : <CustomerNavigator/>
         : <AuthStack />}
     </NavigationContainer>
   )

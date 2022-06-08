@@ -14,6 +14,9 @@ export type TAdvertisement = {
     addressToGive: string
     rating: string
 }
+export type TBidOn = {
+    advertisementId: string
+}
 
 // export const RatingModel = types.model("Rating").props({
 //   id: types.optional(types.identifier, "", [null, undefined]),

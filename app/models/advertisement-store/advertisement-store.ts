@@ -132,6 +132,7 @@ export const AdvertisementStoreModel = types
         // __DEV__ && console.log(result.advertisements)
 
         if (result.kind === "ok") {
+          console.log(result.advertisements)
           self.saveAdvertisementData(result.advertisements)
         } else {
           __DEV__ && console.log(result.kind)
@@ -175,6 +176,24 @@ export const AdvertisementStoreModel = types
     })
   }))
   .actions((self) => ({
+    bidOnAdvertisement: flow (function* (advertisementId:string) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.bidOnAdvertisement(advertisementId)
+
+        if (result.kind === "ok") {
+          return null
+        } else {
+          __DEV__ && console.log(result.kind)
+          return null
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+        return null
+      }
+    })
+  }))
+  .actions((self) => ({
     setChosenCourierOnAdvertisement: flow (function* (advertisementId:string, courierId:string) {
       const advertisementApi = new AdvertisementApi(self.environment.api)
       try {
@@ -183,13 +202,26 @@ export const AdvertisementStoreModel = types
         __DEV__ && console.log(result)
 
         if (result.kind === "ok") {
-          //  const result = yield advertisementApi.setStatus(advertisementId, adStatus)
-          // if (result.kind === "ok") {
-          //   return null
-          // } else {
-          //   __DEV__ && console.log(result.kind)
-          //   return null
-          // }
+          return null
+        } else {
+          __DEV__ && console.log(result.kind)
+          return null
+        }
+      } catch (e) {
+        __DEV__ && console.log(e.message)
+        return null
+      }
+    })
+  }))
+  .actions((self) => ({
+    setStatusAdvertisement: flow (function* (advertisementId:string, adStatus:string) {
+      const advertisementApi = new AdvertisementApi(self.environment.api)
+      try {
+        const result = yield advertisementApi.setStatus(advertisementId, adStatus)
+
+        __DEV__ && console.log(result)
+
+        if (result.kind === "ok") {
           return null
         } else {
           __DEV__ && console.log(result.kind)

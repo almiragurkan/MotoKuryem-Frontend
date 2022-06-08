@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, TextStyle, ViewStyle, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -7,6 +7,7 @@ import { GradientBackground, Header, Icon, Screen, Text } from "../../../compone
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../../theme"
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -81,6 +82,26 @@ const INNER_TEXT3: TextStyle = { marginTop:10, color:color.palette.black, margin
 
 export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "profileCourier">> = observer(({ navigation }) => {
 
+  const { authenticationStore } = useStores()
+
+  useEffect(() => {
+    (async () => {
+      await authenticationStore.fetchUserProfile()
+    })()
+  })
+
+  const onLogout = () => {
+    authenticationStore.logout().then(
+      () => {
+        authenticationStore.setToken("")
+        authenticationStore.setAuthenticated(false)
+      },
+    )
+  }
+
+  const fullName = authenticationStore.name + " " + authenticationStore.surname
+
+
   return (
     <View testID="ProfileCourierScreen" style={FULL}>
       <GradientBackground colors={["#ffffff", "#ffffff"]} />
@@ -88,15 +109,15 @@ export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier
         <Header headerTx="profileScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
         <View style={PROFILE_VIEW_STYLE}>
           <Icon style={PROFILE_ICON_STYLE} icon={"profile"}></Icon>
-          <Text style={INNER_TEXT1}>İsim Soyisim</Text>
-          <Text style={INNER_TEXT2}>Kurye</Text>
+          <Text style={INNER_TEXT1}>{fullName}</Text>
+          <Text style={INNER_TEXT2}>{authenticationStore.isCourier ? "Kurye" : "Müşteri"}</Text>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"gmail"}></Icon>
-            <Text style={INNER_TEXT3}>isimsoyisim@gmail.com</Text>
+            <Text style={INNER_TEXT3}>{authenticationStore.email}</Text>
           </View>
           <View style={PROFILE_INNER_VIEW_STYLE}>
             <Icon style={ICON_STYLE} icon={"phone"}></Icon>
-            <Text style={INNER_TEXT3}>+90(533)333 33 33</Text>
+            <Text style={INNER_TEXT3}>{authenticationStore.phoneNumber}</Text>
           </View>
         </View>
         <TouchableOpacity style={INNER_VIEW_STYLE} onPress={()=>navigation.navigate("commentsAndRateCourier")}>
@@ -116,7 +137,7 @@ export const ProfileCourierScreen: FC<StackScreenProps<NavigatorParamListCourier
           <Text style={INNER_TEXT2}>Destek</Text>
         </TouchableOpacity>
         <View style={BUTTON_VIEW}>
-          <TouchableOpacity style={BUTTON_STYLE}>
+          <TouchableOpacity style={BUTTON_STYLE} onPress={onLogout}>
             <Text style={BUTTON_TEXT}>ÇIKIŞ YAP</Text>
           </TouchableOpacity>
         </View>

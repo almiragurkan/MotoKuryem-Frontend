@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Text, TextStyle, View, ViewStyle, TouchableHighlight, TouchableOpacity, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -6,6 +6,7 @@ import { NavigatorParamListCourier } from "../../../navigators"
 import { GradientBackground, Header, Icon, Screen } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { useStores } from "../../../models"
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
@@ -75,7 +76,7 @@ const HEADER_TITLE: TextStyle = {
   letterSpacing: 1.5,
 }
 const ICON_STYLE: ImageStyle = {margin: 10, width:40, height:40}
-const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD }
+const INNER_TEXT1: TextStyle = { color:color.palette.black, fontSize: 15, ...BOLD, textTransform:"capitalize" }
 const INNER_TEXT2: TextStyle = { color:color.palette.lighterGrey, fontSize: 15 }
 const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, textAlign:"right", paddingRight:25}
 
@@ -83,63 +84,65 @@ const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, 
 export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "homeCourier">> = observer(
   ({ navigation }) => {
 
-    const [listData,] = useState(
-      Array(20)
-        .fill('')
-        .map((_, i) => ({ key: `${i}`, text: `#${i}` }))
-    );
 
-    const closeRow = (rowMap, rowKey) => {
-      if (rowMap[rowKey]) {
-        rowMap[rowKey].closeRow();
+    const { advertisementStore } = useStores()
+    const { advertisements } = advertisementStore
+
+    useEffect(() => {
+      async function fetchData() {
+        await advertisementStore.getAdvertisements()
+      }
+      fetchData().then((value) => console.log(value))
+    }, [])
+
+
+    const onRequest = (rowKey) => {
+      if (rowKey) {
+        console.log(rowKey + "İstek yolla");
+        advertisementStore.bidOnAdvertisement(rowKey).then((value) => console.log(value))
       }
     };
 
-    /* const deleteRow = (rowMap, rowKey) => {
-      closeRow(rowMap, rowKey);
-      const newData = [...listData];
-      const prevIndex = listData.findIndex(item => item.key === rowKey);
-      newData.splice(prevIndex, 1);
-      setListData(newData);
-    }; */
-
-    const onRowDidOpen = rowKey => {
-      console.log('This row opened', rowKey);
+    const goToLocation = (rowKey) => {
+      console.log("key: "+rowKey)
+      navigation.navigate("locationCourier")
+    };
+    const goToDetail = (rowKey) => {
+      navigation.navigate("advertisementCourier",{adId: rowKey})
     };
 
     const renderItem = data => (
       <TouchableHighlight
-        onPress={() => console.log('You touched me')}
+        onPress={() => goToDetail(data.item.id)}
         style={ROWFRONT}
         underlayColor={color.palette.white}
       >
         <View style={{flexDirection:"row", padding:10, alignItems:"center"}}>
           <Icon style={ICON_STYLE} icon={"circle"}></Icon>
           <View style={{flexDirection:"column", padding:10, flex:1}}>
-            <Text style={INNER_TEXT1}>İLAN {data.item.text}</Text>
-            <Text style={INNER_TEXT2}>Müşteri Puanı: 3,2</Text>
-            <Text style={INNER_TEXT2}>Eşya: Kağıt</Text>
+            <Text style={INNER_TEXT1}>{data.item.header}</Text>
+            <Text style={INNER_TEXT2}>Müşteri Puanı: {data.item.customer.user.averageRating}</Text>
+            <Text style={INNER_TEXT2}>Eşya: {data.item.productName}</Text>
             <Text style={INNER_TEXT2}>Mesafe: 3 Km</Text>
-            <Text style={INNER_TEXT3}>Ücret: 23 TL</Text>
+            <Text style={INNER_TEXT3}>Ücret: {data.item.price} TL</Text>
           </View>
         </View>
       </TouchableHighlight>
     );
 
-    const renderHiddenItem = (data, rowMap) => (
+    const renderHiddenItem = (data) => (
       <View style={ROWBACK}>
         <TouchableOpacity
-          style={[BACKRIGHTBTN, BACKRIGHTBTNLEFT]}
-          onPress={() => closeRow(rowMap, data.item.key)}
-        >
-          <Text style={BACKTEXTWHITE}>İstek Yolla</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={[BACKRIGHTBTN, BACKRIGHTBTNRIGHT]}
-          onPress={() => navigation.navigate("locationCourier")}
-          // onPress={() => deleteRow(rowMap, data.item.key)}
+          onPress={() => goToLocation(data.item.id)}
         >
           <Text style={BACKTEXTWHITE}>Lokasyonu Gör</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[BACKRIGHTBTN, BACKRIGHTBTNLEFT]}
+          onPress={() => onRequest(data.item.id)}
+        >
+          <Text style={BACKTEXTWHITE}>İstek Yolla</Text>
         </TouchableOpacity>
       </View>
     );
@@ -153,7 +156,7 @@ export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "
           <Header headerTx="homeScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
           <View style={CONTAINER1}>
             <SwipeListView
-              data={listData}
+              data={advertisements}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               leftOpenValue={0}
@@ -161,7 +164,6 @@ export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "
               previewRowKey={'0'}
               previewOpenValue={-40}
               previewOpenDelay={3000}
-              onRowDidOpen={onRowDidOpen}
             />
           </View>
         </Screen>

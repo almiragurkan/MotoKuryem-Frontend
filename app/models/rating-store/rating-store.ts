@@ -50,6 +50,8 @@ export const RatingStoreModel = types
     try {
       const result = yield ratingApi.getRatingsForCourier(courierId)
 
+      console.log(result)
+
       if (result.kind === "ok") {
         self.saveRatings(result.ratings)
       } else {

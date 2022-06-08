@@ -4,7 +4,7 @@ import {
   Address,
   Advertisement,
   TAddress,
-  TAdvertisement,
+  TAdvertisement, TBidOn,
   TRatingCourier,
   TRatingCustomer,
   TUserProfile,
@@ -48,6 +48,7 @@ export type GetAdvertisementsForCustomerResult = { kind: "ok"; advertisements: A
 export type GetAdvertisementsForCourierResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetAdvertisementsFilterResult = { kind: "ok"; advertisements: Advertisement[] } | GeneralApiProblem
 export type GetBiddingCourierOnAdvertisementResult = { kind: "ok"; result: Courier[] } | GeneralApiProblem
+export type BidOnAdvertisementResult = { kind: "ok" } | GeneralApiProblem
 export type GetAdvertisementResult = { kind: "ok"; advertisement: Advertisement[] } | GeneralApiProblem
 export type CreateAdvertisementResult = { kind: "ok"; data: ApiResponse, advertisementData: TAdvertisement } | GeneralApiProblem
 

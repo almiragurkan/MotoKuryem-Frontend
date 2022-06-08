@@ -83,7 +83,7 @@ const FORM_INPUTS_ERROR_VIEWSTYLES: TextStyle = {
 const FORM_INPUTS_ERROR_SMALL_VIEW_STYLES: TextStyle = {
   textAlign: "left",
   marginTop: 4,
-  color: color.palette.angry,
+  color: color.palette.green,
 }
 
 
