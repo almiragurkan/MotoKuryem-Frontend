@@ -1,9 +1,9 @@
 import React, { FC, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { ImageStyle, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamListCustomer } from "../../../navigators"
-import { GradientBackground, Header, Screen } from "../../../components"
+import { AutoImage as Image, GradientBackground, Header, Screen } from "../../../components"
 import { color, spacing, typography } from "../../../theme"
 import { TagSelect } from "react-native-tag-select"
 
@@ -100,7 +100,14 @@ const BUTTON_STYLE: ViewStyle = {
 const BUTTON_TEXT: TextStyle = {
   color: color.palette.white,
 }
-
+const LOGO: ImageStyle = {
+  alignSelf: "center",
+  marginHorizontal: spacing[5],
+  maxWidth: "100%",
+  width:350, height:200,
+  margin: 10
+}
+const picture = require("../location/3.png")
 
 export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCustomer, "createAdvertisement">> = observer(({ navigation }) => {
 
@@ -270,6 +277,10 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
               autoCorrect={false}
               returnKeyType="done"
             />
+            <Text style={INNER_INPUT_TEXT}>Adresi haritada belirleyin</Text>
+            <View>
+              <Image source={picture} style={LOGO} />
+            </View>
           </View>
           <View style={INPUTS_VIEW_STYLE}>
             <Text style={INNER_INPUT_TEXT}>Varış Adresi</Text>
@@ -292,6 +303,10 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
               autoCorrect={false}
               returnKeyType="done"
             />
+            <Text style={INNER_INPUT_TEXT}>Adresi haritada belirleyin</Text>
+            <View>
+              <Image source={picture} style={LOGO} />
+            </View>
           </View>
           <View style={INNER_VIEW2}>
             <Text style={INNER_TEXT}>Önerilen minimum tutar: </Text>
@@ -311,7 +326,7 @@ export const CreateAdvertisementScreen: FC<StackScreenProps<NavigatorParamListCu
             />
           </View>
           <View style={BUTTON_VIEW}>
-            <TouchableOpacity style={BUTTON_STYLE}>
+            <TouchableOpacity style={BUTTON_STYLE} onPress={()=>navigation.navigate("home")}>
               <Text style={BUTTON_TEXT}>YAYINLA</Text>
             </TouchableOpacity>
           </View>

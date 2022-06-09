@@ -41,7 +41,6 @@ const HEADER_TITLE: TextStyle = {
 export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "advertisementsCourier">> = observer(
   ({ navigation }) => {
 
-    const locationCourierScreen = () => navigation.navigate("locationCourier")
 
     const { authenticationStore } = useStores()
 
@@ -100,7 +99,7 @@ export const AdvertisementsCourierScreen: FC<StackScreenProps<NavigatorParamList
               <AdSentRequestCourier courierId={courId} navigationprops={navigation} />
               :
               state === "ad-transfering" ?
-                <AdTransferingCourier onPressLocation={()=>locationCourierScreen()} courierId={courId} navigationprops={navigation}/>
+                <AdTransferingCourier courierId={courId} navigationprops={navigation}/>
                 :
                 <AdFinishCourier courierId={courId} navigationprops={navigation}/>
 

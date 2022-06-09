@@ -61,7 +61,7 @@ export type NavigatorParamListCustomer = {
   advertisementsCustomer: undefined
   createAdvertisement: { adId? }
   home: undefined
-  location: undefined
+  location: { adId }
   profileCustomer: undefined
   commentsAndRate: undefined
   addresses: undefined
@@ -78,7 +78,7 @@ export type NavigatorParamListCourier = {
   advertisementCourier: { adId }
   advertisementsCourier: undefined
   homeCourier: undefined
-  locationCourier: undefined
+  locationCourier: { adId }
   profileCourier: undefined
   commentsAndRateCourier: undefined
   changePasswordCourier: undefined

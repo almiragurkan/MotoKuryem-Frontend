@@ -84,13 +84,14 @@ const INNER_TEXT3: TextStyle = { color:color.palette.lighterGrey, fontSize: 15, 
 export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "homeCourier">> = observer(
   ({ navigation }) => {
 
-
+    const [ads, setAds] = useState([])
     const { advertisementStore } = useStores()
-    const { advertisements } = advertisementStore
+
 
     useEffect(() => {
       async function fetchData() {
-        await advertisementStore.getAdvertisements()
+        let r = await advertisementStore.getAdvertisements()
+        setAds(r)
       }
       fetchData().then((value) => console.log(value))
     }, [])
@@ -105,7 +106,7 @@ export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "
 
     const goToLocation = (rowKey) => {
       console.log("key: "+rowKey)
-      navigation.navigate("locationCourier")
+      navigation.navigate("locationCourier", { adId: rowKey })
     };
     const goToDetail = (rowKey) => {
       navigation.navigate("advertisementCourier",{adId: rowKey})
@@ -155,8 +156,8 @@ export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
           <Header headerTx="homeScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
           <View style={CONTAINER1}>
-            <SwipeListView
-              data={advertisements}
+            {ads?<SwipeListView
+              data={ads}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               leftOpenValue={0}
@@ -164,7 +165,7 @@ export const HomeCourierScreen: FC<StackScreenProps<NavigatorParamListCourier, "
               previewRowKey={'0'}
               previewOpenValue={-40}
               previewOpenDelay={3000}
-            />
+            />: <Text>LOADING...</Text>}
           </View>
         </Screen>
       </View>

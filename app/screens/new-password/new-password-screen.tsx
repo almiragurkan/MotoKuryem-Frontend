@@ -55,6 +55,7 @@ export const NewPasswordScreen: FC<StackScreenProps<NavigatorParamListAuth, "new
                   autoCapitalize="none"
                   style={FORM_INPUTS_VIEW_STYLE}
                   onChangeText={text => setPassword(text)}
+                  secureTextEntry={true}
                 />
               </View>
             </View>

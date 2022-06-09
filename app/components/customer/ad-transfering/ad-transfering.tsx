@@ -78,7 +78,6 @@ export interface AdTransferingProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressLocation?: any
   customerId: any
   navigationprops: any
 }
@@ -88,7 +87,7 @@ export interface AdTransferingProps {
  */
 export const AdTransfering = observer(function AdTransfering(props: AdTransferingProps) {
   const myContext= useContext(MyContext);
-  const { onPressLocation, customerId, navigationprops} = props
+  const { customerId, navigationprops} = props
 
   const { advertisementStore } = useStores()
   const [ads,setAds]=useState([]);
@@ -99,10 +98,8 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
     }
     fetchData().then((value) => console.log(value))
   }, [])
-  const locationToCustomer = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      onPressLocation();
-    }
+  const locationToCustomer = (rowKey) => {
+    __DEV__ && console.log(rowKey)
   };
 
   const goToDetail = (rowKey) => {
@@ -141,7 +138,7 @@ export const AdTransfering = observer(function AdTransfering(props: AdTransferin
     <View style={ROWBACK}>
       <TouchableOpacity
         style={[BACKRIGHTBTN, BACKRIGHTBTNLEFT]}
-        onPress={() => locationToCustomer(rowMap, data.item.key)}
+        onPress={() => locationToCustomer(data.item.key)}
       >
         <Text style={BACKTEXTWHITE}>KURYEM NEREDE?</Text>
       </TouchableOpacity>

@@ -112,7 +112,6 @@ export const CouriersSentRequestToAdScreen: FC<StackScreenProps<NavigatorParamLi
 
   const [advertisementDetail, setAdvertiementDetail] = useState(advertisements[0])
 
-
   useEffect(() => {
     if (route.params.adId)
       advertisementStore.findAdvertisement(route.params.adId)

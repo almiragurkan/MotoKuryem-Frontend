@@ -94,7 +94,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamListCustomer, "home">
 
     const goToLocation = (rowKey) => {
       console.log("key: " + rowKey)
-      navigation.navigate("location")
+      navigation.navigate("location", { adId: rowKey })
     }
     const goToDetail = (rowKey) => {
       navigation.navigate("advertisementScreen", { adId: rowKey })

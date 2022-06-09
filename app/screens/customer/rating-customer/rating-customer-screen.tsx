@@ -87,7 +87,7 @@ const INPUTS: ViewStyle = {
   borderColor: color.palette.lighterGrey,
   borderWidth: 2,
   width:300,
-  height:200,
+  height:100,
   maxHeight:500,
   margin:10
 }
@@ -99,7 +99,7 @@ const BUTTON_VIEW: ViewStyle = {
 }
 const BUTTON_STYLE: ViewStyle = {
   backgroundColor: color.palette.specialBlue,
-  margin: spacing[2],
+  margin: spacing[1],
   width: 80,
   height: 50,
   justifyContent: "center",
@@ -120,7 +120,7 @@ const INPUTS_CONTAINER_VIEW_STYLE: ViewStyle = {
 const INPUTS_VIEW_STYLE: ViewStyle = {
   alignItems:"center",
   justifyContent: "center",
-  marginTop: 10,
+  marginTop: 5,
 }
 const FORM_INPUTS_ERROR_VIEWSTYLES: TextStyle = {
   textAlign: "center",

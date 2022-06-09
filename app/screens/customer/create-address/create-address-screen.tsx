@@ -103,19 +103,19 @@ export const CreateAddressScreen: FC<StackScreenProps<NavigatorParamListCustomer
     }, [])
     useEffect(() => {
       if (isSubmitSuccessful === true)
-        navigation.goBack()
+        navigation.navigate("addresses")
     }, [isSubmitSuccessful])
 
 
 
     return (
-      <View testID="AddressScreen" style={FULL}>
+      <View testID="CreateAddress" style={FULL}>
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
         <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
           <Header
             headerTx={"createAddressScreen.title"}
             leftIcon="back"
-            onLeftPress={goBack}
+            onLeftPress={()=>navigation.navigate("addresses")}
             style={HEADER}
             titleStyle={HEADER_TITLE}
           />

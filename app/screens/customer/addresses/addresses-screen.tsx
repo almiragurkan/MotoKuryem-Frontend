@@ -129,7 +129,7 @@ export const AddressesScreen: FC<StackScreenProps<NavigatorParamListCustomer, "a
         <GradientBackground colors={["#ffffff", "#ffffff"]} />
         <Screen style={CONTAINER} backgroundColor={color.transparent}>
           <Header headerTx="addressesScreen.title" style={HEADER} titleStyle={HEADER_TITLE} leftIcon={"back"}
-                  onLeftPress={goBack} />
+                  onLeftPress={()=>navigation.navigate("profileCustomer")} />
           <Text style={TITLE_TEXT}>Kayıtlı Adresler</Text>
           <View style={{ flex: 1 }}>
             <View style={{

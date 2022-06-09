@@ -77,7 +77,6 @@ export interface AdTransferingCourierProps {
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
-  onPressLocation?: any
   courierId: any
   navigationprops: any
 }
@@ -87,7 +86,7 @@ export interface AdTransferingCourierProps {
  */
 export const AdTransferingCourier = observer(function AdTransferingCourier(props: AdTransferingCourierProps) {
 
-  const { onPressLocation, courierId, navigationprops } = props
+  const { courierId, navigationprops } = props
 
 
   const { advertisementStore } = useStores()
@@ -113,7 +112,7 @@ export const AdTransferingCourier = observer(function AdTransferingCourier(props
   }
 
   const locationToCourier = (rowKey) => {
-    onPressLocation()
+    navigationprops.navigate("locationCourier", { adId: rowKey })
   }
 
   const onRowDidOpen = rowKey => {
